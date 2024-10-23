@@ -1,0 +1,18 @@
+.start__wrapper {
+  background: var(--color-black);
+  border: 1px solid rgba(51, 85, 51, 0.333);
+  border-radius: 10px;
+
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  transform-style: preserve-3d;
+
+  @media (max-width: 450px) {
+    border: none;
+    border-radius: 0;
+  }
+}
