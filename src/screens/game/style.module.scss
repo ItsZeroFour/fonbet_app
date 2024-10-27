@@ -10,8 +10,6 @@
   align-items: center;
   overflow-y: auto !important;
 
-  padding: 20px;
-
   transform-style: preserve-3d;
 
   @media (max-width: 450px) {
@@ -20,13 +18,22 @@
   }
 }
 
+.game__container {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .swipe {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 30px;
+  margin-top: 10px;
   position: absolute;
+  margin-left: 10px;
 
   img {
     width: 300px;
@@ -50,7 +57,7 @@
     margin-top: 150px;
 
     width: 70%;
-    height: 200px;
+    height: 100px;
 
     opacity: 0.7;
     background: var(--color-red);
@@ -67,7 +74,7 @@
     margin-top: 150px;
 
     width: 70%;
-    height: 200px;
+    height: 100px;
 
     opacity: 0.7;
     background: var(--color-yellow);
@@ -77,12 +84,24 @@
   }
 }
 
+@keyframes opacity1 {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
 .card {
   position: relative;
+  animation-name: opacity1;
+  animation-duration: 0.5s;
 
   h3 {
     position: absolute;
-    top: 90%;
+    top: 85%;
     left: 5%;
   }
 
@@ -99,5 +118,119 @@
     height: 100%;
 
     background: linear-gradient(180deg, rgba(232, 0, 36, 0) 50%, #e80024 100%);
+  }
+}
+
+.message {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  margin-top: 70%;
+  left: 50%;
+  right: 50%;
+  width: 250px;
+  transform: translate(-50%, 50%);
+  position: absolute;
+
+  p {
+    font-size: 24px;
+    font-family: "Cera-pro-md", sans-serif;
+  }
+
+  animation-name: opacity1;
+  animation-duration: 2s;
+}
+
+.game__task {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 15px;
+  border-radius: 10px;
+  gap: 15px;
+
+  background: rgba(255, 255, 255, 0.1);
+
+  p {
+    width: 90%;
+    font-size: 12px;
+  }
+
+  div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 30px;
+    height: 30px;
+
+    border-radius: 50%;
+    border: 1px solid var(--color-white);
+  }
+}
+
+.game__task__score {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 5px;
+
+  ul {
+    display: flex;
+    gap: 2px;
+
+    li {
+      width: 32px;
+      height: 4px;
+      border-radius: 15px;
+    }
+  }
+}
+
+.game__cards__nav {
+  position: absolute;
+  top: 88%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 70%;
+
+  ul {
+    display: flex;
+    gap: 5px;
+
+    li {
+      opacity: 0.25;
+      img {
+        width: 30px;
+        height: 30px;
+        object-fit: contain;
+      }
+    }
+  }
+
+  button {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    &:first-child {
+      background: #252525;
+    }
+
+    &:last-child {
+      background: #fff;
+
+      fill: red;
+    }
   }
 }
