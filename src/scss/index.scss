@@ -27,8 +27,9 @@ body {
 
   position: relative;
 
-  font-family: "Nunito", sans-serif;
+  font-family: "Cera-pro", sans-serif;
   font-weight: 400;
+  font-size: 14px;
 
   background: var(--color-black);
   color: var(--color-white);
@@ -54,6 +55,34 @@ html {
   background: none;
 }
 
+@keyframes changeBg {
+  0% {
+    background: var(--color-red);
+  }
+
+  50% {
+    background: var(--color-yellow);
+  }
+
+  100% {
+    background: var(--color-red);
+  }
+}
+
+@keyframes changeBg2 {
+  0% {
+    background: var(--color-yellow);
+  }
+
+  50% {
+    background: var(--color-red);
+  }
+
+  100% {
+    background: var(--color-yellow);
+  }
+}
+
 .page {
   position: relative;
 
@@ -74,6 +103,14 @@ html {
     filter: blur(100px);
 
     background: var(--color-red);
+
+    animation-name: changeBg;
+    animation-duration: 7s;
+    animation-iteration-count: infinite;
+
+    @media (max-width: 690px) {
+      display: none;
+    }
   }
 
   &::after {
@@ -95,6 +132,15 @@ html {
     background: var(--color-yellow);
 
     z-index: -1;
+
+    animation-name: changeBg2;
+    animation-duration: 7s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+
+    @media (max-width: 690px) {
+      display: none;
+    }
   }
 }
 
@@ -106,7 +152,7 @@ html {
 
 .wrapper {
   width: 450px;
-  height: 667px;
+  height: 670px;
   // height: calc(667px - env(safe-area-inset-bottom));
   margin: 0 auto;
   overflow: hidden;
