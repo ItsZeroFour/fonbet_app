@@ -225,12 +225,26 @@
 
     &:first-child {
       background: #252525;
+
+      &:hover {
+        svg {
+          path {
+            fill: var(--color-red);
+          }
+        }
+      }
     }
 
     &:last-child {
-      background: #fff;
+      background: var(--color-white);
 
-      fill: red;
+      &:hover {
+        svg {
+          path {
+            fill: var(--color-white);
+          }
+        }
+      }
     }
   }
 }
