@@ -57,25 +57,22 @@ const Game = () => {
     }
   }, [searchParams]);
 
-  const swiped = (dir, _, isCorrect, index) => {
+  const swiped = (dir, name, isCorrect, idx) => {
     setCurrentIndex((prevIndex) => prevIndex + 1);
-
     if (dir === "left" && !isCorrect) {
       setScore((prevScore) => prevScore + 1);
       setIsCorrectChoose(true);
     } else if (dir === "right" && isCorrect) {
       setScore((prevScore) => prevScore + 2);
-      setIsCorrectChoosed((prevCorrectChoosed) => prevCorrectChoosed + 1);
+      setIsCorrectChoosed((prev) => prev + 1);
       setIsCorrectChoose(true);
     } else {
       setIsCorrectChoose(false);
     }
 
     checkIsEnd();
-
     setShowMessage(true);
     setShowCards(false);
-
     setTimeout(() => {
       setShowMessage(false);
       setShowCards(true);
@@ -83,20 +80,20 @@ const Game = () => {
   };
 
   const outOfFrame = (name, idx) => {
-    if (currentIndex > idx) {
+    if (idx >= 10) {
       childRefs[idx].current?.restoreCard();
     }
+
+    console.log(idx <= 10);
+    
   };
 
-  const canSwipe = currentIndex < shuffledFootballers.length && !isEnd;
-
   const swipe = async (dir) => {
-    if (canSwipe) {
-      const currentCardRef = childRefs[currentIndex].current;
-      if (currentCardRef) {
-        await currentCardRef.swipe(dir);
-      }
-    }
+    console.log(currentIndex);
+
+    const currentCardRef = childRefs.reverse()[currentIndex].current;
+
+    if (currentCardRef) await currentCardRef.swipe(dir);
   };
 
   const buttonVariants = {
