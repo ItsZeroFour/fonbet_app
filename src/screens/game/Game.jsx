@@ -1,24 +1,24 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import style from "./style.module.scss";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import footballers from "../../data/footballers.json";
-import TinderCard from "react-tinder-card";
 import Header from "../../components/header/Header";
+import { useSwipeable } from "react-swipeable";
 import { motion } from "framer-motion";
 
 const Game = () => {
   const navigate = useNavigate();
-
   const [searchParams] = useSearchParams();
   const [index, setIndex] = useState(0);
   const [showMessage, setShowMessage] = useState(false);
-  const [showCards, setShowCards] = useState(true);
   const [isCorrectChoose, setIsCorrectChoose] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [isCorrectChoosed, setIsCorrectChoosed] = useState(0);
   const [isEnd, setIsEnd] = useState(false);
   const [shuffledFootballers, setShuffledFootballers] = useState([]);
+  const [dragX, setDragX] = useState(0);
+  const [swiping, setSwiping] = useState(false); // Новый статус анимации
 
   const item = footballers?.items[index];
   const totalCorrectItems = item?.footballers.filter(
@@ -26,12 +26,18 @@ const Game = () => {
   ).length;
 
   function checkIsEnd() {
-    if (totalCorrectItems === isCorrectChoosed + 1) {
+    if (totalCorrectItems === isCorrectChoosed) {
       setIsEnd(true);
     } else if (isCorrectChoose >= item?.footballers.length) {
       setIsEnd(true);
+    } else if (currentIndex + 1 > item?.footballers.length) {
+      setIsEnd(true);
     }
   }
+
+  useEffect(() => {
+    checkIsEnd();
+  }, [currentIndex]);
 
   function shuffle(array) {
     return array.sort(() => Math.random() - 0.5);
@@ -41,14 +47,6 @@ const Game = () => {
     setShuffledFootballers(shuffle([...item.footballers]));
   }, [item.footballers]);
 
-  const childRefs = useMemo(
-    () =>
-      Array(shuffledFootballers.length)
-        .fill(0)
-        .map(() => React.createRef()),
-    [shuffledFootballers]
-  );
-
   useEffect(() => {
     if (searchParams.get("index") && !isNaN(+searchParams.get("index"))) {
       setIndex(+searchParams.get("index"));
@@ -57,8 +55,7 @@ const Game = () => {
     }
   }, [searchParams]);
 
-  const swiped = (dir, name, isCorrect, idx) => {
-    setCurrentIndex((prevIndex) => prevIndex + 1);
+  const swiped = (dir, isCorrect) => {
     if (dir === "left" && !isCorrect) {
       setScore((prevScore) => prevScore + 1);
       setIsCorrectChoose(true);
@@ -72,28 +69,45 @@ const Game = () => {
 
     checkIsEnd();
     setShowMessage(true);
-    setShowCards(false);
+
     setTimeout(() => {
       setShowMessage(false);
-      setShowCards(true);
     }, 500);
-  };
 
-  const outOfFrame = (name, idx) => {
-    if (idx >= 10) {
-      childRefs[idx].current?.restoreCard();
+    const x = dir === "left" ? -1000 : 1000;
+    const card = document.querySelector(`.${style.card}`);
+
+    if (card) {
+      card.animate(
+        [{ transform: "translateX(0)" }, { transform: `translateX(${x}px)` }],
+        {
+          duration: 500,
+          easing: "ease-in-out",
+          fill: "forwards",
+        }
+      ).onfinish = () => {
+        setSwiping(false);
+
+        setCurrentIndex((prevIndex) => {
+          const nextIndex = prevIndex + 1;
+          return nextIndex;
+        });
+      };
     }
-
-    console.log(idx <= 10);
   };
 
-  const swipe = async (dir) => {
-    console.log(currentIndex);
-
-    const currentCardRef = childRefs.reverse()[currentIndex].current;
-
-    if (currentCardRef) await currentCardRef.swipe(dir);
+  const handleSwipe = (direction, isCorrect) => {
+    if (swiping) return; // Предотвращаем двойной свайп
+    setSwiping(true);
+    swiped(direction, isCorrect);
+    setDragX(0);
   };
+
+  const handlers = useSwipeable({
+    delta: 10,
+    preventScrollOnSwipe: true,
+    trackMouse: true,
+  });
 
   const buttonVariants = {
     initial: { backgroundColor: "transparent", color: "#fff" },
@@ -145,27 +159,53 @@ const Game = () => {
                     </div>
                   )}
 
-                  {shuffledFootballers.map((card, idx) => (
-                    <TinderCard
-                      ref={childRefs[idx]}
-                      className={style.swipe}
-                      key={card.name}
-                      onSwipe={(dir) => {
-                        swiped(dir, card.name, card.isCorrect, idx);
-                      }}
-                      onCardLeftScreen={() => outOfFrame(card.name, idx)}
-                    >
-                      {showCards && (
-                        <div className={style.card}>
+                  {!swiping &&
+                    currentIndex < shuffledFootballers.length &&
+                    shuffledFootballers.length > 0 && (
+                      <motion.div
+                        {...handlers}
+                        className={style.swipe}
+                        initial={{ x: 0, rotate: 0 }}
+                        animate={{ x: 0, rotate: 0 }}
+                        drag="x"
+                        dragConstraints={{ left: 0, right: 0 }}
+                        onDrag={(e, info) => {
+                          setDragX(info.offset.x);
+                        }}
+                        onDragEnd={(e, info) => {
+                          const direction =
+                            info.offset.x > 0 ? "right" : "left";
+                          const isCorrect =
+                            shuffledFootballers[currentIndex]?.isCorrect;
+
+                          if (Math.abs(info.offset.x) > 150) {
+                            handleSwipe(direction, isCorrect);
+                          } else {
+                            setDragX(0);
+                          }
+                        }}
+                        style={{ position: "absolute" }}
+                      >
+                        <motion.div
+                          className={style.card}
+                          style={{
+                            rotate: dragX / 10,
+                            opacity: 1 - Math.abs(dragX) / 300,
+                          }}
+                          transition={{
+                            type: "spring",
+                            stiffness: 300,
+                            damping: 30,
+                          }}
+                        >
                           <img
-                            src={require(`../../assets/images/footballers/${card.image}`)}
+                            src={require(`../../assets/images/footballers/${shuffledFootballers[currentIndex]?.image}`)}
                             alt="card"
                           />
-                          <h3>{card.name}</h3>
-                        </div>
-                      )}
-                    </TinderCard>
-                  ))}
+                          <h3>{shuffledFootballers[currentIndex]?.name}</h3>
+                        </motion.div>
+                      </motion.div>
+                    )}
                 </div>
 
                 <div className={style.game__cards__nav}>
@@ -174,7 +214,12 @@ const Game = () => {
                     initial="initial"
                     animate="animate"
                     whileHover="hover"
-                    onClick={() => swipe("left")}
+                    onClick={() =>
+                      handleSwipe(
+                        "left",
+                        shuffledFootballers[currentIndex]?.isCorrect
+                      )
+                    }
                   >
                     <svg
                       width="21"
@@ -185,7 +230,7 @@ const Game = () => {
                     >
                       <path
                         d="M3.87124 0.589305C3.10304 -0.178898 1.85754 -0.178898 1.08934 0.589305C0.321133 1.35751 0.321133 2.60301 1.08934 3.37121L7.71812 10L1.08933 16.6288C0.321133 17.397 0.321133 18.6425 1.08934 19.4107C1.85754 20.1789 3.10304 20.1789 3.87124 19.4107L10.5 12.7819L17.1288 19.4107C17.897 20.1789 19.1425 20.1789 19.9107 19.4107C20.6789 18.6425 20.6789 17.397 19.9107 16.6288L13.2819 10L19.9107 3.37121C20.6789 2.60301 20.6789 1.35751 19.9107 0.589305C19.1425 -0.178898 17.897 -0.178898 17.1288 0.589305L10.5 7.21809L3.87124 0.589305Z"
-                        fill="#fff"
+                        fill="white"
                       />
                     </svg>
                   </motion.button>
@@ -217,7 +262,12 @@ const Game = () => {
                     initial="initial"
                     animate="animate"
                     whileHover="hover"
-                    onClick={() => swipe("right")}
+                    onClick={() =>
+                      handleSwipe(
+                        "right",
+                        shuffledFootballers[currentIndex]?.isCorrect
+                      )
+                    }
                   >
                     <svg
                       width="23"
@@ -239,7 +289,11 @@ const Game = () => {
             )}
           </div>
         ) : (
-          <div className={style.game__end}>Игра закончена!</div>
+          <div className={style.game__final}>
+            <p>
+              Ваши очки: <span>{score}</span>
+            </p>
+          </div>
         )}
       </div>
     </div>

@@ -135,13 +135,14 @@
   transform: translate(-50%, 50%);
   position: absolute;
 
+
   p {
     font-size: 24px;
     font-family: "Cera-pro-md", sans-serif;
   }
 
   animation-name: opacity1;
-  animation-duration: 2s;
+  animation-duration: 0.5s;
 }
 
 .game__task {
