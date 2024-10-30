@@ -191,7 +191,7 @@
         },
         {
           "name": "Битело",
-          "image": "Битело.jpg",
+          "image": "Бителло.jpg",
           "isCorrect": true
         },
         {
@@ -360,7 +360,7 @@
         },
         {
           "name": "Руни Бардаджи",
-          "image": "Бардаджи.jpg",
+          "image": "Бардагджи.jpg",
           "isCorrect": true
         },
         {
@@ -442,7 +442,7 @@
         },
         {
           "name": "Серхио Роберто",
-          "image": "Роберто.jpg",
+          "image": "Серхи-Роберто.jpg",
           "isCorrect": true
         },
         {
@@ -480,7 +480,7 @@
         },
         {
           "name": "Тьяго Алькантара",
-          "image": "Алькантара.jpg",
+          "image": "Тьяго.jpg",
           "isCorrect": true
         },
         {
@@ -528,7 +528,7 @@
         },
         {
           "name": "Марк-Андре Тер Штеген",
-          "image": "Тер_Штеген.jpg",
+          "image": "Тер-Штеген.jpg",
           "isCorrect": true
         },
         {
@@ -538,37 +538,37 @@
         },
         {
           "name": "Алисон Бекер",
-          "image": "Алисон_Бекер.jpg",
+          "image": "Алиссон.jpg",
           "isCorrect": true
         },
         {
           "name": "Андрей Лунин",
-          "image": "Андрей_Лунин.jpg",
+          "image": "Лунин.jpg",
           "isCorrect": true
         },
         {
           "name": "Кейлор Навас",
-          "image": "Кейлор_Навас.jpg",
+          "image": "Навас.jpg",
           "isCorrect": false
         },
         {
           "name": "Свен Ульрайх",
-          "image": "Свен_Ульрайх.jpg",
+          "image": "Ульрайх.jpg",
           "isCorrect": false
         },
         {
           "name": "Мануэль Нойер",
-          "image": "Мануэль_Нойер.jpg",
+          "image": "Нойер.jpg",
           "isCorrect": false
         },
         {
           "name": "Симон Миньоле",
-          "image": "Симон_Миньоле.jpg",
+          "image": "Миньоле.jpg",
           "isCorrect": false
         },
         {
           "name": "Хорди Масип",
-          "image": "Хорди_Масип.jpg",
+          "image": "Масип.jpg",
           "isCorrect": false
         }
       ]
@@ -581,52 +581,52 @@
       "footballers": [
         {
           "name": "Эрлинг Холанд",
-          "image": "Эрлинг_Холанд.jpg",
+          "image": "Холанд.jpg",
           "isCorrect": true
         },
         {
           "name": "Килиан Мбаппе",
-          "image": "Килиан_Мбаппе.jpg",
+          "image": "Мбаппе.jpg",
           "isCorrect": true
         },
         {
           "name": "Виктор Осимхен",
-          "image": "Виктор_Осимхен.jpg",
+          "image": "Осимхен.jpg",
           "isCorrect": true
         },
         {
           "name": "Душан Влахович",
-          "image": "Душан_Влахович.jpg",
+          "image": "Влахович.jpg",
           "isCorrect": false
         },
         {
           "name": "Лаутаро Мартинес",
-          "image": "Лаутаро_Мартинес.jpg",
+          "image": "Мартинез.jpg",
           "isCorrect": true
         },
         {
           "name": "Харри Кейн",
-          "image": "Харри_Кейн.jpg",
+          "image": "Кейн.jpg",
           "isCorrect": false
         },
         {
           "name": "Рассмус Хёйлунд",
-          "image": "Рассмус_Хёйлунд.jpg",
+          "image": "Хёйлунд.jpg",
           "isCorrect": false
         },
         {
           "name": "Хулиан Альварес",
-          "image": "Хулиан_Альварес.jpg",
+          "image": "Альварес.jpg",
           "isCorrect": false
         },
         {
           "name": "Дарвин Нуньес",
-          "image": "Дарвин_Нуньес.jpg",
+          "image": "Нуньес.jpg",
           "isCorrect": false
         },
         {
           "name": "Александр Исак",
-          "image": "Александр_Исак.jpg",
+          "image": "Исак.jpg",
           "isCorrect": false
         }
       ]
@@ -639,7 +639,7 @@
       "footballers": [
         {
           "name": "Ламин Ямаль",
-          "image": "Ламин_Ямаль.jpg",
+          "image": "Ямаль.jpg",
           "isCorrect": true
         },
         {
@@ -649,7 +649,7 @@
         },
         {
           "name": "Фермин Лопес",
-          "image": "Фермин_Лопес.jpg",
+          "image": "Фермин.jpg",
           "isCorrect": true
         },
         {
@@ -659,32 +659,32 @@
         },
         {
           "name": "Энцо Фернандес",
-          "image": "Энцо_Фернандес.jpg",
+          "image": "Энцо.jpg",
           "isCorrect": true
         },
         {
           "name": "Дани Ольмо",
-          "image": "Дани_Ольмо.jpg",
+          "image": "Ольмо.jpg",
           "isCorrect": false
         },
         {
           "name": "Алексис Макалистер",
-          "image": "Алексис_Макалистер.jpg",
+          "image": "Макалистер.jpg",
           "isCorrect": true
         },
         {
           "name": "Родриго Де Поль",
-          "image": "Родриго_Де_Поль.jpg",
+          "image": "Родри.jpg",
           "isCorrect": false
         },
         {
           "name": "Леандро Паредес",
-          "image": "Леандро_Паредес.jpg",
+          "image": "Паредес.jpg",
           "isCorrect": false
         },
         {
           "name": "Эсекьель Паласиос",
-          "image": "Эсекьель_Паласиос.jpg",
+          "image": "Паласиос.jpg",
           "isCorrect": false
         }
       ]
@@ -754,7 +754,7 @@
       "footballers": [
         {
           "name": "Анхель Ди Мария",
-          "image": "Ди_Мария.jpg",
+          "image": "Ди-Мария.jpg",
           "isCorrect": false
         },
         {
@@ -774,7 +774,7 @@
         },
         {
           "name": "Хамес Родригес",
-          "image": "Хамес_Родригес.jpg",
+          "image": "Хамес.jpg",
           "isCorrect": true
         },
         {
@@ -822,7 +822,7 @@
         },
         {
           "name": "Алексей Миранчук",
-          "image": "Миранчук.jpg",
+          "image": "Ал-Миранчук.jpg",
           "isCorrect": true
         },
         {
@@ -837,7 +837,7 @@
         },
         {
           "name": "Джуд Беллингем",
-          "image": "Беллингем.jpg",
+          "image": "Биллингем.jpg",
           "isCorrect": true
         },
         {

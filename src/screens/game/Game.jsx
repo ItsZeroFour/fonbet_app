@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import style from "./style.module.scss";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import footballers from "../../data/footballers.json";
 import Header from "../../components/header/Header";
 import { useSwipeable } from "react-swipeable";
 import { motion } from "framer-motion";
+import arrowRight from "../../assets/icons/arrow_right_alt.svg";
 
 const Game = () => {
   const navigate = useNavigate();
@@ -18,7 +19,8 @@ const Game = () => {
   const [isEnd, setIsEnd] = useState(false);
   const [shuffledFootballers, setShuffledFootballers] = useState([]);
   const [dragX, setDragX] = useState(0);
-  const [swiping, setSwiping] = useState(false); // Новый статус анимации
+  const [swiping, setSwiping] = useState(false);
+  const [correctChoosedImages, setCorrectChoosedImages] = useState([]);
 
   const item = footballers?.items[index];
   const totalCorrectItems = item?.footballers.filter(
@@ -56,17 +58,6 @@ const Game = () => {
   }, [searchParams]);
 
   const swiped = (dir, isCorrect) => {
-    if (dir === "left" && !isCorrect) {
-      setScore((prevScore) => prevScore + 1);
-      setIsCorrectChoose(true);
-    } else if (dir === "right" && isCorrect) {
-      setScore((prevScore) => prevScore + 2);
-      setIsCorrectChoosed((prev) => prev + 1);
-      setIsCorrectChoose(true);
-    } else {
-      setIsCorrectChoose(false);
-    }
-
     checkIsEnd();
     setShowMessage(true);
 
@@ -87,6 +78,18 @@ const Game = () => {
         }
       ).onfinish = () => {
         setSwiping(false);
+
+        if (dir === "left" && !isCorrect) {
+          setScore((prevScore) => prevScore + 1);
+          setIsCorrectChoose(true);
+        } else if (dir === "right" && isCorrect) {
+          setScore((prevScore) => prevScore + 2);
+          setIsCorrectChoosed((prev) => prev + 1);
+          setIsCorrectChoose(true);
+          correctChoosedImages.push(shuffledFootballers[currentIndex].image);
+        } else {
+          setIsCorrectChoose(false);
+        }
 
         setCurrentIndex((prevIndex) => {
           const nextIndex = prevIndex + 1;
@@ -126,7 +129,7 @@ const Game = () => {
       <div className={`wrapper ${style.game__wrapper}`}>
         <Header />
 
-        {!isEnd ? (
+        {isEnd ? (
           <div className={style.game__container}>
             {item && (
               <>
@@ -290,8 +293,88 @@ const Game = () => {
           </div>
         ) : (
           <div className={style.game__final}>
+            <div className={style.game__total}>
+              <h1>{score >= 10 ? "Раунд пройден!" : "Вы проиграли :("}</h1>
+
+              <div>
+                <p>
+                  {isCorrectChoosed}/
+                  {
+                    shuffledFootballers.filter(
+                      ({ isCorrect }) => isCorrect === true
+                    ).length
+                  }
+                </p>
+                <p>Очки: {score}</p>
+              </div>
+            </div>
+
             <p>
-              Ваши очки: <span>{score}</span>
+              {score >= 10 ? (
+                <>
+                  Поздравляем, скаут! <br /> Вот кого из нужных игроков вы взяли
+                  в команду:
+                </>
+              ) : (
+                <>
+                  Извините :( <br /> Вот кого из нужных игроков вы взяли в
+                  команду:
+                </>
+              )}
+            </p>
+
+            <div className={style.game__final__chosed}>
+              <ul>
+                {item.footballers
+                  .filter(({ isCorrect }) => isCorrect === true)
+                  .map(({ image }, idx) => (
+                    <li key={idx}>
+                      <motion.img
+                        src={require(`../../assets/images/footballers/${image}`)}
+                        alt={idx + 1}
+                        initial={{ opacity: 0.25 }}
+                        animate={
+                          correctChoosedImages.includes(image) && { opacity: 1 }
+                        }
+                        transition={
+                          correctChoosedImages.includes(image) && {
+                            delay: 2,
+                            duration: 0.5,
+                          }
+                        }
+                      />
+                    </li>
+                  ))}
+              </ul>
+            </div>
+
+            <div className={style.game__banner}>
+              <h2>Примите участие в розыгрыше</h2>
+
+              <div className={style.game__banner__cupon}>
+                <p>100 000 ₽*</p>
+              </div>
+
+              <Link className={style.game__banner__link_1} to="/">
+                Регистрация
+              </Link>
+
+              <div className={style.game__banner__link__container}>
+                <Link className={style.game__banner__link_2} to="/">
+                  Я уже с FONBET <img src={arrowRight} alt="arrow right" />
+                </Link>
+              </div>
+            </div>
+
+            {score >= 10 ? (
+              <Link to={`/game?index=${index + 1}`}>Играть дальше</Link>
+            ) : (
+              <Link to={`/game?index=${index + 1}`}>Играть снова</Link>
+            )}
+
+            <p>
+              *Предоставляется в виде бонусов (Фрибетов), подробнее в правилах
+              игры
             </p>
           </div>
         )}
