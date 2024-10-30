@@ -129,7 +129,7 @@ const Game = () => {
       <div className={`wrapper ${style.game__wrapper}`}>
         <Header />
 
-        {isEnd ? (
+        {!isEnd ? (
           <div className={style.game__container}>
             {item && (
               <>
@@ -348,28 +348,61 @@ const Game = () => {
               </ul>
             </div>
 
-            <div className={style.game__banner}>
-              <h2>Примите участие в розыгрыше</h2>
+            {score >= 10 ? (
+              <div className={style.game__banner}>
+                <h2>Примите участие в розыгрыше</h2>
 
-              <div className={style.game__banner__cupon}>
-                <p>100 000 ₽*</p>
+                <div className={style.game__banner__cupon}>
+                  <p>100 000 ₽*</p>
+                </div>
+
+                <Link className={style.game__banner__link_1} to="/">
+                  Регистрация
+                </Link>
+
+                <div className={style.game__banner__link__container}>
+                  <Link className={style.game__banner__link_2} to="/">
+                    Я уже с FONBET <img src={arrowRight} alt="arrow right" />
+                  </Link>
+                </div>
               </div>
+            ) : (
+              <div className={style.game__banner}>
+                <h2>Вам подарок от FONBET!</h2>
 
-              <Link className={style.game__banner__link_1} to="/">
-                Регистрация
-              </Link>
+                <div className={style.game__banner__cupon}>
+                  <p>до 15 000 ₽*</p>
+                </div>
 
-              <div className={style.game__banner__link__container}>
-                <Link className={style.game__banner__link_2} to="/">
-                  Я уже с FONBET <img src={arrowRight} alt="arrow right" />
+                <p>
+                  Пройдите игру до конца, чтобы принять участие в розыгрыше100
+                  000 ₽ фрибетами.
+                </p>
+
+                <Link className={style.game__banner__link_1} to="/">
+                  Забрать подарок
                 </Link>
               </div>
-            </div>
+            )}
 
             {score >= 10 ? (
-              <Link to={`/game?index=${index + 1}`}>Играть дальше</Link>
+              <Link
+                to={`/game?index=${index + 1}`}
+                onClick={() =>
+                  (window.location.href = `/game?index=${index + 1}`)
+                }
+              >
+                Играть дальше
+              </Link>
             ) : (
-              <Link to={`/game?index=${index + 1}`}>Играть снова</Link>
+              <Link
+                to={`/game?index=${index}`}
+                onClick={() =>
+                  (window.location.href = `/game?index=${index}`)
+                }
+              >
+                Играть снова
+              </Link>
             )}
 
             <p>

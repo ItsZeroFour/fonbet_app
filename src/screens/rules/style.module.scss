@@ -61,10 +61,10 @@
     padding: 15px;
     border-radius: 20px;
     font-size: 20px;
+    margin-top: auto;
 
-    @media (max-width: 450px) and (max-height: 750px) {
-      margin-top: auto;
-      margin-bottom: 110px;
+    @media (max-width: 450px) {
+      margin-bottom: 100px;
     }
   }
 }

@@ -41,15 +41,17 @@ const StartScreen = () => {
             </li>
           </ul>
 
-          <Link className={style.start__link} to="/rules">
-            Старт
-          </Link>
+          <div className={style.start__bottom}>
+            <Link className={style.start__link} to="/rules">
+              Старт
+            </Link>
 
-          <p>
-            Реклама 18+. Рекламодатель ООО «Фонкор». Erid: F7NfYUJCUneLt1tqhx9B
-            По всем вопросам:{" "}
-            <Link to="mailto:alarm24@sport24.ru">alarm24@sport24.ru</Link>
-          </p>
+            <p>
+              Реклама 18+. Рекламодатель ООО «Фонкор». Erid:
+              F7NfYUJCUneLt1tqhx9B По всем вопросам:{" "}
+              <Link to="mailto:alarm24@sport24.ru">alarm24@sport24.ru</Link>
+            </p>
+          </div>
         </div>
       </div>
     </section>
