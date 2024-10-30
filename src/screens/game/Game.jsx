@@ -58,6 +58,18 @@ const Game = () => {
   }, [searchParams]);
 
   const swiped = (dir, isCorrect) => {
+    if (dir === "left" && !isCorrect) {
+      setScore((prevScore) => prevScore + 1);
+      setIsCorrectChoose(true);
+    } else if (dir === "right" && isCorrect) {
+      setScore((prevScore) => prevScore + 2);
+      setIsCorrectChoosed((prev) => prev + 1);
+      setIsCorrectChoose(true);
+      correctChoosedImages.push(shuffledFootballers[currentIndex].image);
+    } else {
+      setIsCorrectChoose(false);
+    }
+
     checkIsEnd();
     setShowMessage(true);
 
@@ -78,19 +90,6 @@ const Game = () => {
         }
       ).onfinish = () => {
         setSwiping(false);
-
-        if (dir === "left" && !isCorrect) {
-          setScore((prevScore) => prevScore + 1);
-          setIsCorrectChoose(true);
-        } else if (dir === "right" && isCorrect) {
-          setScore((prevScore) => prevScore + 2);
-          setIsCorrectChoosed((prev) => prev + 1);
-          setIsCorrectChoose(true);
-          correctChoosedImages.push(shuffledFootballers[currentIndex].image);
-        } else {
-          setIsCorrectChoose(false);
-        }
-
         setCurrentIndex((prevIndex) => {
           const nextIndex = prevIndex + 1;
           return nextIndex;
@@ -397,9 +396,7 @@ const Game = () => {
             ) : (
               <Link
                 to={`/game?index=${index}`}
-                onClick={() =>
-                  (window.location.href = `/game?index=${index}`)
-                }
+                onClick={() => (window.location.href = `/game?index=${index}`)}
               >
                 Играть снова
               </Link>
