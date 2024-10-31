@@ -21,6 +21,9 @@ const Game = () => {
   const [dragX, setDragX] = useState(0);
   const [swiping, setSwiping] = useState(false);
   const [correctChoosedImages, setCorrectChoosedImages] = useState([]);
+  const [rightSwipeCount, setRightSwipeCount] = useState(0);
+  const [onRightSwipe, setOnRightSwipe] = useState(false);
+  const [trueSwiperCount, setTrueSwiperCount] = useState(0);
 
   const item = footballers?.items[index];
   const totalCorrectItems = item?.footballers.filter(
@@ -33,6 +36,8 @@ const Game = () => {
     } else if (isCorrectChoose >= item?.footballers.length) {
       setIsEnd(true);
     } else if (currentIndex + 1 > item?.footballers.length) {
+      setIsEnd(true);
+    } else if (trueSwiperCount >= totalCorrectItems) {
       setIsEnd(true);
     }
   }
@@ -59,23 +64,34 @@ const Game = () => {
 
   const swiped = (dir, isCorrect) => {
     if (dir === "left" && !isCorrect) {
-      setScore((prevScore) => prevScore + 1);
       setIsCorrectChoose(true);
+
+      setScore((prevScore) => prevScore + 1);
+      setRightSwipeCount((prevCount) => prevCount + 1);
     } else if (dir === "right" && isCorrect) {
+      setIsCorrectChoose(true);
       setScore((prevScore) => prevScore + 2);
       setIsCorrectChoosed((prev) => prev + 1);
-      setIsCorrectChoose(true);
+      setRightSwipeCount((prevCount) => prevCount + 1);
       correctChoosedImages.push(shuffledFootballers[currentIndex].image);
     } else {
       setIsCorrectChoose(false);
     }
 
+    if (dir === "right") {
+      setTrueSwiperCount((prevCount) => prevCount + 1);
+    }
+
     checkIsEnd();
     setShowMessage(true);
 
-    setTimeout(() => {
-      setShowMessage(false);
-    }, 500);
+    if (!(index === 0 && rightSwipeCount <= 2)) {
+      setTimeout(() => {
+        setShowMessage(false);
+      }, 500);
+    } else {
+      setOnRightSwipe(true);
+    }
 
     const x = dir === "left" ? -1000 : 1000;
     const card = document.querySelector(`.${style.card}`);
@@ -89,7 +105,10 @@ const Game = () => {
           fill: "forwards",
         }
       ).onfinish = () => {
-        setSwiping(false);
+        if (!(index === 0 && rightSwipeCount < 2)) {
+          setSwiping(false);
+        }
+
         setCurrentIndex((prevIndex) => {
           const nextIndex = prevIndex + 1;
           return nextIndex;
@@ -114,13 +133,13 @@ const Game = () => {
   const buttonVariants = {
     initial: { backgroundColor: "transparent", color: "#fff" },
     animate: { backgroundColor: "#e80024", color: "#fff" },
-    hover: { backgroundColor: "#fff", color: "#fff", scale: 1.1 },
+    whileTap: { backgroundColor: "#fff", color: "#e80024" },
   };
 
   const buttonVariants2 = {
     initial: { backgroundColor: "transparent", color: "#fff" },
     animate: { backgroundColor: "#fff", fill: "#e80024" },
-    hover: { backgroundColor: "#e80024", fill: "#fff", scale: 1.1 },
+    whileTap: { backgroundColor: "#e80024", color: "#e80024" },
   };
 
   return (
@@ -131,34 +150,108 @@ const Game = () => {
         {!isEnd ? (
           <div className={style.game__container}>
             {item && (
-              <>
-                <div className={style.game__task}>
-                  <div className={style.game__task__index}>{item.index}</div>
-                  <p>{item.task}</p>
-                </div>
+              <React.Fragment>
+                {!(index === 0 && onRightSwipe && rightSwipeCount <= 2) && (
+                  <React.Fragment>
+                    <div className={style.game__task}>
+                      <div className={style.game__task__index}>
+                        {item.index}
+                      </div>
+                      <p>{item.task}</p>
+                    </div>
 
-                <div className={style.game__task__score}>
-                  <ul>
-                    {item.footballers.map((_, idx) => (
-                      <li
-                        key={idx}
-                        style={
-                          currentIndex === idx
-                            ? { background: "#E80024" }
-                            : { background: "rgba(255, 255, 255, 0.1)" }
-                        }
-                      ></li>
-                    ))}
-                  </ul>
+                    <div className={style.game__task__score}>
+                      <ul>
+                        {item.footballers.map((_, idx) => (
+                          <li
+                            key={idx}
+                            style={
+                              currentIndex === idx
+                                ? { background: "#E80024" }
+                                : { background: "rgba(255, 255, 255, 0.1)" }
+                            }
+                          ></li>
+                        ))}
+                      </ul>
 
-                  <p>Очки: {score}</p>
-                </div>
+                      <p>Очки: {score}</p>
+                    </div>
+                  </React.Fragment>
+                )}
 
                 <div className={style.game__cards__container}>
-                  {showMessage && (
-                    <div className={style.message}>
-                      <p>{isCorrectChoose ? "Верно!" : "Не верно"}</p>
+                  {showMessage &&
+                  index === 0 &&
+                  rightSwipeCount <= 2 &&
+                  isCorrectChoose ? (
+                    <div className={style.game__cards__correct}>
+                      <h3>Верно!</h3>
+
+                      <div className={style.game__banner}>
+                        <h2>Вам подарок от FONBET!</h2>
+
+                        <div className={style.game__banner__cupon}>
+                          <p>до 15 000 ₽*</p>
+                        </div>
+
+                        <p>
+                          Пройдите игру до конца, чтобы принять участие в
+                          розыгрыше100 000 ₽ фрибетами.
+                        </p>
+
+                        <Link className={style.game__banner__link_1} to="/">
+                          Забрать подарок
+                        </Link>
+                      </div>
+
+                      <div className={style.game__cards__correct__bottom}>
+                        <button
+                          onClick={() => {
+                            setSwiping(false);
+                            setShowMessage(false);
+                            setOnRightSwipe(false);
+                          }}
+                        >
+                          Играть дальше
+                        </button>
+
+                        <p>
+                          *Предоставляется в виде бонусов (Фрибетов), подробнее
+                          в правилах игры.
+                        </p>
+                      </div>
                     </div>
+                  ) : (
+                    showMessage &&
+                    index === 0 &&
+                    rightSwipeCount <= 2 && (
+                      <div
+                        className={`${style.message} ${style.message__index}`}
+                      >
+                        <p>Не верно</p>
+
+                        <p style={{ opacity: 0 }}>
+                          {setTimeout(() => {
+                            setSwiping(false);
+                            setShowMessage(false);
+                            setOnRightSwipe(false);
+                          }, 500)}
+                        </p>
+                      </div>
+                    )
+                  )}
+
+                  {showMessage && rightSwipeCount > 2 && index === 0 ? (
+                    <div className={style.message}>
+                      {isCorrectChoose ? <p>Верно!</p> : <p>Не верно</p>}
+                    </div>
+                  ) : (
+                    showMessage &&
+                    index !== 0 && (
+                      <div className={style.message}>
+                        {isCorrectChoose ? <p>Верно!</p> : <p>Не верно</p>}
+                      </div>
+                    )
                   )}
 
                   {!swiping &&
@@ -210,84 +303,88 @@ const Game = () => {
                     )}
                 </div>
 
-                <div className={style.game__cards__nav}>
-                  <motion.button
-                    variants={buttonVariants}
-                    initial="initial"
-                    animate="animate"
-                    whileHover="hover"
-                    onClick={() =>
-                      handleSwipe(
-                        "left",
-                        shuffledFootballers[currentIndex]?.isCorrect
-                      )
-                    }
-                  >
-                    <svg
-                      width="21"
-                      height="20"
-                      viewBox="0 0 21 20"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
+                {!(index === 0 && onRightSwipe && rightSwipeCount <= 2) && (
+                  <div className={style.game__cards__nav}>
+                    <motion.button
+                      variants={buttonVariants}
+                      initial="initial"
+                      animate="animate"
+                      whileHover="hover"
+                      whileTap="whileTap"
+                      onClick={() =>
+                        handleSwipe(
+                          "left",
+                          shuffledFootballers[currentIndex]?.isCorrect
+                        )
+                      }
                     >
-                      <path
-                        d="M3.87124 0.589305C3.10304 -0.178898 1.85754 -0.178898 1.08934 0.589305C0.321133 1.35751 0.321133 2.60301 1.08934 3.37121L7.71812 10L1.08933 16.6288C0.321133 17.397 0.321133 18.6425 1.08934 19.4107C1.85754 20.1789 3.10304 20.1789 3.87124 19.4107L10.5 12.7819L17.1288 19.4107C17.897 20.1789 19.1425 20.1789 19.9107 19.4107C20.6789 18.6425 20.6789 17.397 19.9107 16.6288L13.2819 10L19.9107 3.37121C20.6789 2.60301 20.6789 1.35751 19.9107 0.589305C19.1425 -0.178898 17.897 -0.178898 17.1288 0.589305L10.5 7.21809L3.87124 0.589305Z"
-                        fill="white"
-                      />
-                    </svg>
-                  </motion.button>
+                      <svg
+                        width="21"
+                        height="20"
+                        viewBox="0 0 21 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M3.87124 0.589305C3.10304 -0.178898 1.85754 -0.178898 1.08934 0.589305C0.321133 1.35751 0.321133 2.60301 1.08934 3.37121L7.71812 10L1.08933 16.6288C0.321133 17.397 0.321133 18.6425 1.08934 19.4107C1.85754 20.1789 3.10304 20.1789 3.87124 19.4107L10.5 12.7819L17.1288 19.4107C17.897 20.1789 19.1425 20.1789 19.9107 19.4107C20.6789 18.6425 20.6789 17.397 19.9107 16.6288L13.2819 10L19.9107 3.37121C20.6789 2.60301 20.6789 1.35751 19.9107 0.589305C19.1425 -0.178898 17.897 -0.178898 17.1288 0.589305L10.5 7.21809L3.87124 0.589305Z"
+                          fill="white"
+                        />
+                      </svg>
+                    </motion.button>
 
-                  <ul>
-                    {item.footballers
-                      .filter(({ isCorrect }) => isCorrect === true)
-                      .map((_, idx) => (
-                        <li
-                          key={idx}
-                          style={
-                            isCorrectChoosed >= idx + 1
-                              ? { opacity: 1 }
-                              : { opacity: 0.25 }
-                          }
-                        >
-                          <img
-                            src={require(`../../assets/images/tshirts/${
-                              idx + 1
-                            }.png`)}
-                            alt={idx + 1}
-                          />
-                        </li>
-                      ))}
-                  </ul>
+                    <ul>
+                      {item.footballers
+                        .filter(({ isCorrect }) => isCorrect === true)
+                        .map((_, idx) => (
+                          <li
+                            key={idx}
+                            style={
+                              trueSwiperCount >= idx + 1
+                                ? { opacity: 1 }
+                                : { opacity: 0.25 }
+                            }
+                          >
+                            <img
+                              src={require(`../../assets/images/tshirts/${
+                                idx + 1
+                              }.png`)}
+                              alt={idx + 1}
+                            />
+                          </li>
+                        ))}
+                    </ul>
 
-                  <motion.button
-                    variants={buttonVariants2}
-                    initial="initial"
-                    animate="animate"
-                    whileHover="hover"
-                    onClick={() =>
-                      handleSwipe(
-                        "right",
-                        shuffledFootballers[currentIndex]?.isCorrect
-                      )
-                    }
-                  >
-                    <svg
-                      width="23"
-                      height="16"
-                      viewBox="0 0 23 16"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
+                    <motion.button
+                      variants={buttonVariants2}
+                      initial="initial"
+                      animate="animate"
+                      whileHover="hover"
+                      whileTap="whileTap"
+                      onClick={() =>
+                        handleSwipe(
+                          "right",
+                          shuffledFootballers[currentIndex]?.isCorrect
+                        )
+                      }
                     >
-                      <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
-                        d="M22.4238 1.08602C23.1921 1.85423 23.1921 3.09973 22.4238 3.86793L11.3778 14.914C10.6096 15.6822 9.36409 15.6822 8.59589 14.914L0.576152 6.89425C-0.192051 6.12604 -0.192051 4.88054 0.576152 4.11234C1.34435 3.34414 2.58986 3.34414 3.35806 4.11234L9.98684 10.7411L19.6419 1.08602C20.4101 0.317822 21.6556 0.317822 22.4238 1.08602Z"
-                        fill="#e80024"
-                      />
-                    </svg>
-                  </motion.button>
-                </div>
-              </>
+                      <svg
+                        width="23"
+                        height="16"
+                        viewBox="0 0 23 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M22.4238 1.08602C23.1921 1.85423 23.1921 3.09973 22.4238 3.86793L11.3778 14.914C10.6096 15.6822 9.36409 15.6822 8.59589 14.914L0.576152 6.89425C-0.192051 6.12604 -0.192051 4.88054 0.576152 4.11234C1.34435 3.34414 2.58986 3.34414 3.35806 4.11234L9.98684 10.7411L19.6419 1.08602C20.4101 0.317822 21.6556 0.317822 22.4238 1.08602Z"
+                          fill="#e80024"
+                        />
+                      </svg>
+                    </motion.button>
+                  </div>
+                )}
+              </React.Fragment>
             )}
           </div>
         ) : (
