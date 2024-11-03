@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import style from "./style.module.scss";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import footballers from "../../data/footballers.json";
@@ -7,8 +7,9 @@ import { useSwipeable } from "react-swipeable";
 import { motion } from "framer-motion";
 import arrowRight from "../../assets/icons/arrow_right_alt.svg";
 
-const Game = () => {
+const Game = React.memo(() => {
   const navigate = useNavigate();
+
   const [searchParams] = useSearchParams();
   const [index, setIndex] = useState(0);
   const [showMessage, setShowMessage] = useState(false);
@@ -24,6 +25,25 @@ const Game = () => {
   const [rightSwipeCount, setRightSwipeCount] = useState(0);
   const [onRightSwipe, setOnRightSwipe] = useState(false);
   const [trueSwiperCount, setTrueSwiperCount] = useState(0);
+
+  const dragXRef = useRef(0); // Хранит текущее значение dragX
+  const targetDragX = useRef(0); // Хранит целевое значение dragX
+  const animationFrameId = useRef(null);
+
+  useEffect(() => {
+    const indexParam = searchParams.get("index");
+    const parsedIndex = parseInt(indexParam, 10);
+
+    if (
+      !isNaN(parsedIndex) &&
+      parsedIndex >= 0 &&
+      parsedIndex < footballers.items.length
+    ) {
+      setIndex(parsedIndex);
+    } else {
+      navigate("/task?index=0");
+    }
+  }, [searchParams]);
 
   const item = footballers?.items[index];
   const totalCorrectItems = item?.footballers.filter(
@@ -51,21 +71,38 @@ const Game = () => {
   }
 
   useEffect(() => {
-    setShuffledFootballers(shuffle([...item.footballers]));
-  }, [item.footballers]);
+    if (item?.footballers) {
+      setShuffledFootballers(shuffle([...item.footballers]));
+    }
+  }, [item?.footballers]);
+
+  const smoothUpdateDragX = () => {
+    const damping = 0.15; // Коэффициент плавности анимации
+    dragXRef.current += (targetDragX.current - dragXRef.current) * damping;
+
+    if (Math.abs(targetDragX.current - dragXRef.current) > 0.1) {
+      setDragX(dragXRef.current);
+      animationFrameId.current = requestAnimationFrame(smoothUpdateDragX);
+    } else {
+      setDragX(targetDragX.current);
+      cancelAnimationFrame(animationFrameId.current);
+      animationFrameId.current = null;
+    }
+  };
 
   useEffect(() => {
-    if (searchParams.get("index") && !isNaN(+searchParams.get("index"))) {
-      setIndex(+searchParams.get("index"));
-    } else {
-      navigate("/task?index=0");
-    }
-  }, [searchParams]);
+    return () => {
+      if (animationFrameId.current) {
+        cancelAnimationFrame(animationFrameId.current);
+      }
+    };
+  }, []);
 
   const swiped = (dir, isCorrect) => {
+    if (!shuffledFootballers[currentIndex]) return; // Защита от ошибки undefined
+
     if (dir === "left" && !isCorrect) {
       setIsCorrectChoose(true);
-
       setScore((prevScore) => prevScore + 1);
       setRightSwipeCount((prevCount) => prevCount + 1);
     } else if (dir === "right" && isCorrect) {
@@ -73,7 +110,10 @@ const Game = () => {
       setScore((prevScore) => prevScore + 2);
       setIsCorrectChoosed((prev) => prev + 1);
       setRightSwipeCount((prevCount) => prevCount + 1);
-      correctChoosedImages.push(shuffledFootballers[currentIndex].image);
+      setCorrectChoosedImages((prevImages) => [
+        ...prevImages,
+        shuffledFootballers[currentIndex].image,
+      ]);
     } else {
       setIsCorrectChoose(false);
     }
@@ -109,16 +149,13 @@ const Game = () => {
           setSwiping(false);
         }
 
-        setCurrentIndex((prevIndex) => {
-          const nextIndex = prevIndex + 1;
-          return nextIndex;
-        });
+        setCurrentIndex((prevIndex) => prevIndex + 1);
       };
     }
   };
 
   const handleSwipe = (direction, isCorrect) => {
-    if (swiping) return; // Предотвращаем двойной свайп
+    if (swiping) return;
     setSwiping(true);
     swiped(direction, isCorrect);
     setDragX(0);
@@ -276,21 +313,23 @@ const Game = () => {
                           if (Math.abs(info.offset.x) > 150) {
                             handleSwipe(direction, isCorrect);
                           } else {
-                            setDragX(0);
+                            targetDragX.current = 0; // Возврат позиции в центр
+                            smoothUpdateDragX(); // Запуск плавного возврата
                           }
                         }}
                         style={{ position: "absolute" }}
                       >
-                        <motion.div
-                          className={style.card}
+                        <div
+                          className={`${style.card} ${
+                            swiping ? style.swipeActive : ""
+                          }`}
                           style={{
-                            rotate: dragX / 10,
-                            opacity: 1 - Math.abs(dragX) / 300,
-                          }}
-                          transition={{
-                            type: "spring",
-                            stiffness: 300,
-                            damping: 30,
+                            transform: `translateX(${dragX}px) rotate(${
+                              dragX / 15
+                            }deg)`,
+                            transition: !swiping
+                              ? "transform 0.3s ease-out"
+                              : "none",
                           }}
                         >
                           <img
@@ -298,7 +337,7 @@ const Game = () => {
                             alt="card"
                           />
                           <h3>{shuffledFootballers[currentIndex]?.name}</h3>
-                        </motion.div>
+                        </div>
                       </motion.div>
                     )}
                 </div>
@@ -508,6 +547,6 @@ const Game = () => {
       </div>
     </div>
   );
-};
+});
 
 export default Game;
