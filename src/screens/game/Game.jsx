@@ -520,7 +520,7 @@ const Game = React.memo(() => {
               </div>
             )}
 
-            {score >= 10 ? (
+            {score >= 0 ? (
               <Link
                 to={`/game?index=${index + 1}`}
                 onClick={() =>
