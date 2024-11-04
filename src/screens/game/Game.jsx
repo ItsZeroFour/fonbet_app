@@ -26,8 +26,7 @@ const Game = React.memo(() => {
   const [onRightSwipe, setOnRightSwipe] = useState(false);
   const [trueSwiperCount, setTrueSwiperCount] = useState(0);
 
-  const dragXRef = useRef(0); // Хранит текущее значение dragX
-  const targetDragX = useRef(0); // Хранит целевое значение dragX
+  const targetDragX = useRef(0);
   const animationFrameId = useRef(null);
 
   useEffect(() => {
@@ -77,17 +76,7 @@ const Game = React.memo(() => {
   }, [item?.footballers]);
 
   const smoothUpdateDragX = () => {
-    const damping = 0.15; // Коэффициент плавности анимации
-    dragXRef.current += (targetDragX.current - dragXRef.current) * damping;
-
-    if (Math.abs(targetDragX.current - dragXRef.current) > 0.1) {
-      setDragX(dragXRef.current);
-      animationFrameId.current = requestAnimationFrame(smoothUpdateDragX);
-    } else {
-      setDragX(targetDragX.current);
-      cancelAnimationFrame(animationFrameId.current);
-      animationFrameId.current = null;
-    }
+    setDragX(targetDragX.current);
   };
 
   useEffect(() => {
@@ -99,7 +88,7 @@ const Game = React.memo(() => {
   }, []);
 
   const swiped = (dir, isCorrect) => {
-    if (!shuffledFootballers[currentIndex]) return; // Защита от ошибки undefined
+    if (!shuffledFootballers[currentIndex]) return;
 
     if (dir === "left" && !isCorrect) {
       setIsCorrectChoose(true);
@@ -301,6 +290,7 @@ const Game = React.memo(() => {
                         animate={{ x: 0, rotate: 0 }}
                         drag="x"
                         dragConstraints={{ left: 0, right: 0 }}
+                        dragElastic={0}
                         onDrag={(e, info) => {
                           setDragX(info.offset.x);
                         }}
@@ -313,8 +303,8 @@ const Game = React.memo(() => {
                           if (Math.abs(info.offset.x) > 150) {
                             handleSwipe(direction, isCorrect);
                           } else {
-                            targetDragX.current = 0; // Возврат позиции в центр
-                            smoothUpdateDragX(); // Запуск плавного возврата
+                            targetDragX.current = 0;
+                            smoothUpdateDragX();
                           }
                         }}
                         style={{ position: "absolute" }}

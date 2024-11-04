@@ -117,6 +117,18 @@
 }
 
 .card {
+  position: absolute;
+  transition: transform 0.3s ease-out;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  touch-action: none;
+}
+
+.card.swiping {
+  pointer-events: none;
+}
+
+.card {
   position: relative;
   animation-name: opacity1;
   animation-duration: 0.5s;
