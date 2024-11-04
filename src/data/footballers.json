@@ -257,9 +257,12 @@
           "image": "Сафонов.jpg",
           "isCorrect": true
         },
+
         {
           "name": "Максим Ненахов",
-          "image": "Ненахов.jpg",
+
+          "you-need-change-this-path": true,
+          "image": "Роналдо.jpg",
           "isCorrect": false
         },
         {
@@ -302,7 +305,9 @@
         },
         {
           "name": "Антон Миранчук",
-          "image": "Миранчук.jpg",
+
+          "you-need-change-this-path": true,
+          "image": "Роналдо.jpg",
           "isCorrect": true
         },
         {
@@ -465,7 +470,9 @@
       "footballers": [
         {
           "name": "Хави",
-          "image": "Хави.jpg",
+
+          "you-need-change-this-path": true,
+          "image": "Роналду.jpg",
           "isCorrect": false
         },
         {
@@ -621,7 +628,9 @@
         },
         {
           "name": "Дарвин Нуньес",
-          "image": "Нуньес.jpg",
+
+          "you-need-change-this-path": true,
+          "image": "Роналду.jpg",
           "isCorrect": false
         },
         {
@@ -852,7 +861,9 @@
         },
         {
           "name": "Торган Азар",
-          "image": "Азар.jpg",
+
+          "you-need-change-this-path": true,
+          "image": "Роналду.jpg",
           "isCorrect": true
         }
       ]
@@ -864,7 +875,9 @@
       "footballers": [
         {
           "name": "Зинедин Зидан",
-          "image": "Зидан.jpg",
+
+          "you-need-change-this-path": true,
+          "image": "Роналду.jpg",
           "isCorrect": false
         },
         {
@@ -879,12 +892,16 @@
         },
         {
           "name": "Пепе",
-          "image": "Пепе.jpg",
+
+          "you-need-change-this-path": true,
+          "image": "Роналду.jpg",
           "isCorrect": false
         },
         {
           "name": "Рауль",
-          "image": "Рауль.jpg",
+
+          "you-need-change-this-path": true,
+          "image": "Роналду.jpg",
           "isCorrect": true
         },
         {
@@ -894,22 +911,30 @@
         },
         {
           "name": "Райан Гиггз",
-          "image": "Гиггз.jpg",
+
+          "you-need-change-this-path": true,
+          "image": "Роналду.jpg",
           "isCorrect": true
         },
         {
           "name": "Филипп Лам",
-          "image": "Лам.jpg",
+
+          "you-need-change-this-path": true,
+          "image": "Роналду.jpg",
           "isCorrect": true
         },
         {
           "name": "Пол Скоулз",
-          "image": "Скоулз.jpg",
+
+          "you-need-change-this-path": true,
+          "image": "Роналду.jpg",
           "isCorrect": false
         },
         {
           "name": "Карим Бензема",
-          "image": "Бензема.jpg",
+
+          "you-need-change-this-path": true,
+          "image": "Роналду.jpg",
           "isCorrect": true
         }
       ]

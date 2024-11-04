@@ -40,7 +40,7 @@ const Game = React.memo(() => {
     ) {
       setIndex(parsedIndex);
     } else {
-      navigate("/task?index=0");
+      navigate("/final");
     }
   }, [searchParams]);
 
@@ -129,7 +129,7 @@ const Game = React.memo(() => {
       card.animate(
         [{ transform: "translateX(0)" }, { transform: `translateX(${x}px)` }],
         {
-          duration: 500,
+          duration: 0,
           easing: "ease-in-out",
           fill: "forwards",
         }
@@ -145,7 +145,9 @@ const Game = React.memo(() => {
 
   const handleSwipe = (direction, isCorrect) => {
     if (swiping) return;
-    setSwiping(true);
+    setTimeout(() => {
+      setSwiping(true);
+    }, 500);
     swiped(direction, isCorrect);
     setDragX(0);
   };
@@ -275,7 +277,25 @@ const Game = React.memo(() => {
                     showMessage &&
                     index !== 0 && (
                       <div className={style.message}>
-                        {isCorrectChoose ? <p>Верно!</p> : <p>Не верно</p>}
+                        {isCorrectChoose ? (
+                          <>
+                            <p>Верно!</p>
+                            <p style={{ opacity: 0 }}>
+                              {setTimeout(() => {
+                                setSwiping(false);
+                              }, 500)}
+                            </p>
+                          </>
+                        ) : (
+                          <>
+                            <p>Не верно</p>
+                            <p style={{ opacity: 0 }}>
+                              {setTimeout(() => {
+                                setSwiping(false);
+                              }, 500)}
+                            </p>
+                          </>
+                        )}
                       </div>
                     )
                   )}
