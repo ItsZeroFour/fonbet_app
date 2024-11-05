@@ -87,6 +87,19 @@ const Game = React.memo(() => {
     };
   }, []);
 
+  const preloadNextImage = (index) => {
+    if (shuffledFootballers[index + 1]?.image) {
+      const img = new Image();
+      img.src = require(`../../assets/images/footballers/${
+        shuffledFootballers[index + 1].image
+      }`).default;
+    }
+  };
+
+  useEffect(() => {
+    preloadNextImage(currentIndex);
+  }, [currentIndex]);
+
   const swiped = (dir, isCorrect) => {
     if (!shuffledFootballers[currentIndex]) return;
 
@@ -364,10 +377,14 @@ const Game = React.memo(() => {
                               : "none",
                           }}
                         >
-                          <img
-                            src={require(`../../assets/images/footballers/${shuffledFootballers[currentIndex].image}`)}
-                            alt="card"
-                          />
+                          {shuffledFootballers[currentIndex]?.image ? (
+                            <img
+                              src={require(`../../assets/images/footballers/${shuffledFootballers[currentIndex].image}`)}
+                              alt="card"
+                            />
+                          ) : (
+                            <></>
+                          )}
                           <h3>{shuffledFootballers[currentIndex]?.name}</h3>
                         </div>
                       </motion.div>
