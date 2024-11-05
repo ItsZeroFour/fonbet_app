@@ -271,7 +271,29 @@ const Game = React.memo(() => {
 
                   {showMessage && rightSwipeCount > 2 && index === 0 ? (
                     <div className={style.message}>
-                      {isCorrectChoose ? <p>Верно!</p> : <p>Не верно</p>}
+                      {isCorrectChoose ? (
+                        <>
+                          <p style={{ opacity: 0 }}>
+                            {setTimeout(() => {
+                              setSwiping(false);
+                              setShowMessage(false);
+                              setOnRightSwipe(false);
+                            }, 500)}
+                          </p>
+                          <p>Верно!</p>
+                        </>
+                      ) : (
+                        <>
+                          <p style={{ opacity: 0 }}>
+                            {setTimeout(() => {
+                              setSwiping(false);
+                              setShowMessage(false);
+                              setOnRightSwipe(false);
+                            }, 500)}
+                          </p>
+                          <p>Не верно</p>
+                        </>
+                      )}
                     </div>
                   ) : (
                     showMessage &&
