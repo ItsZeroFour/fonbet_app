@@ -365,7 +365,7 @@ const Game = React.memo(() => {
                           }}
                         >
                           <img
-                            src={require(`../../assets/images/footballers/${shuffledFootballers[currentIndex]?.image}`)}
+                            src={require(`../../assets/images/footballers/${shuffledFootballers[currentIndex].image}`)}
                             alt="card"
                           />
                           <h3>{shuffledFootballers[currentIndex]?.name}</h3>
