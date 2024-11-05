@@ -75,10 +75,6 @@ const Game = React.memo(() => {
     }
   }, [item?.footballers]);
 
-  const smoothUpdateDragX = () => {
-    setDragX(targetDragX.current);
-  };
-
   useEffect(() => {
     return () => {
       if (animationFrameId.current) {
@@ -147,10 +143,7 @@ const Game = React.memo(() => {
           fill: "forwards",
         }
       ).onfinish = () => {
-        if (!(index === 0 && rightSwipeCount < 2)) {
-          setSwiping(false);
-        }
-
+        setSwiping(false);
         setCurrentIndex((prevIndex) => prevIndex + 1);
       };
     }
@@ -158,9 +151,11 @@ const Game = React.memo(() => {
 
   const handleSwipe = (direction, isCorrect) => {
     if (swiping) return;
+
     setTimeout(() => {
       setSwiping(true);
     }, 500);
+
     swiped(direction, isCorrect);
     setDragX(0);
   };
@@ -335,7 +330,7 @@ const Game = React.memo(() => {
                     )
                   )}
 
-                  {!swiping &&
+                  {!showMessage &&
                     currentIndex < shuffledFootballers.length &&
                     shuffledFootballers.length > 0 && (
                       <motion.div
@@ -359,7 +354,6 @@ const Game = React.memo(() => {
                             handleSwipe(direction, isCorrect);
                           } else {
                             targetDragX.current = 0;
-                            smoothUpdateDragX();
                           }
                         }}
                         style={{ position: "absolute" }}
@@ -377,21 +371,17 @@ const Game = React.memo(() => {
                               : "none",
                           }}
                         >
-                          {shuffledFootballers[currentIndex]?.image ? (
-                            <img
-                              src={require(`../../assets/images/footballers/${shuffledFootballers[currentIndex].image}`)}
-                              alt="card"
-                            />
-                          ) : (
-                            <></>
-                          )}
+                          <img
+                            src={require(`../../assets/images/footballers/${shuffledFootballers[currentIndex].image}`)}
+                            alt="card"
+                          />
                           <h3>{shuffledFootballers[currentIndex]?.name}</h3>
                         </div>
                       </motion.div>
                     )}
                 </div>
 
-                {!(index === 0 && onRightSwipe && rightSwipeCount <= 2) && (
+                {!showMessage && (
                   <div className={style.game__cards__nav}>
                     <motion.button
                       variants={buttonVariants}
@@ -399,12 +389,14 @@ const Game = React.memo(() => {
                       animate="animate"
                       whileHover="hover"
                       whileTap="whileTap"
-                      onClick={() =>
+                      disabled={swiping}
+                      onClick={() => {
+                        setDragX(0);
                         handleSwipe(
                           "left",
                           shuffledFootballers[currentIndex]?.isCorrect
-                        )
-                      }
+                        );
+                      }}
                     >
                       <svg
                         width="21"
@@ -448,12 +440,14 @@ const Game = React.memo(() => {
                       animate="animate"
                       whileHover="hover"
                       whileTap="whileTap"
-                      onClick={() =>
+                      disabled={swiping}
+                      onClick={() => {
+                        setDragX(0);
                         handleSwipe(
                           "right",
                           shuffledFootballers[currentIndex]?.isCorrect
-                        )
-                      }
+                        );
+                      }}
                     >
                       <svg
                         width="23"
