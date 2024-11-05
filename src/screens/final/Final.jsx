@@ -6,11 +6,11 @@ import copy from "../../assets/icons/copy.svg";
 import arrowReturn from "../../assets/icons/arrow-return.svg";
 import { Link } from "react-router-dom";
 
-const Final = () => {
+const Final = ({ giftLink, registerLink }) => {
   return (
     <div className={style.final}>
       <div className={`wrapper ${style.final__wrapper}`}>
-        <Header />
+        <Header giftLink={giftLink} />
 
         <div className={style.final__container}>
           <div className={style.final__main}>
@@ -42,7 +42,7 @@ const Final = () => {
           </div>
 
           <div className={style.final__buttons}>
-            <Link to="/">В личный кабинет</Link>
+            <Link to={registerLink}>В личный кабинет</Link>
             <Link to="/">
               Вернуться в игру <img src={arrowReturn} alt="arrow return" />
             </Link>

@@ -6,7 +6,7 @@ import gift from "../../assets/icons/gift.svg";
 import voice from "../../assets/icons/voice.svg";
 import voiceOff from "../../assets/icons/voice-off.svg";
 
-const Header = () => {
+const Header = ({ giftLink }) => {
   const [offVoice, setOffVoice] = useState(false);
 
   return (
@@ -16,9 +16,17 @@ const Header = () => {
       </Link>
 
       <div className={style.head__buttons}>
-        <button>
+        <Link
+          onClick={() => {
+            if (window.ym) {
+              window.ym(98751165, "reachGoal", "podarok----conversion");
+            }
+          }}
+          to={giftLink}
+          target="_blank"
+        >
           <img src={gift} alt="gift" />
-        </button>
+        </Link>
 
         <button onClick={() => setOffVoice(!offVoice)}>
           <img src={offVoice ? voiceOff : voice} alt="voice" />

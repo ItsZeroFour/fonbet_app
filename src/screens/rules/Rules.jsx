@@ -4,11 +4,11 @@ import Header from "../../components/header/Header";
 import rulesImage from "../../assets/images/rules.png";
 import { Link } from "react-router-dom";
 
-const Rules = () => {
+const Rules = ({ giftLink }) => {
   return (
     <div className={style.rules}>
       <div className={`wrapper ${style.rules__wrapper}`}>
-        <Header />
+        <Header giftLink={giftLink} />
 
         <div className={style.rules__image}>
           <img src={rulesImage} alt="rules" />

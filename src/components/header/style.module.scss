@@ -16,7 +16,8 @@
   align-items: center;
   gap: 10px;
 
-  button {
+  button,
+  a {
     display: flex;
     flex-direction: column;
     justify-content: center;

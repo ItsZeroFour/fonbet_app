@@ -5,7 +5,7 @@ import taskImg from "../../assets/images/task.png";
 import { Link, useSearchParams } from "react-router-dom";
 import footballers from "../../data/footballers.json";
 
-const Task = () => {
+const Task = ({ giftLink }) => {
   const [searchParams] = useSearchParams();
   const [index, setIndex] = useState(0);
 
@@ -20,7 +20,7 @@ const Task = () => {
   return (
     <div className={style.task}>
       <div className={`wrapper ${style.task__wrapper}`}>
-        <Header />
+        <Header giftLink={giftLink} />
 
         <div className={style.task__text}>
           <h3>Глава 1</h3>

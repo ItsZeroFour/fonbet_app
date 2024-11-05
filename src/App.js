@@ -28,22 +28,61 @@ function App() {
     );
 
     if (linkInfo) {
-      setGiftLink(linkInfo.giftLink.replace("{sub_5}", linkInfo.sub5));
-      setRegisterLink(linkInfo.registerLink.replace("{sub_5}", linkInfo.sub5));
+      const newGiftLink = linkInfo.giftLink.replace("{sub_5}", linkInfo.sub5);
+      const newRegisterLink = linkInfo.registerLink.replace(
+        "{sub_5}",
+        linkInfo.sub5
+      );
+      setGiftLink(newGiftLink);
+      setRegisterLink(newRegisterLink);
     }
   }, []);
 
-  console.log(giftLink, registerLink);
+  useEffect(() => {
+    // Сохраняем значения в локальное хранилище при изменении
+    localStorage.setItem("giftLink", giftLink);
+    localStorage.setItem("registerLink", registerLink);
+  }, [giftLink, registerLink]);
+
+  // Восстанавливаем значения из локального хранилища при монтировании компонента
+  useEffect(() => {
+    const storedGiftLink = localStorage.getItem("giftLink");
+    const storedRegisterLink = localStorage.getItem("registerLink");
+
+    if (storedGiftLink) {
+      setGiftLink(storedGiftLink);
+    }
+    if (storedRegisterLink) {
+      setRegisterLink(storedRegisterLink);
+    }
+  }, []);
 
   return (
     <div className="App">
       <div className="page">
         <Routes>
-          <Route path="/" element={<StartScreen />} />
-          <Route path="/rules" element={<Rules />} />
-          <Route path="/task" element={<Task />} />
-          <Route path="/game" element={<Game />} />
-          <Route path="/final" element={<Final />} />
+          <Route
+            path="/"
+            element={
+              <StartScreen giftLink={giftLink} registerLink={registerLink} />
+            }
+          />
+          <Route
+            path="/rules"
+            element={<Rules giftLink={giftLink} registerLink={registerLink} />}
+          />
+          <Route
+            path="/task"
+            element={<Task giftLink={giftLink} registerLink={registerLink} />}
+          />
+          <Route
+            path="/game"
+            element={<Game giftLink={giftLink} registerLink={registerLink} />}
+          />
+          <Route
+            path="/final"
+            element={<Final giftLink={giftLink} registerLink={registerLink} />}
+          />
         </Routes>
       </div>
     </div>

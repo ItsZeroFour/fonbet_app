@@ -7,12 +7,12 @@ import group_search from "../../assets/icons/start/group_search.svg";
 import route from "../../assets/icons/start/route.svg";
 import { Link } from "react-router-dom";
 
-const StartScreen = () => {
+const StartScreen = ({ giftLink }) => {
   return (
     <section className={style.start}>
       <div className="container">
         <div className={`wrapper ${style.start__wrapper}`}>
-          <Header />
+          <Header giftLink={giftLink} />
 
           <div className={style.start__title}>
             <img src={title} alt="title" />

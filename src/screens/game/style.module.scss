@@ -478,11 +478,10 @@
 
     font-family: "Cera-pro-bd", sans-serif;
     font-weight: 700;
-    font-size: 28px;
+    font-size: 32px;
 
-    padding: 10px;
     border-radius: 10px;
-    border: 1px solid var(--color-red);
+    color: var(--color-red);
 
     @media (max-width: 420px) {
       font-size: 24px;
@@ -532,9 +531,10 @@
 .game__final > a {
   padding: 12px;
   background: none;
-  border: 1px solid var(--color-red);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #161616;
   border-radius: 10px;
-  width: 95%;
+  width: 90%;
   display: block;
   text-align: center;
   margin-top: 10px;

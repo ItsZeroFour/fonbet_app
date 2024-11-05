@@ -7,7 +7,7 @@ import { useSwipeable } from "react-swipeable";
 import { motion } from "framer-motion";
 import arrowRight from "../../assets/icons/arrow_right_alt.svg";
 
-const Game = React.memo(() => {
+const Game = React.memo(({ giftLink, registerLink }) => {
   const navigate = useNavigate();
 
   const [searchParams] = useSearchParams();
@@ -43,6 +43,12 @@ const Game = React.memo(() => {
       navigate("/final");
     }
   }, [searchParams]);
+
+  useEffect(() => {
+    if (index === 0 && window.ym) {
+      window.ym(98751165, "reachGoal", "start----interaction");
+    }
+  }, []);
 
   const item = footballers?.items[index];
   const totalCorrectItems = item?.footballers.filter(
@@ -181,7 +187,7 @@ const Game = React.memo(() => {
   return (
     <div className={style.game}>
       <div className={`wrapper ${style.game__wrapper}`}>
-        <Header />
+        <Header giftLink={giftLink} />
 
         {!isEnd ? (
           <div className={style.game__container}>
@@ -235,7 +241,20 @@ const Game = React.memo(() => {
                           розыгрыше100 000 ₽ фрибетами.
                         </p>
 
-                        <Link className={style.game__banner__link_1} to="/">
+                        <Link
+                          className={style.game__banner__link_1}
+                          onClick={() => {
+                            if (window.ym) {
+                              window.ym(
+                                98751165,
+                                "reachGoal",
+                                `offer--${rightSwipeCount}---conversion`
+                              );
+                            }
+                          }}
+                          to={giftLink}
+                          target="_blank"
+                        >
                           Забрать подарок
                         </Link>
                       </div>
@@ -243,6 +262,14 @@ const Game = React.memo(() => {
                       <div className={style.game__cards__correct__bottom}>
                         <button
                           onClick={() => {
+                            if (window.ym) {
+                              window.ym(
+                                98751165,
+                                "reachGoal",
+                                `offer--${rightSwipeCount}--play--interaction`
+                              );
+                            }
+
                             setSwiping(false);
                             setShowMessage(false);
                             setOnRightSwipe(false);
@@ -534,12 +561,29 @@ const Game = React.memo(() => {
                   <p>100 000 ₽*</p>
                 </div>
 
-                <Link className={style.game__banner__link_1} to="/">
+                <Link
+                  className={style.game__banner__link_1}
+                  onClick={() => {
+                    if (window.ym) {
+                      window.ym(
+                        98751165,
+                        "reachGoal",
+                        `final--${index + 1}---conversion`
+                      );
+                    }
+                  }}
+                  to={registerLink}
+                  target="_blank"
+                >
                   Регистрация
                 </Link>
 
                 <div className={style.game__banner__link__container}>
-                  <Link className={style.game__banner__link_2} to="/">
+                  <Link
+                    className={style.game__banner__link_2}
+                    to={giftLink}
+                    target="_blank"
+                  >
                     Я уже с FONBET <img src={arrowRight} alt="arrow right" />
                   </Link>
                 </div>
@@ -557,7 +601,20 @@ const Game = React.memo(() => {
                   000 ₽ фрибетами.
                 </p>
 
-                <Link className={style.game__banner__link_1} to="/">
+                <Link
+                  className={style.game__banner__link_1}
+                  onClick={() => {
+                    if (window.ym) {
+                      window.ym(
+                        98751165,
+                        "reachGoal",
+                        "offer--10---conversion"
+                      );
+                    }
+                  }}
+                  to={giftLink}
+                  target="_blank"
+                >
                   Забрать подарок
                 </Link>
               </div>
@@ -566,16 +623,33 @@ const Game = React.memo(() => {
             {score >= 0 ? (
               <Link
                 to={`/game?index=${index + 1}`}
-                onClick={() =>
-                  (window.location.href = `/game?index=${index + 1}`)
-                }
+                onClick={async () => {
+                  if (window.ym) {
+                    await window.ym(
+                      98751165,
+                      "reachGoal",
+                      `final--${index + 1}--play--interaction`
+                    );
+                  }
+                  window.location.href = `/game?index=${index + 1}`;
+                }}
               >
                 Играть дальше
               </Link>
             ) : (
               <Link
                 to={`/game?index=${index}`}
-                onClick={() => (window.location.href = `/game?index=${index}`)}
+                onClick={async () => {
+                  if (window.ym) {
+                    await window.ym(
+                      98751165,
+                      "reachGoal",
+                      "died-play----interaction"
+                    );
+                  }
+
+                  window.location.href = `/game?index=${index}`;
+                }}
               >
                 Играть снова
               </Link>
