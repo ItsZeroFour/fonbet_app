@@ -3,9 +3,10 @@ import StartScreen from "./screens/start_screen/StartScreen";
 import Rules from "./screens/rules/Rules";
 import Task from "./screens/task/Task";
 import Game from "./screens/game/Game";
-import Final from "./screens/final/Final";
+import Conversion from "./screens/conversion/Conversion";
 import { useEffect, useState } from "react";
 import linkData from "./data/links.json";
+import Final from "./screens/final/Final";
 
 function App() {
   const [giftLink, setGiftLink] = useState(
@@ -35,16 +36,12 @@ function App() {
       );
       setGiftLink(newGiftLink);
       setRegisterLink(newRegisterLink);
+
+      localStorage.setItem("giftLink", newGiftLink);
+      localStorage.setItem("registerLink", newRegisterLink);
     }
   }, []);
 
-  useEffect(() => {
-    // Сохраняем значения в локальное хранилище при изменении
-    localStorage.setItem("giftLink", giftLink);
-    localStorage.setItem("registerLink", registerLink);
-  }, [giftLink, registerLink]);
-
-  // Восстанавливаем значения из локального хранилища при монтировании компонента
   useEffect(() => {
     const storedGiftLink = localStorage.getItem("giftLink");
     const storedRegisterLink = localStorage.getItem("registerLink");
@@ -55,7 +52,7 @@ function App() {
     if (storedRegisterLink) {
       setRegisterLink(storedRegisterLink);
     }
-  }, []);
+  }, [localStorage.getItem("giftLink"), localStorage.getItem("registerLink")]);
 
   return (
     <div className="App">
@@ -78,6 +75,12 @@ function App() {
           <Route
             path="/game"
             element={<Game giftLink={giftLink} registerLink={registerLink} />}
+          />
+          <Route
+            path="/conversion"
+            element={
+              <Conversion giftLink={giftLink} registerLink={registerLink} />
+            }
           />
           <Route
             path="/final"

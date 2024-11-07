@@ -11,7 +11,7 @@ const Header = ({ giftLink }) => {
 
   return (
     <header className={style.head}>
-      <Link to="/">
+      <Link to={giftLink}>
         <img src={logo} alt="logo" />
       </Link>
 

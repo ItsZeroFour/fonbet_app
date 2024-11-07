@@ -1,50 +1,54 @@
 import React from "react";
-import style from "./style.module.scss";
 import Header from "../../components/header/Header";
-import logo from "../../assets/images/logo_2.svg";
-import copy from "../../assets/icons/copy.svg";
-import arrowReturn from "../../assets/icons/arrow-return.svg";
 import { Link } from "react-router-dom";
+import style from "./style.module.scss";
+import arrowRight from "../../assets/icons/arrow_right_alt.svg";
 
 const Final = ({ giftLink, registerLink }) => {
   return (
     <div className={style.final}>
       <div className={`wrapper ${style.final__wrapper}`}>
-        <Header giftLink={giftLink} />
+        <Header registerLink={registerLink} giftLink={giftLink} />
 
         <div className={style.final__container}>
-          <div className={style.final__main}>
-            <h2>Ваш подарок</h2>
+          <h1>Играй пройдена!</h1>
 
-            <div className={style.final__image}>
-              <img src={logo} alt="logo" />
-              <div className={style.final__sum}>
-                <h1>100 000 ₽</h1>
-              </div>
+          <div className={style.game__banner}>
+            <h2>Примите участие в розыгрыше</h2>
+
+            <div className={style.game__banner__cupon}>
+              <p>100 000 ₽*</p>
             </div>
 
-            <p>
-              Введите промокод SCOUT24 в личном кабинете, если вы уже клиент
-              FONBET.
-            </p>
-
-            <div className={style.final__promo}>
-              <p>Scout24</p>
-              <button
-                onClick={() => {
-                  navigator.сlipboard.writeText("Scout24");
-                  alert("Успешно!");
-                }}
-              >
-                <img src={copy} alt="copy" />
-              </button>
-            </div>
+            <Link
+              className={style.game__banner__link_1}
+              onClick={() => {
+                if (window.ym) {
+                  window.ym(
+                    98751165,
+                    "reachGoal",
+                    `final--10---conversion`
+                  );
+                }
+              }}
+              to={registerLink}
+              target="_blank"
+            >
+              Регистрация
+            </Link>
           </div>
 
-          <div className={style.final__buttons}>
-            <Link to={registerLink}>В личный кабинет</Link>
-            <Link to="/">
-              Вернуться в игру <img src={arrowReturn} alt="arrow return" />
+          <div className={style.final__bottom}>
+            <Link
+              onClick={() => {
+                if (window.ym) {
+                  window.ym(98751165, "reachGoal", "offer--10---conversion");
+                }
+              }}
+              to={giftLink}
+              target="_blank"
+            >
+              Забрать подарок
             </Link>
           </div>
         </div>

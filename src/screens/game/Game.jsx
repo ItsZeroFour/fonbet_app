@@ -1,6 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import style from "./style.module.scss";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import footballers from "../../data/footballers.json";
 import Header from "../../components/header/Header";
 import { useSwipeable } from "react-swipeable";
@@ -9,6 +14,7 @@ import arrowRight from "../../assets/icons/arrow_right_alt.svg";
 
 const Game = React.memo(({ giftLink, registerLink }) => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [searchParams] = useSearchParams();
   const [index, setIndex] = useState(0);
@@ -30,6 +36,18 @@ const Game = React.memo(({ giftLink, registerLink }) => {
   const animationFrameId = useRef(null);
 
   useEffect(() => {
+    if (location.state?.score) {
+      setScore(location.state.score);
+      setIsEnd(true);
+    }
+
+    if (location.state?.array) {
+      setCorrectChoosedImages(location.state.array);
+      setIsEnd(true);
+    }
+  }, [location]);
+
+  useEffect(() => {
     const indexParam = searchParams.get("index");
     const parsedIndex = parseInt(indexParam, 10);
 
@@ -43,6 +61,21 @@ const Game = React.memo(({ giftLink, registerLink }) => {
       navigate("/final");
     }
   }, [searchParams]);
+
+  const handleNavigateToConversionPage = () => {
+    navigate(
+      `/conversion?array=[${correctChoosedImages}]&score=${score}&index=${index}`
+    );
+  };
+
+  const currentChapter =
+    index < 4
+      ? 1
+      : index >= 4 && index < 8
+      ? 2
+      : index >= 8 && index < 12
+      ? 3
+      : 4;
 
   useEffect(() => {
     if (index === 0 && window.ym) {
@@ -369,7 +402,13 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                         dragConstraints={{ left: 0, right: 0 }}
                         dragElastic={0}
                         onDrag={(e, info) => {
-                          setDragX(info.offset.x);
+                          const dragThreshold = window.innerWidth * 0.2; // 25% of the screen width
+                          const dragAmount = info.offset.x;
+                          setDragX(dragAmount);
+
+                          if (Math.abs(dragAmount) >= dragThreshold) {
+                            setDragX(0);
+                          }
                         }}
                         onDragEnd={(e, info) => {
                           const direction =
@@ -499,11 +538,27 @@ const Game = React.memo(({ giftLink, registerLink }) => {
         ) : (
           <div className={style.game__final}>
             <div className={style.game__total}>
-              <h1>{score >= 10 ? "Раунд пройден!" : "Вы проиграли :("}</h1>
+              <h1>
+                {currentChapter === 1
+                  ? score >= 6
+                    ? "Раунд пройден!"
+                    : "Вы проиграли :("
+                  : currentChapter === 2
+                  ? score >= 8
+                    ? "Раунд пройден!"
+                    : "Вы проиграли :("
+                  : currentChapter === 3
+                  ? score >= 10
+                    ? "Раунд пройден!"
+                    : "Вы проиграли :("
+                  : score >= 12
+                  ? "Раунд пройден!"
+                  : "Вы проиграли :("}
+              </h1>
 
               <div>
                 <p>
-                  {isCorrectChoosed}/
+                  {correctChoosedImages.length}/
                   {
                     shuffledFootballers.filter(
                       ({ isCorrect }) => isCorrect === true
@@ -515,16 +570,20 @@ const Game = React.memo(({ giftLink, registerLink }) => {
             </div>
 
             <p>
-              {score >= 10 ? (
+              {score >=
+              (currentChapter === 1
+                ? 6
+                : currentChapter === 2
+                ? 8
+                : currentChapter === 3
+                ? 10
+                : 12) ? (
                 <>
                   Поздравляем, скаут! <br /> Вот кого из нужных игроков вы взяли
                   в команду:
                 </>
               ) : (
-                <>
-                  Извините :( <br /> Вот кого из нужных игроков вы взяли в
-                  команду:
-                </>
+                <>Вот кого из нужных игроков вы взяли в команду:</>
               )}
             </p>
 
@@ -553,7 +612,14 @@ const Game = React.memo(({ giftLink, registerLink }) => {
               </ul>
             </div>
 
-            {score >= 10 ? (
+            {score >=
+            (currentChapter === 1
+              ? 6
+              : currentChapter === 2
+              ? 8
+              : currentChapter === 3
+              ? 10
+              : 12) ? (
               <div className={style.game__banner}>
                 <h2>Примите участие в розыгрыше</h2>
 
@@ -579,13 +645,12 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                 </Link>
 
                 <div className={style.game__banner__link__container}>
-                  <Link
+                  <button
                     className={style.game__banner__link_2}
-                    to={giftLink}
-                    target="_blank"
+                    onClick={handleNavigateToConversionPage}
                   >
                     Я уже с FONBET <img src={arrowRight} alt="arrow right" />
-                  </Link>
+                  </button>
                 </div>
               </div>
             ) : (
@@ -597,7 +662,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                 </div>
 
                 <p>
-                  Пройдите игру до конца, чтобы принять участие в розыгрыше100
+                  Пройдите игру до конца, чтобы принять участие в розыгрыше 100
                   000 ₽ фрибетами.
                 </p>
 
@@ -620,9 +685,15 @@ const Game = React.memo(({ giftLink, registerLink }) => {
               </div>
             )}
 
-            {score >= 0 ? (
-              <Link
-                to={`/game?index=${index + 1}`}
+            {score >=
+            (currentChapter === 1
+              ? 6
+              : currentChapter === 2
+              ? 8
+              : currentChapter === 3
+              ? 10
+              : 12) ? (
+              <button
                 onClick={async () => {
                   if (window.ym) {
                     await window.ym(
@@ -631,11 +702,16 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                       `final--${index + 1}--play--interaction`
                     );
                   }
-                  window.location.href = `/game?index=${index + 1}`;
+
+                  if (index === 4) {
+                    navigate("/task", { state: { index, currentChapter } });
+                  } else {
+                    window.location.href = `/game?index=${index + 1}`;
+                  }
                 }}
               >
                 Играть дальше
-              </Link>
+              </button>
             ) : (
               <Link
                 to={`/game?index=${index}`}

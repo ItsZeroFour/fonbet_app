@@ -21,136 +21,131 @@
   }
 }
 
-.final__container,
-.final__main {
+.final__container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
-
-.final__container {
   height: 100%;
-}
 
-.final__main {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  text-align: center;
-  padding: 10px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(51, 85, 51, 0.333);
-  backdrop-filter: blur(150px);
-  margin-top: 25px;
-  border-radius: 15px;
-}
+  h1 {
+    margin-top: 60px;
+    position: relative;
 
-.final__image {
-  position: relative;
-
-  &::before {
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: var(--color-red);
-    filter: blur(100px);
-    z-index: -1;
-  }
-}
-
-.final__sum {
-  position: absolute;
-  padding: 10px;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(15px);
-  width: 170px;
-  top: 70%;
-  left: 50%;
-  right: 50%;
-  transform: translate(-50%, 50%);
-}
-
-.final__main > p {
-  margin-top: 30px;
-  font-size: 18px;
-
-  @media (max-width: 370px) {
-    font-size: 14px;
-  }
-}
-
-.final__promo {
-  width: 100%;
-  background: var(--color-white);
-  padding: 10px;
-
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  border-radius: 10px;
-
-  p {
-    color: var(--color-black);
-    font-size: 16px;
-    text-transform: uppercase;
-    margin-left: 10px;
+    &::before {
+      content: "";
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      background: red;
+      border-radius: 50%;
+      top: -200%;
+      left: 0%;
+      z-index: -1;
+      opacity: 0.5;
+      filter: blur(50px);
+    }
   }
 
-  button {
-    padding: 8px;
-    background: var(--color-red);
-    border-radius: 5px;
-  }
-}
-
-.final__buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  width: 100%;
-  margin-top: 10px;
-
-  position: relative;
-
-  @media (max-width: 450px) {
+  .final__bottom {
     margin-top: auto;
-    margin-bottom: 90px;
-  }
 
-  &::before {
-    content: "";
-    position: absolute;
+    margin-bottom: 40px;
 
-    width: 100%;
-    height: 100%;
-
-    background: var(--color-red);
-    top: 40%;
-    z-index: -1;
-    border-radius: 50%;
-    filter: blur(50px);
-
-    opacity: 0.8;
-  }
-
-  a {
-    &:first-child {
-      padding: 10px;
+    a {
+      width: 100%;
       background: var(--color-red);
+      padding: 20px 60px;
       border-radius: 10px;
       font-size: 20px;
-      width: 100%;
-      text-align: center;
     }
 
-    &:last-child {
-      text-align: center;
-      margin-top: 10px;
-      font-size: 16px;
+    @media (max-width: 450px) {
+      margin-bottom: 90px;
+    }
+  }
+}
+
+.game__banner {
+  margin: 0 50px;
+  padding: 10px;
+  background: var(--color-white);
+  color: var(--color-black);
+  border-radius: 10px;
+  margin-top: 60px;
+  text-align: center;
+  width: 90%;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  h2 {
+    font-family: "Cera-pro-bd", sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+  }
+}
+
+.game__banner__cupon {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  p {
+    width: 220px;
+
+    font-family: "Cera-pro-bd", sans-serif;
+    font-weight: 700;
+    font-size: 32px;
+
+    border-radius: 10px;
+    color: var(--color-red);
+
+    @media (max-width: 420px) {
+      font-size: 24px;
+    }
+  }
+}
+
+.game__banner__link_1 {
+  padding: 14px;
+  width: 100%;
+  background: var(--color-red);
+  color: var(--color-white);
+  border-radius: 10px;
+  font-size: 20px;
+
+  transition: all 0.6s ease;
+
+  &:hover {
+    box-shadow: 0px 0px 10px var(--color-red);
+  }
+}
+
+.game__banner__link_2 {
+  background: none;
+  border-bottom: 1px solid var(--color-black);
+  padding-bottom: 5px;
+  width: 180px;
+}
+
+.game__banner__link__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 5px;
+
+  img {
+    transition: all 0.2s ease;
+  }
+
+  &:hover {
+    img {
+      margin-left: 5px;
     }
   }
 }
