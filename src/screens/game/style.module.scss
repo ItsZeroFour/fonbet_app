@@ -505,6 +505,7 @@
 }
 
 .game__banner__link_2 {
+  background: none;
   border-bottom: 1px solid var(--color-black);
   padding-bottom: 5px;
   width: 180px;
@@ -528,7 +529,8 @@
   }
 }
 
-.game__final > a {
+.game__final > a,
+.game__final > button {
   padding: 12px;
   background: none;
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -539,6 +541,7 @@
   text-align: center;
   margin-top: 10px;
   font-size: 16px;
+  color: var(--color-white);
 }
 
 .game__final > p:last-child {
