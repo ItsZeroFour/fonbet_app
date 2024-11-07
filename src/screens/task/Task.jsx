@@ -20,7 +20,7 @@ const Task = ({ giftLink }) => {
   useEffect(() => {
     if (searchParams.get("index") && +searchParams.get("index")) {
       setIndex(+searchParams.get("index"));
-    } else if (location.state.index) {
+    } else if (location.state?.index) {
       setIndex(location.state.index);
     } else {
       setIndex(0);
