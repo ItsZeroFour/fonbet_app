@@ -45,7 +45,7 @@ const Task = ({ giftLink }) => {
           </p>
         </div>
 
-        <img className={style.task__image} src={taskImg} alt="task" />
+        {/* <img className={style.task__image} src={taskImg} alt="task" /> */}
 
         <div className={style.task__task}>
           <h2>Раунд 1:</h2>
