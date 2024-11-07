@@ -11,6 +11,8 @@ import Header from "../../components/header/Header";
 import { useSwipeable } from "react-swipeable";
 import { motion } from "framer-motion";
 import arrowRight from "../../assets/icons/arrow_right_alt.svg";
+import audioCorrect from "../../assets/audios/true.wav";
+import audioUncorrect from "../../assets/audios/wrong.wav";
 
 const Game = React.memo(({ giftLink, registerLink }) => {
   const navigate = useNavigate();
@@ -18,8 +20,6 @@ const Game = React.memo(({ giftLink, registerLink }) => {
 
   const audioRefWin = useRef(new Audio("/sounds/win_round.wav"));
   const audioRefLose = useRef(new Audio("/sounds/loose_round.wav"));
-  const audioRefCorrect = useRef(new Audio("/sounds/true.wav"));
-  const audioRefUncorrect = useRef(new Audio("/sounds/wrong.wav"));
 
   const [searchParams] = useSearchParams();
   const [index, setIndex] = useState(0);
@@ -165,6 +165,9 @@ const Game = React.memo(({ giftLink, registerLink }) => {
   }, [currentIndex]);
 
   const swiped = (dir, isCorrect) => {
+    const audioRefCorrect = new Audio(audioCorrect);
+    const audioRefUncorrect = new Audio(audioUncorrect);
+
     if (!shuffledFootballers[currentIndex]) return;
 
     if (dir === "left" && !isCorrect) {
@@ -172,7 +175,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
       setScore((prevScore) => prevScore + 1);
       setRightSwipeCount((prevCount) => prevCount + 1);
       if (JSON.parse(localStorage.getItem("offVoice")) === false) {
-        audioRefCorrect.current.play();
+        audioRefCorrect.play();
       }
     } else if (dir === "right" && isCorrect) {
       setIsCorrectChoose(true);
@@ -184,11 +187,11 @@ const Game = React.memo(({ giftLink, registerLink }) => {
         shuffledFootballers[currentIndex].image,
       ]);
       if (JSON.parse(localStorage.getItem("offVoice")) === false) {
-        audioRefCorrect.current.play();
+        audioRefCorrect.play();
       }
     } else {
       setIsCorrectChoose(false);
-      audioRefUncorrect.current.play();
+      audioRefUncorrect.play();
     }
 
     if (dir === "right") {
