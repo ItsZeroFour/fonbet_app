@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import style from "./style.module.scss";
 import logo from "../../assets/logo.svg";
 import { Link } from "react-router-dom";
@@ -7,7 +7,13 @@ import voice from "../../assets/icons/voice.svg";
 import voiceOff from "../../assets/icons/voice-off.svg";
 
 const Header = ({ giftLink }) => {
-  const [offVoice, setOffVoice] = useState(false);
+  const [offVoice, setOffVoice] = useState(() => {
+    return localStorage.getItem("offVoice") === "true";
+  });
+
+  useEffect(() => {
+    localStorage.setItem("offVoice", offVoice);
+  }, [offVoice]);
 
   return (
     <header className={style.head}>
