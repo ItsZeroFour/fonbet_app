@@ -697,7 +697,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                     );
                   }
 
-                  if (index === 4) {
+                  if (index === 4 || index === 8 || index === 12) {
                     navigate("/task", { state: { index, currentChapter } });
                   } else {
                     window.location.href = `/game?index=${index + 1}`;

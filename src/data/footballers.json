@@ -614,7 +614,7 @@
         {
           "name": "Харри Кейн",
           "image": "Кейн.jpg",
-          "isCorrect": false
+          "isCorrect": true
         },
         {
           "name": "Рассмус Хёйлунд",
@@ -682,7 +682,7 @@
         },
         {
           "name": "Родриго Де Поль",
-          "image": "Родри.jpg",
+          "image": "rodrigo-de-paul.jpg",
           "isCorrect": false
         },
         {
