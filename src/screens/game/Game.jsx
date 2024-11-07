@@ -402,13 +402,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                         dragConstraints={{ left: 0, right: 0 }}
                         dragElastic={0}
                         onDrag={(e, info) => {
-                          const dragThreshold = window.innerWidth * 0.2; // 25% of the screen width
-                          const dragAmount = info.offset.x;
-                          setDragX(dragAmount);
-
-                          if (Math.abs(dragAmount) >= dragThreshold) {
-                            setDragX(0);
-                          }
+                          setDragX(info.offset.x);
                         }}
                         onDragEnd={(e, info) => {
                           const direction =
