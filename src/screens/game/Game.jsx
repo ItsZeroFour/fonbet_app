@@ -162,7 +162,9 @@ const Game = React.memo(({ giftLink, registerLink }) => {
       const img = new Image();
       img.src = require(`../../assets/images/footballers/${
         shuffledFootballers[index + 1].image
-      }`).default;
+      }`);
+
+      console.log(img);
     }
   };
 
