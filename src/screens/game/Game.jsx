@@ -21,6 +21,9 @@ const Game = React.memo(({ giftLink, registerLink }) => {
   const audioRefWin = useRef(new Audio("/sounds/win_round.wav"));
   const audioRefLose = useRef(new Audio("/sounds/loose_round.wav"));
 
+  audioRefWin.load();
+  audioRefLose.load();
+
   const [searchParams] = useSearchParams();
   const [index, setIndex] = useState(0);
   const [showMessage, setShowMessage] = useState(false);
@@ -176,6 +179,9 @@ const Game = React.memo(({ giftLink, registerLink }) => {
   const swiped = (dir, isCorrect) => {
     const audioRefCorrect = new Audio(audioCorrect);
     const audioRefUncorrect = new Audio(audioUncorrect);
+
+    audioRefCorrect.load();
+    audioRefUncorrect.load();
 
     if (!shuffledFootballers[currentIndex]) return;
 
