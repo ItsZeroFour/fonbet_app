@@ -173,6 +173,8 @@ const Game = React.memo(({ giftLink, registerLink }) => {
   }, [currentIndex]);
 
   const swiped = (dir, isCorrect) => {
+    console.log(12);
+
     if (!shuffledFootballers[currentIndex]) return;
 
     if (dir === "left" && !isCorrect) {
@@ -217,8 +219,6 @@ const Game = React.memo(({ giftLink, registerLink }) => {
     const x = dir === "left" ? -1000 : 1000;
     const card = document.querySelector(`.${style.card}`);
 
-    console.log(currentIndex);
-
     if (card) {
       card.animate(
         [{ transform: "translateX(0)" }, { transform: `translateX(${x}px)` }],
@@ -235,7 +235,10 @@ const Game = React.memo(({ giftLink, registerLink }) => {
   };
 
   const handleSwipe = (direction, isCorrect) => {
-    if (swiping) return;
+    console.log(swiping);
+
+    // if (swiping) return;
+    console.log(0);
 
     setTimeout(() => {
       setSwiping(true);
@@ -458,6 +461,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
 
                           if (Math.abs(info.offset.x) > 150) {
                             handleSwipe(direction, isCorrect);
+                            setSwiping(false);
                           } else {
                             targetDragX.current = 0;
                           }
