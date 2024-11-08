@@ -209,13 +209,15 @@ const Game = React.memo(({ giftLink, registerLink }) => {
     if (!(index === 0 && rightSwipeCount <= 2)) {
       setTimeout(() => {
         setShowMessage(false);
-      }, 500);
+      }, 1500);
     } else {
       setOnRightSwipe(true);
     }
 
     const x = dir === "left" ? -1000 : 1000;
     const card = document.querySelector(`.${style.card}`);
+
+    console.log(currentIndex);
 
     if (card) {
       card.animate(
@@ -237,7 +239,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
 
     setTimeout(() => {
       setSwiping(true);
-    }, 500);
+    }, 1500);
 
     swiped(direction, isCorrect);
     setDragX(0);
@@ -375,7 +377,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                             setSwiping(false);
                             setShowMessage(false);
                             setOnRightSwipe(false);
-                          }, 500)}
+                          }, 1500)}
                         </p>
                       </div>
                     )
@@ -390,7 +392,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                               setSwiping(false);
                               setShowMessage(false);
                               setOnRightSwipe(false);
-                            }, 500)}
+                            }, 1500)}
                           </p>
                           <p>Верно!</p>
                         </>
@@ -401,7 +403,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                               setSwiping(false);
                               setShowMessage(false);
                               setOnRightSwipe(false);
-                            }, 500)}
+                            }, 1500)}
                           </p>
                           <p>Не верно</p>
                         </>
@@ -417,7 +419,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                             <p style={{ opacity: 0 }}>
                               {setTimeout(() => {
                                 setSwiping(false);
-                              }, 500)}
+                              }, 1500)}
                             </p>
                           </>
                         ) : (
@@ -426,7 +428,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                             <p style={{ opacity: 0 }}>
                               {setTimeout(() => {
                                 setSwiping(false);
-                              }, 500)}
+                              }, 1500)}
                             </p>
                           </>
                         )}
