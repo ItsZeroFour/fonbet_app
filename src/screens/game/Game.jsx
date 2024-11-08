@@ -11,8 +11,8 @@ import Header from "../../components/header/Header";
 import { useSwipeable } from "react-swipeable";
 import { motion } from "framer-motion";
 import arrowRight from "../../assets/icons/arrow_right_alt.svg";
-import audioCorrect from "../../assets/audios/true.wav";
-import audioUncorrect from "../../assets/audios/wrong.wav";
+import audioCorrect from "../../assets/audios/true.mp3";
+import audioUncorrect from "../../assets/audios/wrong.mp3";
 
 const Game = React.memo(({ giftLink, registerLink }) => {
   const navigate = useNavigate();
@@ -174,6 +174,9 @@ const Game = React.memo(({ giftLink, registerLink }) => {
   }
 
   const swiped = (dir, isCorrect) => {
+    const audioRefCorrect = new Audio(audioCorrect);
+    const audioRefUncorrect = new Audio(audioUncorrect);
+
     if (!shuffledFootballers[currentIndex]) return;
 
     if (dir === "left" && !isCorrect) {
@@ -181,7 +184,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
       setScore((prevScore) => prevScore + 1);
       setRightSwipeCount((prevCount) => prevCount + 1);
       if (JSON.parse(localStorage.getItem("offVoice")) === false) {
-        playAudio(true);
+        audioRefCorrect.play();
       }
     } else if (dir === "right" && isCorrect) {
       setIsCorrectChoose(true);
@@ -193,13 +196,11 @@ const Game = React.memo(({ giftLink, registerLink }) => {
         shuffledFootballers[currentIndex].image,
       ]);
       if (JSON.parse(localStorage.getItem("offVoice")) === false) {
-        playAudio(true);
+        audioRefCorrect.play();
       }
     } else {
       setIsCorrectChoose(false);
-      if (JSON.parse(localStorage.getItem("offVoice")) === false) {
-        playAudio(true);
-      }
+      audioRefUncorrect.play();
     }
 
     if (dir === "right") {
