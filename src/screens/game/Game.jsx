@@ -36,6 +36,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
   const [rightSwipeCount, setRightSwipeCount] = useState(0);
   const [onRightSwipe, setOnRightSwipe] = useState(false);
   const [trueSwiperCount, setTrueSwiperCount] = useState(0);
+  const [isImageLoaded, setImageLoaded] = useState(false);
 
   const targetDragX = useRef(0);
   const animationFrameId = useRef(null);
@@ -164,10 +165,15 @@ const Game = React.memo(({ giftLink, registerLink }) => {
     preloadNextImage(currentIndex);
   }, [currentIndex]);
 
-  const swiped = (dir, isCorrect) => {
-    const audioRefCorrect = new Audio(audioCorrect);
-    const audioRefUncorrect = new Audio(audioUncorrect);
+  function playAudio(isCorrect) {
+    const audio = new Audio(isCorrect ? audioCorrect : audioUncorrect);
 
+    audio.currentTime = 0;
+
+    audio.play().catch((error) => console.error("Playback error:", error));
+  }
+
+  const swiped = (dir, isCorrect) => {
     if (!shuffledFootballers[currentIndex]) return;
 
     if (dir === "left" && !isCorrect) {
@@ -175,7 +181,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
       setScore((prevScore) => prevScore + 1);
       setRightSwipeCount((prevCount) => prevCount + 1);
       if (JSON.parse(localStorage.getItem("offVoice")) === false) {
-        audioRefCorrect.play();
+        playAudio(true);
       }
     } else if (dir === "right" && isCorrect) {
       setIsCorrectChoose(true);
@@ -187,11 +193,13 @@ const Game = React.memo(({ giftLink, registerLink }) => {
         shuffledFootballers[currentIndex].image,
       ]);
       if (JSON.parse(localStorage.getItem("offVoice")) === false) {
-        audioRefCorrect.play();
+        playAudio(true);
       }
     } else {
       setIsCorrectChoose(false);
-      audioRefUncorrect.play();
+      if (JSON.parse(localStorage.getItem("offVoice")) === false) {
+        playAudio(true);
+      }
     }
 
     if (dir === "right") {
@@ -473,8 +481,12 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                           <img
                             src={require(`../../assets/images/footballers/${shuffledFootballers[currentIndex].image}`)}
                             alt="card"
+                            onLoad={() => setImageLoaded(true)}
+                            onError={() => setImageLoaded(false)}
                           />
-                          <h3>{shuffledFootballers[currentIndex]?.name}</h3>
+                          {isImageLoaded && (
+                            <h3>{shuffledFootballers[currentIndex]?.name}</h3>
+                          )}
                         </div>
                       </motion.div>
                     )}
