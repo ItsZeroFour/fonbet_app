@@ -13,13 +13,18 @@ import { motion } from "framer-motion";
 import arrowRight from "../../assets/icons/arrow_right_alt.svg";
 import audioCorrect from "../../assets/audios/true.mp3";
 import audioUncorrect from "../../assets/audios/wrong.mp3";
+import audioWin from "../../assets/audios/win_round.wav";
+import audioLoose from "../../assets/audios/loose_round.wav";
+import useSound from "use-sound";
 
 const Game = React.memo(({ giftLink, registerLink }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const audioRefWin = useRef(new Audio("/sounds/win_round.wav"));
-  const audioRefLose = useRef(new Audio("/sounds/loose_round.wav"));
+  const [playAudioCorrect] = useSound(audioCorrect);
+  const [playAudioUncorrect] = useSound(audioUncorrect);
+  const [playAudioWin] = useSound(audioCorrect);
+  const [playAudioLoose] = useSound(audioUncorrect);
 
   const [searchParams] = useSearchParams();
   const [index, setIndex] = useState(0);
@@ -109,23 +114,23 @@ const Game = React.memo(({ giftLink, registerLink }) => {
   useEffect(() => {
     if (JSON.parse(localStorage.getItem("offVoice")) === false) {
       if (isEnd && currentChapter === 1 && score >= 6) {
-        audioRefWin.current.play();
+        playAudioWin();
       } else if (isEnd && currentChapter === 2 && score >= 8) {
-        audioRefWin.current.play();
+        playAudioWin();
       } else if (isEnd && currentChapter === 3 && score >= 10) {
-        audioRefWin.current.play();
+        playAudioWin();
       } else if (isEnd && currentChapter === 3 && score >= 12) {
-        audioRefWin.current.play();
+        playAudioWin();
       }
 
       if (isEnd && currentChapter === 1 && score < 6) {
-        audioRefLose.current.play();
+        playAudioLoose();
       } else if (isEnd && currentChapter === 2 && score < 8) {
-        audioRefLose.current.play();
+        playAudioLoose();
       } else if (isEnd && currentChapter === 3 && score < 10) {
-        audioRefLose.current.play();
+        playAudioLoose();
       } else if (isEnd && currentChapter === 3 && score < 12) {
-        audioRefLose.current.play();
+        playAudioLoose();
       }
     }
   }, [isEnd]);
@@ -166,9 +171,6 @@ const Game = React.memo(({ giftLink, registerLink }) => {
   }, [currentIndex]);
 
   const swiped = (dir, isCorrect) => {
-    const audioRefCorrect = new Audio(audioCorrect);
-    const audioRefUncorrect = new Audio(audioUncorrect);
-
     if (!shuffledFootballers[currentIndex]) return;
 
     if (dir === "left" && !isCorrect) {
@@ -176,7 +178,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
       setScore((prevScore) => prevScore + 1);
       setRightSwipeCount((prevCount) => prevCount + 1);
       if (JSON.parse(localStorage.getItem("offVoice")) === false) {
-        audioRefCorrect.play();
+        playAudioCorrect();
       }
     } else if (dir === "right" && isCorrect) {
       setIsCorrectChoose(true);
@@ -188,11 +190,11 @@ const Game = React.memo(({ giftLink, registerLink }) => {
         shuffledFootballers[currentIndex].image,
       ]);
       if (JSON.parse(localStorage.getItem("offVoice")) === false) {
-        audioRefCorrect.play();
+        playAudioCorrect();
       }
     } else {
       setIsCorrectChoose(false);
-      audioRefUncorrect.play();
+      playAudioUncorrect();
     }
 
     if (dir === "right") {
