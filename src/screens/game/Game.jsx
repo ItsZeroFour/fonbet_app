@@ -21,9 +21,6 @@ const Game = React.memo(({ giftLink, registerLink }) => {
   const audioRefWin = useRef(new Audio("/sounds/win_round.wav"));
   const audioRefLose = useRef(new Audio("/sounds/loose_round.wav"));
 
-  audioRefWin.load();
-  audioRefLose.load();
-
   const [searchParams] = useSearchParams();
   const [index, setIndex] = useState(0);
   const [showMessage, setShowMessage] = useState(false);
@@ -168,20 +165,9 @@ const Game = React.memo(({ giftLink, registerLink }) => {
     preloadNextImage(currentIndex);
   }, [currentIndex]);
 
-  function playAudio(isCorrect) {
-    const audio = new Audio(isCorrect ? audioCorrect : audioUncorrect);
-
-    audio.currentTime = 0;
-
-    audio.play().catch((error) => console.error("Playback error:", error));
-  }
-
   const swiped = (dir, isCorrect) => {
     const audioRefCorrect = new Audio(audioCorrect);
     const audioRefUncorrect = new Audio(audioUncorrect);
-
-    audioRefCorrect.load();
-    audioRefUncorrect.load();
 
     if (!shuffledFootballers[currentIndex]) return;
 
