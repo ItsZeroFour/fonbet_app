@@ -100,36 +100,32 @@ const Game = React.memo(({ giftLink, registerLink }) => {
   ).length;
 
   function checkIsEnd() {
-    if (totalCorrectItems === isCorrectChoosed) {
-      setIsEnd(true);
-    } else if (isCorrectChoose >= item?.footballers.length) {
+    if (isCorrectChoose >= item?.footballers.length) {
       setIsEnd(true);
     } else if (currentIndex + 1 > item?.footballers.length) {
-      setIsEnd(true);
-    } else if (trueSwiperCount >= totalCorrectItems) {
       setIsEnd(true);
     }
   }
 
   useEffect(() => {
     if (JSON.parse(localStorage.getItem("offVoice")) === false) {
-      if (isEnd && currentChapter === 1 && score >= 6) {
+      if (isEnd && currentChapter === 1 && score >= 2) {
         playAudioWin();
-      } else if (isEnd && currentChapter === 2 && score >= 8) {
+      } else if (isEnd && currentChapter === 2 && score >= 3) {
         playAudioWin();
-      } else if (isEnd && currentChapter === 3 && score >= 10) {
+      } else if (isEnd && currentChapter === 3 && score >= 4) {
         playAudioWin();
-      } else if (isEnd && currentChapter === 3 && score >= 12) {
+      } else if (isEnd && currentChapter === 3 && score >= 5) {
         playAudioWin();
       }
 
-      if (isEnd && currentChapter === 1 && score < 6) {
+      if (isEnd && currentChapter === 1 && score < 2) {
         playAudioLoose();
-      } else if (isEnd && currentChapter === 2 && score < 8) {
+      } else if (isEnd && currentChapter === 2 && score < 3) {
         playAudioLoose();
-      } else if (isEnd && currentChapter === 3 && score < 10) {
+      } else if (isEnd && currentChapter === 3 && score < 4) {
         playAudioLoose();
-      } else if (isEnd && currentChapter === 3 && score < 12) {
+      } else if (isEnd && currentChapter === 3 && score < 5) {
         playAudioLoose();
       }
     }
@@ -173,20 +169,17 @@ const Game = React.memo(({ giftLink, registerLink }) => {
   }, [currentIndex]);
 
   const swiped = (dir, isCorrect) => {
-    console.log(12);
-
     if (!shuffledFootballers[currentIndex]) return;
 
     if (dir === "left" && !isCorrect) {
       setIsCorrectChoose(true);
-      setScore((prevScore) => prevScore + 1);
       setRightSwipeCount((prevCount) => prevCount + 1);
       if (JSON.parse(localStorage.getItem("offVoice")) === false) {
         playAudioCorrect();
       }
     } else if (dir === "right" && isCorrect) {
       setIsCorrectChoose(true);
-      setScore((prevScore) => prevScore + 2);
+      setScore((prevScore) => prevScore + 1);
       setIsCorrectChoosed((prev) => prev + 1);
       setRightSwipeCount((prevCount) => prevCount + 1);
       setCorrectChoosedImages((prevImages) => [
@@ -198,6 +191,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
       }
     } else {
       setIsCorrectChoose(false);
+      setScore((prevScore) => prevScore - 1);
       playAudioUncorrect();
     }
 
@@ -444,7 +438,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                     shuffledFootballers.length > 0 && (
                       <motion.div
                         {...handlers}
-                        className={style.swipe}
+                        className={`${style.swipe}`}
                         initial={{ x: 0, rotate: 0 }}
                         animate={{ x: 0, rotate: 0 }}
                         drag="x"
@@ -471,6 +465,10 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                         <div
                           className={`${style.card} ${
                             swiping ? style.swipeActive : ""
+                          } ${
+                            index === 0 &&
+                            currentIndex === 0 &&
+                            style.card__animate
                           }`}
                           style={{
                             transform: `translateX(${dragX}px) rotate(${
@@ -496,7 +494,13 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                 </div>
 
                 {!showMessage && (
-                  <div className={style.game__cards__nav}>
+                  <div
+                    className={`${style.game__cards__nav} ${
+                      index === 0 &&
+                      currentIndex === 0 &&
+                      style.game__cards__nav__animate
+                    }`}
+                  >
                     <motion.button
                       variants={buttonVariants}
                       initial="initial"
@@ -525,28 +529,6 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                         />
                       </svg>
                     </motion.button>
-
-                    <ul>
-                      {item.footballers
-                        .filter(({ isCorrect }) => isCorrect === true)
-                        .map((_, idx) => (
-                          <li
-                            key={idx}
-                            style={
-                              trueSwiperCount >= idx + 1
-                                ? { opacity: 1 }
-                                : { opacity: 0.25 }
-                            }
-                          >
-                            <img
-                              src={require(`../../assets/images/tshirts/${
-                                idx + 1
-                              }.png`)}
-                              alt={idx + 1}
-                            />
-                          </li>
-                        ))}
-                    </ul>
 
                     <motion.button
                       variants={buttonVariants2}
@@ -588,18 +570,18 @@ const Game = React.memo(({ giftLink, registerLink }) => {
             <div className={style.game__total}>
               <h1>
                 {currentChapter === 1
-                  ? score >= 6
+                  ? score >= 2
                     ? "Раунд пройден!"
                     : "Вы проиграли :("
                   : currentChapter === 2
-                  ? score >= 8
+                  ? score >= 3
                     ? "Раунд пройден!"
                     : "Вы проиграли :("
                   : currentChapter === 3
-                  ? score >= 10
+                  ? score >= 4
                     ? "Раунд пройден!"
                     : "Вы проиграли :("
-                  : score >= 12
+                  : score >= 5
                   ? "Раунд пройден!"
                   : "Вы проиграли :("}
               </h1>
@@ -620,12 +602,12 @@ const Game = React.memo(({ giftLink, registerLink }) => {
             <p>
               {score >=
               (currentChapter === 1
-                ? 6
+                ? 2
                 : currentChapter === 2
-                ? 8
+                ? 3
                 : currentChapter === 3
-                ? 10
-                : 12) ? (
+                ? 4
+                : 5) ? (
                 <>
                   Поздравляем, скаут! <br /> Вот кого из нужных игроков вы взяли
                   в команду:
@@ -662,12 +644,12 @@ const Game = React.memo(({ giftLink, registerLink }) => {
 
             {score >=
             (currentChapter === 1
-              ? 6
+              ? 2
               : currentChapter === 2
-              ? 8
+              ? 3
               : currentChapter === 3
-              ? 10
-              : 12) ? (
+              ? 4
+              : 5) ? (
               <div className={style.game__banner}>
                 <h2>Примите участие в розыгрыше</h2>
 
@@ -735,12 +717,12 @@ const Game = React.memo(({ giftLink, registerLink }) => {
 
             {score >=
             (currentChapter === 1
-              ? 6
+              ? 2
               : currentChapter === 2
-              ? 8
+              ? 3
               : currentChapter === 3
-              ? 10
-              : 12) ? (
+              ? 4
+              : 5) ? (
               <button
                 onClick={async () => {
                   if (window.ym) {
@@ -754,7 +736,9 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                   if (index === 4 || index === 8 || index === 12) {
                     navigate("/task", { state: { index, currentChapter } });
                   } else {
-                    window.location.href = `/game?index=${index + 1}`;
+                    navigate("/task", {
+                      state: { index: index + 1, currentChapter },
+                    });
                   }
                 }}
               >

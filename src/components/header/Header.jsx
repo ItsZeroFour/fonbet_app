@@ -17,7 +17,7 @@ const Header = ({ giftLink }) => {
 
   return (
     <header className={style.head}>
-      <Link to={giftLink}>
+      <Link to={giftLink} target="_blank">
         <img src={logo} alt="logo" />
       </Link>
 

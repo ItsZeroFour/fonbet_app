@@ -45,21 +45,25 @@ const Task = ({ giftLink }) => {
           </p>
         </div>
 
-        {/* <img className={style.task__image} src={taskImg} alt="task" /> */}
+        <img
+          className={style.task__image}
+          src={require(`../../assets/images/round_images/${footballers.items[index].roundImage}`)}
+          alt="task"
+        />
 
         <div className={style.task__task}>
-          <h2>Раунд 1:</h2>
+          <h2>Раунд {index + 1}:</h2>
           <p>{footballers.items[index].task}</p>
           <p>
             Наберите{" "}
             <span>
               {currentChapter === 1
-                ? 6
+                ? 2
                 : currentChapter === 2
-                ? 8
+                ? 3
                 : currentChapter === 3
-                ? 10
-                : 12}{" "}
+                ? 4
+                : 5}{" "}
               очков
             </span>
             , чтобы пройти в следующий раунд
@@ -68,11 +72,7 @@ const Task = ({ giftLink }) => {
 
         <Link
           className={style.task__link}
-          to={
-            currentChapter === 1
-              ? `/game?index=${index}`
-              : `/game?index=${index + 1}`
-          }
+          to={index === 0 ? `/game?index=${index}` : `/game?index=${index}`}
         >
           Начать
         </Link>

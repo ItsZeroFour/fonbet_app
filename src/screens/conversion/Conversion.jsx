@@ -24,8 +24,6 @@ const Conversion = ({ giftLink, registerLink }) => {
     setScore(+searchParams.get("score"));
   }, [searchParams]);
 
-  console.log(currectChooseImages, score);
-
   const goBack = () => {
     navigate(`/game?index=${searchParams.get("index")}`, {
       state: { score: score, array: currectChooseImages },
@@ -71,7 +69,7 @@ const Conversion = ({ giftLink, registerLink }) => {
           </div>
 
           <div className={style.final__buttons}>
-            <Link to={registerLink}>В личный кабинет</Link>
+            <Link to={registerLink} target="_blank">В личный кабинет</Link>
             <button onClick={goBack}>
               Вернуться в игру <img src={arrowReturn} alt="arrow return" />
             </button>

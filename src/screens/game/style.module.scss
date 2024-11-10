@@ -116,12 +116,39 @@
   }
 }
 
+@keyframes rotateImage {
+  0% {
+    transform: translateX(0px) rotate(0deg);
+  }
+
+  25% {
+    transform: translateX(40px) rotate(3deg);
+  }
+
+  50% {
+    transform: translateX(0px) rotate(0deg);
+  }
+
+  75% {
+    transform: translateX(-40px) rotate(-3deg);
+  }
+
+  100% {
+    transform: translateX(0px) rotate(0deg);
+  }
+}
+
 .card {
   position: absolute;
   transition: transform 0.3s ease-out;
   will-change: transform;
   transform: translate3d(0, 0, 0);
   touch-action: none;
+}
+
+.card__animate {
+  animation-name: rotateImage !important;
+  animation-duration: 2s !important;
 }
 
 .card.swiping {
@@ -279,6 +306,64 @@
   }
 }
 
+@keyframes scaleButton1 {
+  0% {
+    transform: scale(1);
+  }
+
+  25% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1);
+  }
+
+  75% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes scaleButton2 {
+  0% {
+    transform: scale(1);
+  }
+
+  25% {
+    transform: scale(1.1);
+  }
+
+  50% {
+    transform: scale(1);
+  }
+
+  75% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.game__cards__nav__animate {
+  button {
+    &:first-child {
+      animation-name: scaleButton1;
+      animation-duration: 2s;
+    }
+
+    &:last-child {
+      animation-name: scaleButton2;
+      animation-duration: 2s;
+    }
+  }
+}
+
 .game__cards__nav {
   position: absolute;
   top: 88%;
@@ -310,30 +395,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
-    // &:first-child {
-    //   background: #252525;
-
-    //   &:hover {
-    //     svg {
-    //       path {
-    //         fill: var(--color-red);
-    //       }
-    //     }
-    //   }
-    // }
-
-    // &:last-child {
-    //   background: var(--color-white);
-
-    //   &:hover {
-    //     svg {
-    //       path {
-    //         fill: var(--color-white);
-    //       }
-    //     }
-    //   }
-    // }
   }
 
   @media (max-width: 450px) {
