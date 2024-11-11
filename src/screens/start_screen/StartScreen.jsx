@@ -42,7 +42,7 @@ const StartScreen = ({ giftLink }) => {
           </ul>
 
           <div className={style.start__bottom}>
-            <Link className={style.start__link} to="/rules">
+            <Link className={style.start__link} to="/task">
               Старт
             </Link>
 

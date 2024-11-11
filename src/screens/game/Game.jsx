@@ -23,8 +23,8 @@ const Game = React.memo(({ giftLink, registerLink }) => {
 
   const [playAudioCorrect] = useSound(audioCorrect);
   const [playAudioUncorrect] = useSound(audioUncorrect);
-  const [playAudioWin] = useSound(audioCorrect);
-  const [playAudioLoose] = useSound(audioUncorrect);
+  const [playAudioWin] = useSound(audioWin);
+  const [playAudioLoose] = useSound(audioLoose);
 
   const [searchParams] = useSearchParams();
   const [index, setIndex] = useState(0);
@@ -205,7 +205,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
     if (!(index === 0 && rightSwipeCount <= 2)) {
       setTimeout(() => {
         setShowMessage(false);
-      }, 1500);
+      }, 3000);
     } else {
       setOnRightSwipe(true);
     }
@@ -236,7 +236,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
 
     setTimeout(() => {
       setSwiping(true);
-    }, 1500);
+    }, 3000);
 
     swiped(direction, isCorrect);
     setDragX(0);
@@ -374,7 +374,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                             setSwiping(false);
                             setShowMessage(false);
                             setOnRightSwipe(false);
-                          }, 1500)}
+                          }, 3000)}
                         </p>
                       </div>
                     )
@@ -389,7 +389,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                               setSwiping(false);
                               setShowMessage(false);
                               setOnRightSwipe(false);
-                            }, 1500)}
+                            }, 3000)}
                           </p>
                           <p>Верно!</p>
                         </>
@@ -400,7 +400,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                               setSwiping(false);
                               setShowMessage(false);
                               setOnRightSwipe(false);
-                            }, 1500)}
+                            }, 3000)}
                           </p>
                           <p>Не верно</p>
                         </>
@@ -416,7 +416,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                             <p style={{ opacity: 0 }}>
                               {setTimeout(() => {
                                 setSwiping(false);
-                              }, 1500)}
+                              }, 3000)}
                             </p>
                           </>
                         ) : (
@@ -425,7 +425,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                             <p style={{ opacity: 0 }}>
                               {setTimeout(() => {
                                 setSwiping(false);
-                              }, 1500)}
+                              }, 3000)}
                             </p>
                           </>
                         )}
