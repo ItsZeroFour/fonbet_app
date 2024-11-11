@@ -11,7 +11,7 @@ const Final = ({ giftLink, registerLink }) => {
         <Header registerLink={registerLink} giftLink={giftLink} />
 
         <div className={style.final__container}>
-          <h1>Играй пройдена!</h1>
+          <h1>Игра пройдена!</h1>
 
           <div className={style.game__banner}>
             <h2>Примите участие в розыгрыше</h2>
@@ -24,11 +24,7 @@ const Final = ({ giftLink, registerLink }) => {
               className={style.game__banner__link_1}
               onClick={() => {
                 if (window.ym) {
-                  window.ym(
-                    98751165,
-                    "reachGoal",
-                    `final--10---conversion`
-                  );
+                  window.ym(98751165, "reachGoal", `final--10---conversion`);
                 }
               }}
               to={registerLink}

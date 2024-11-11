@@ -86,14 +86,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
     );
   };
 
-  const currentChapter =
-    index < 4
-      ? 1
-      : index >= 4 && index < 8
-      ? 2
-      : index >= 8 && index < 12
-      ? 3
-      : 4;
+  const currentChapter = index < 4 ? 1 : index < 8 ? 2 : index < 12 ? 3 : 4;
 
   useEffect(() => {
     if (index === 0 && window.ym) {
@@ -108,9 +101,13 @@ const Game = React.memo(({ giftLink, registerLink }) => {
 
   function checkIsEnd() {
     if (isCorrectChoose >= item?.footballers.length) {
-      setIsEnd(true);
+      setTimeout(() => {
+        setIsEnd(true);
+      }, 3000);
     } else if (currentIndex + 1 > item?.footballers.length) {
-      setIsEnd(true);
+      setTimeout(() => {
+        setIsEnd(true);
+      }, 3000);
     }
   }
 
@@ -166,8 +163,6 @@ const Game = React.memo(({ giftLink, registerLink }) => {
       img.src = require(`../../assets/images/footballers/${
         shuffledFootballers[index + 1].image
       }`);
-
-      console.log(img);
     }
   };
 
@@ -212,7 +207,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
     checkIsEnd();
     setShowMessage(true);
 
-    if (!(index === 0 && rightSwipeCount <= 2)) {
+    if (!(index === 0 && (rightSwipeCount !== 1 || rightSwipeCount !== 3))) {
       setTimeout(() => {
         setShowMessage(false);
       }, 3000);
@@ -239,14 +234,11 @@ const Game = React.memo(({ giftLink, registerLink }) => {
   };
 
   const handleSwipe = (direction, isCorrect) => {
-    console.log(swiping);
-
-    // if (swiping) return;
-    console.log(0);
-
-    setTimeout(() => {
-      setSwiping(true);
-    }, 3000);
+    if (!(index === 0 && (rightSwipeCount !== 1 || rightSwipeCount !== 3))) {
+      setTimeout(() => {
+        setSwiping(true);
+      }, 3000);
+    }
 
     swiped(direction, isCorrect);
     setDragX(0);
@@ -283,7 +275,11 @@ const Game = React.memo(({ giftLink, registerLink }) => {
           <div className={style.game__container}>
             {item && (
               <React.Fragment>
-                {!(index === 0 && onRightSwipe && rightSwipeCount <= 2) && (
+                {!(
+                  index === 0 &&
+                  onRightSwipe &&
+                  (rightSwipeCount === 1 || rightSwipeCount === 3)
+                ) && (
                   <React.Fragment>
                     <div className={style.game__task}>
                       <div className={style.game__task__index}>
@@ -314,7 +310,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                 <div className={style.game__cards__container}>
                   {showMessage &&
                   index === 0 &&
-                  rightSwipeCount <= 2 &&
+                  (rightSwipeCount === 1 || rightSwipeCount === 3) &&
                   isCorrectChoose ? (
                     <div className={style.game__cards__correct}>
                       <h3>Верно!</h3>
@@ -377,7 +373,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                   ) : (
                     showMessage &&
                     index === 0 &&
-                    rightSwipeCount <= 2 && (
+                    (rightSwipeCount === 1 || rightSwipeCount === 3) && (
                       <div
                         className={`${style.message} ${style.message__index}`}
                       >
@@ -394,7 +390,10 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                     )
                   )}
 
-                  {showMessage && rightSwipeCount > 2 && index === 0 ? (
+                  {showMessage &&
+                  rightSwipeCount !== 1 &&
+                  rightSwipeCount !== 3 &&
+                  index === 0 ? (
                     <div className={style.message}>
                       {isCorrectChoose ? (
                         <>
@@ -754,7 +753,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                     );
                   }
 
-                  if (index === 4 || index === 8 || index === 12) {
+                  if (index === 3 || index === 7 || index === 11) {
                     navigate("/task", {
                       state: { index: index + 1, currentChapter },
                     });

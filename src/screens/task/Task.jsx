@@ -9,13 +9,8 @@ const Task = ({ giftLink }) => {
   const [searchParams] = useSearchParams();
   const [index, setIndex] = useState(0);
   const location = useLocation();
-  const [currentChapter, setCurrentChapter] = useState(1);
 
-  useEffect(() => {
-    if (location.state?.currentChapter) {
-      setCurrentChapter(location.state.currentChapter);
-    }
-  }, [location]);
+  const currentChapter = index < 4 ? 1 : index < 8 ? 2 : index < 12 ? 3 : 4;
 
   useEffect(() => {
     if (searchParams.get("index") && +searchParams.get("index")) {
@@ -52,7 +47,7 @@ const Task = ({ giftLink }) => {
         />
 
         <div className={style.task__task}>
-          <h2>Раунд {index + 1}:</h2>
+          <h2>Раунд {index + 1}/16:</h2>
           <p>{footballers.items[index].task}</p>
           <p>
             Наберите{" "}
