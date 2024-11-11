@@ -8,6 +8,8 @@ import voiceOff from "../../assets/icons/voice-off.svg";
 import { motion } from "framer-motion";
 
 const Header = ({ giftLink, index, currentChapter }) => {
+  const [animationSequence, setAnimationSequence] = useState("pulse");
+
   const navigate = useNavigate();
 
   const [offVoice, setOffVoice] = useState(() => {
@@ -18,15 +20,30 @@ const Header = ({ giftLink, index, currentChapter }) => {
     localStorage.setItem("offVoice", offVoice);
   }, [offVoice]);
 
-  const pulseAnimation = {
-    scale: [1, 1.2, 1], // Увеличение и возврат к исходному размеру
-    transition: {
-      repeat: Infinity, // Бесконечное повторение
-      repeatType: "loop",
-      duration: 0.3, // Длительность одного цикла
-      repeatDelay: 1, // Задержка перед повторением
+  const animationVariants = {
+    pulse: {
+      scale: [1, 1.1, 1], // Немного более плавная пульсация
+      transition: {
+        duration: 0.5, // Замедленная анимация пульсации
+        repeat: 3, // 3 повторения пульсации
+        repeatType: "loop",
+      },
+    },
+    rotate: {
+      rotate: 360, // Вращение на 360 градусов
+      transition: {
+        duration: 1, // Длительность вращения
+      },
     },
   };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setAnimationSequence((prev) => (prev === "pulse" ? "rotate" : "pulse"));
+    }, 2500); // 3x0.5 (пульсация) + 3 секунды на завершение вращения
+
+    return () => clearInterval(interval);
+  }, []);
 
   const goToNext = () => {
     if (index !== undefined) {
@@ -52,7 +69,12 @@ const Header = ({ giftLink, index, currentChapter }) => {
           to={giftLink}
           target="_blank"
         >
-          <motion.img src={gift} alt="gift" animate={pulseAnimation} />
+          <motion.img
+            src={gift}
+            alt="gift"
+            variants={animationVariants}
+            animate={animationSequence}
+          />
         </Link>
 
         <button onClick={() => setOffVoice(!offVoice)}>
