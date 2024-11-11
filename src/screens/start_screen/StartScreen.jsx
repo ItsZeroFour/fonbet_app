@@ -35,14 +35,14 @@ const StartScreen = ({ giftLink }) => {
 
             <li>
               <p>
-                Правильно взятый игрок даёт +1 балл. За неправильно выбранного
-                игрока вычитается 1 балл.
+                За правильный выбор дается +1 балл, за неправильный вычитается 1
+                балл
               </p>
             </li>
           </ul>
 
           <div className={style.start__bottom}>
-            <Link className={style.start__link} to="/rules">
+            <Link className={style.start__link} to="/task">
               Старт
             </Link>
 
