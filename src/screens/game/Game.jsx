@@ -73,6 +73,13 @@ const Game = React.memo(({ giftLink, registerLink }) => {
     }
   }, [searchParams]);
 
+  useEffect(() => {
+    setImageLoaded(false);
+    setTimeout(() => {
+      setImageLoaded(true);
+    }, 100);
+  }, []);
+
   const handleNavigateToConversionPage = () => {
     navigate(
       `/conversion?array=[${correctChoosedImages}]&score=${score}&index=${index}`
@@ -469,33 +476,35 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                         }}
                         style={{ position: "absolute" }}
                       >
-                        <div
-                          className={`${style.card} ${
-                            swiping ? style.swipeActive : ""
-                          } ${
-                            index === 0 &&
-                            currentIndex === 0 &&
-                            style.card__animate
-                          }`}
-                          style={{
-                            transform: `translateX(${dragX}px) rotate(${
-                              dragX / 15
-                            }deg)`,
-                            transition: !swiping
-                              ? "transform 0.3s ease-out"
-                              : "none",
-                          }}
-                        >
-                          <img
-                            src={require(`../../assets/images/footballers/${shuffledFootballers[currentIndex].image}`)}
-                            alt="card"
-                            onLoad={() => setImageLoaded(true)}
-                            onError={() => setImageLoaded(false)}
-                          />
-                          {isImageLoaded && (
-                            <h3>{shuffledFootballers[currentIndex]?.name}</h3>
-                          )}
-                        </div>
+                        {isImageLoaded && (
+                          <div
+                            className={`${style.card} ${
+                              swiping ? style.swipeActive : ""
+                            } ${
+                              index === 0 &&
+                              currentIndex === 0 &&
+                              style.card__animate
+                            }`}
+                            style={{
+                              transform: `translateX(${dragX}px) rotate(${
+                                dragX / 15
+                              }deg)`,
+                              transition: !swiping
+                                ? "transform 0.3s ease-out"
+                                : "none",
+                            }}
+                          >
+                            <img
+                              src={require(`../../assets/images/footballers/${shuffledFootballers[currentIndex].image}`)}
+                              alt="card"
+                              onLoad={() => setImageLoaded(true)}
+                              onError={() => setImageLoaded(false)}
+                            />
+                            {isImageLoaded && (
+                              <h3>{shuffledFootballers[currentIndex]?.name}</h3>
+                            )}
+                          </div>
+                        )}
                       </motion.div>
                     )}
                 </div>
