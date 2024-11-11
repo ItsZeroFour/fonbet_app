@@ -49,7 +49,7 @@ const Task = ({ giftLink }) => {
         <div className={style.task__task}>
           <h2>Раунд {index + 1}/16:</h2>
           <p>{footballers.items[index].task}</p>
-          {index !== 15 ? (
+          {index === 15 ? (
             <p>
               Наберите <span>5 очков</span> по итогам раунда, чтобы закончить
               игру
