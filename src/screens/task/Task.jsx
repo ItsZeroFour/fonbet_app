@@ -58,13 +58,12 @@ const Task = ({ giftLink }) => {
             Наберите{" "}
             <span>
               {currentChapter === 1
-                ? 2
+                ? "2 очка"
                 : currentChapter === 2
-                ? 3
+                ? "3 очка"
                 : currentChapter === 3
-                ? 4
-                : 5}{" "}
-              очков
+                ? "4 очка"
+                : "5 очков"}{" "}
             </span>
             , чтобы пройти в следующий раунд
           </p>
