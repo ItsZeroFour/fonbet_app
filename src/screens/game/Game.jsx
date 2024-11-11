@@ -174,6 +174,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
     if (dir === "left" && !isCorrect) {
       setIsCorrectChoose(true);
       setRightSwipeCount((prevCount) => prevCount + 1);
+      setScore((prevScore) => prevScore + 1);
       if (JSON.parse(localStorage.getItem("offVoice")) === false) {
         playAudioCorrect();
       }
