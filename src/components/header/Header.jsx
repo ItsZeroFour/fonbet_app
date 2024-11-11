@@ -38,14 +38,9 @@ const Header = ({ giftLink, index, currentChapter }) => {
 
   return (
     <header className={style.head}>
-      <button
-        onClick={() => goToNext()}
-        // to="#"
-        // to={giftLink}
-        //  target="_blank"
-      >
+      <Link to={giftLink} target="_blank">
         <img src={logo} alt="logo" />
-      </button>
+      </Link>
 
       <div className={style.head__buttons}>
         <Link
