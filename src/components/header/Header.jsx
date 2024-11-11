@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import style from "./style.module.scss";
 import logo from "../../assets/logo.svg";
 import { Link } from "react-router-dom";
-import gift from "../../assets/icons/gift.svg";
+import gift from "../../assets/icons/gift.png";
 import voice from "../../assets/icons/voice.svg";
 import voiceOff from "../../assets/icons/voice-off.svg";
 
