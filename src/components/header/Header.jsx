@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import style from "./style.module.scss";
 import logo from "../../assets/logo.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import gift from "../../assets/icons/gift.png";
 import voice from "../../assets/icons/voice.svg";
 import voiceOff from "../../assets/icons/voice-off.svg";
+import { motion } from "framer-motion";
 
-const Header = ({ giftLink }) => {
+const Header = ({ giftLink, index, currentChapter }) => {
+  const navigate = useNavigate();
+
   const [offVoice, setOffVoice] = useState(() => {
     return localStorage.getItem("offVoice") === "true";
   });
@@ -15,11 +18,34 @@ const Header = ({ giftLink }) => {
     localStorage.setItem("offVoice", offVoice);
   }, [offVoice]);
 
+  const pulseAnimation = {
+    scale: [1, 1.2, 1], // Увеличение и возврат к исходному размеру
+    transition: {
+      repeat: Infinity, // Бесконечное повторение
+      repeatType: "loop",
+      duration: 0.3, // Длительность одного цикла
+      repeatDelay: 1, // Задержка перед повторением
+    },
+  };
+
+  const goToNext = () => {
+    if (index !== undefined) {
+      return navigate("/task", {
+        state: { index: index + 1, currentChapter },
+      });
+    }
+  };
+
   return (
     <header className={style.head}>
-      <Link to={giftLink} target="_blank">
+      <button
+        onClick={() => goToNext()}
+        // to="#"
+        // to={giftLink}
+        //  target="_blank"
+      >
         <img src={logo} alt="logo" />
-      </Link>
+      </button>
 
       <div className={style.head__buttons}>
         <Link
@@ -31,7 +57,7 @@ const Header = ({ giftLink }) => {
           to={giftLink}
           target="_blank"
         >
-          <img src={gift} alt="gift" />
+          <motion.img src={gift} alt="gift" animate={pulseAnimation} />
         </Link>
 
         <button onClick={() => setOffVoice(!offVoice)}>

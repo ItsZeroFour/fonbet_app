@@ -193,7 +193,9 @@ const Game = React.memo(({ giftLink, registerLink }) => {
     } else {
       setIsCorrectChoose(false);
       setScore((prevScore) => prevScore - 1);
-      playAudioUncorrect();
+      if (JSON.parse(localStorage.getItem("offVoice")) === false) {
+        playAudioUncorrect();
+      }
     }
 
     if (dir === "right") {
@@ -264,7 +266,11 @@ const Game = React.memo(({ giftLink, registerLink }) => {
   return (
     <div className={style.game}>
       <div className={`wrapper ${style.game__wrapper}`}>
-        <Header giftLink={giftLink} />
+        <Header
+          giftLink={giftLink}
+          index={index}
+          currentChapter={currentChapter}
+        />
 
         {!isEnd ? (
           <div className={style.game__container}>
@@ -735,7 +741,9 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                   }
 
                   if (index === 4 || index === 8 || index === 12) {
-                    navigate("/task", { state: { index, currentChapter } });
+                    navigate("/task", {
+                      state: { index: index + 1, currentChapter },
+                    });
                   } else {
                     navigate("/task", {
                       state: { index: index + 1, currentChapter },
