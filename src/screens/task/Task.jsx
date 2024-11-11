@@ -49,19 +49,26 @@ const Task = ({ giftLink }) => {
         <div className={style.task__task}>
           <h2>Раунд {index + 1}/16:</h2>
           <p>{footballers.items[index].task}</p>
-          <p>
-            Наберите{" "}
-            <span>
-              {currentChapter === 1
-                ? "2 очка"
-                : currentChapter === 2
-                ? "3 очка"
-                : currentChapter === 3
-                ? "4 очка"
-                : "5 очков"}{" "}
-            </span>
-            , чтобы пройти в следующий раунд
-          </p>
+          {index !== 15 ? (
+            <p>
+              Наберите <span>5 очков</span> по итогам раунда, чтобы закончить
+              игру
+            </p>
+          ) : (
+            <p>
+              Наберите{" "}
+              <span>
+                {currentChapter === 1
+                  ? "2 очка"
+                  : currentChapter === 2
+                  ? "3 очка"
+                  : currentChapter === 3
+                  ? "4 очка"
+                  : "5 очков"}{" "}
+              </span>
+              , чтобы пройти в следующий раунд
+            </p>
+          )}
         </div>
 
         <Link
