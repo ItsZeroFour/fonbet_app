@@ -459,7 +459,12 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                         dragConstraints={{ left: 0, right: 0 }}
                         dragElastic={0}
                         onDrag={(e, info) => {
-                          setDragX(info.offset.x);
+                          const maxSwipeDistance = 40;
+                          const newDragX = Math.min(
+                            Math.max(info.offset.x, -maxSwipeDistance),
+                            maxSwipeDistance
+                          );
+                          setDragX(newDragX);
                         }}
                         onDragEnd={(e, info) => {
                           const direction =
