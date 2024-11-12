@@ -323,7 +323,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                         </div>
 
                         <p>
-                          Пройдите игру до конца, чтобы принять участие в
+                          Пройдите раунд до конца, чтобы принять участие в
                           розыгрыше 100 000 ₽ фрибетами.
                         </p>
 
@@ -366,7 +366,14 @@ const Game = React.memo(({ giftLink, registerLink }) => {
 
                         <p>
                           *Предоставляется в виде бонусов (Фрибетов), подробнее
-                          в правилах игры.
+                          в{" "}
+                          <Link
+                            style={{ textDecoration: "underline" }}
+                            to="https://fon.bet/pages/scout"
+                            target="_blank"
+                          >
+                            правилах игры.
+                          </Link>
                         </p>
                       </div>
                     </div>
@@ -589,21 +596,27 @@ const Game = React.memo(({ giftLink, registerLink }) => {
           <div className={style.game__final}>
             <div className={style.game__total}>
               <h1>
-                {currentChapter === 1
-                  ? score >= 2
-                    ? "Раунд пройден!"
-                    : "Вы проиграли :("
-                  : currentChapter === 2
-                  ? score >= 3
-                    ? "Раунд пройден!"
-                    : "Вы проиграли :("
-                  : currentChapter === 3
-                  ? score >= 4
-                    ? "Раунд пройден!"
-                    : "Вы проиграли :("
-                  : score >= 5
-                  ? "Раунд пройден!"
-                  : "Вы проиграли :("}
+                {index === 15 && score >= 5 ? (
+                  <>Игра пройдена!</>
+                ) : (
+                  <>
+                    {currentChapter === 1
+                      ? score >= 2
+                        ? "Раунд пройден!"
+                        : "Вы проиграли :("
+                      : currentChapter === 2
+                      ? score >= 3
+                        ? "Раунд пройден!"
+                        : "Вы проиграли :("
+                      : currentChapter === 3
+                      ? score >= 4
+                        ? "Раунд пройден!"
+                        : "Вы проиграли :("
+                      : score >= 5
+                      ? "Раунд пройден!"
+                      : "Вы проиграли :("}
+                  </>
+                )}
               </h1>
 
               <div>
@@ -712,7 +725,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                 </div>
 
                 <p>
-                  Пройдите игру до конца, чтобы принять участие в розыгрыше 100
+                  Пройдите раунд до конца, чтобы принять участие в розыгрыше 100
                   000 ₽ фрибетами.
                 </p>
 
@@ -743,29 +756,33 @@ const Game = React.memo(({ giftLink, registerLink }) => {
               : currentChapter === 3
               ? 4
               : 5) ? (
-              <button
-                onClick={async () => {
-                  if (window.ym) {
-                    await window.ym(
-                      98751165,
-                      "reachGoal",
-                      `final--${index + 1}--play--interaction`
-                    );
-                  }
+              <>
+                {index !== 15 && (
+                  <button
+                    onClick={async () => {
+                      if (window.ym) {
+                        await window.ym(
+                          98751165,
+                          "reachGoal",
+                          `final--${index + 1}--play--interaction`
+                        );
+                      }
 
-                  if (index === 3 || index === 7 || index === 11) {
-                    navigate("/task", {
-                      state: { index: index + 1, currentChapter },
-                    });
-                  } else {
-                    navigate("/task", {
-                      state: { index: index + 1, currentChapter },
-                    });
-                  }
-                }}
-              >
-                Играть дальше
-              </button>
+                      if (index === 3 || index === 7 || index === 11) {
+                        navigate("/task", {
+                          state: { index: index + 1, currentChapter },
+                        });
+                      } else {
+                        navigate("/task", {
+                          state: { index: index + 1, currentChapter },
+                        });
+                      }
+                    }}
+                  >
+                    Играть дальше
+                  </button>
+                )}
+              </>
             ) : (
               <Link
                 to={`/game?index=${index}`}
@@ -786,8 +803,14 @@ const Game = React.memo(({ giftLink, registerLink }) => {
             )}
 
             <p>
-              *Предоставляется в виде бонусов (Фрибетов), подробнее в правилах
-              игры
+              *Предоставляется в виде бонусов (Фрибетов), подробнее в{" "}
+              <Link
+                style={{ textDecoration: "underline" }}
+                to="https://fon.bet/pages/scout"
+                target="_blank"
+              >
+                правилах игры.
+              </Link>
             </p>
           </div>
         )}
