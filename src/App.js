@@ -29,11 +29,14 @@ function App() {
     );
 
     if (linkInfo) {
-      const newGiftLink = linkInfo.giftLink.replace("{sub_5}", linkInfo.sub5);
+      const newGiftLink = linkInfo.giftLink.replace("source_1", linkInfo.sub5);
       const newRegisterLink = linkInfo.registerLink.replace(
-        "{sub_5}",
+        "source_1",
         linkInfo.sub5
       );
+
+      console.log(newGiftLink);
+
       setGiftLink(newGiftLink);
       setRegisterLink(newRegisterLink);
 
