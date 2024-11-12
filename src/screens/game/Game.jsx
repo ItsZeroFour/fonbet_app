@@ -207,7 +207,10 @@ const Game = React.memo(({ giftLink, registerLink }) => {
     checkIsEnd();
     setShowMessage(true);
 
-    if (!(index === 0 && (rightSwipeCount !== 1 || rightSwipeCount !== 3))) {
+    if (
+      !(index === 0 && (rightSwipeCount !== 1 || rightSwipeCount !== 3)) &&
+      !(index > 0 && index <= 7 && rightSwipeCount !== 1)
+    ) {
       setTimeout(() => {
         setShowMessage(false);
       }, 3000);
@@ -234,7 +237,10 @@ const Game = React.memo(({ giftLink, registerLink }) => {
   };
 
   const handleSwipe = (direction, isCorrect) => {
-    if (!(index === 0 && (rightSwipeCount !== 1 || rightSwipeCount !== 3))) {
+    if (
+      !(index === 0 && (rightSwipeCount !== 1 || rightSwipeCount !== 3)) &&
+      !(index > 0 && index <= 7 && rightSwipeCount !== 1)
+    ) {
       setTimeout(() => {
         setSwiping(true);
       }, 3000);
@@ -308,10 +314,14 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                 )}
 
                 <div className={style.game__cards__container}>
-                  {showMessage &&
-                  index === 0 &&
-                  (rightSwipeCount === 1 || rightSwipeCount === 3) &&
-                  isCorrectChoose ? (
+                  {(showMessage &&
+                    index === 0 &&
+                    (rightSwipeCount === 1 || rightSwipeCount === 3) &&
+                    isCorrectChoose) ||
+                  (showMessage &&
+                    index > 0 &&
+                    index <= 7 &&
+                    rightSwipeCount === 1) ? (
                     <div className={style.game__cards__correct}>
                       <h3>Верно!</h3>
 
@@ -355,6 +365,8 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                                 `offer--${rightSwipeCount}--play--interaction`
                               );
                             }
+
+                            console.log(rightSwipeCount);
 
                             setSwiping(false);
                             setShowMessage(false);
@@ -435,6 +447,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                             <p>Верно!</p>
                             <p style={{ opacity: 0 }}>
                               {setTimeout(() => {
+                                setShowMessage(false);
                                 setSwiping(false);
                               }, 3000)}
                             </p>
@@ -444,6 +457,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                             <p>Не верно</p>
                             <p style={{ opacity: 0 }}>
                               {setTimeout(() => {
+                                setShowMessage(false);
                                 setSwiping(false);
                               }, 3000)}
                             </p>
