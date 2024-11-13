@@ -345,7 +345,11 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                                 98751165,
                                 "reachGoal",
                                 `offer--${
-                                  index === 0 ? rightSwipeCount : index + 3
+                                  index === 0
+                                    ? rightSwipeCount === 1
+                                      ? 1
+                                      : rightSwipeCount === 3 && 2
+                                    : index + 2
                                 }---conversion`
                               );
                             }
