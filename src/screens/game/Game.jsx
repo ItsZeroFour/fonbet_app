@@ -349,7 +349,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                                     ? rightSwipeCount === 1
                                       ? 1
                                       : rightSwipeCount === 3 && 2
-                                    : index + 2
+                                    : index
                                 }---conversion`
                               );
                             }
@@ -373,7 +373,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                                     ? rightSwipeCount === 1
                                       ? 1
                                       : rightSwipeCount === 3 && 2
-                                    : index + 2
+                                    : index
                                 }--play--interaction`
                               );
                             }
