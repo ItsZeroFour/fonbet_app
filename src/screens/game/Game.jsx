@@ -339,12 +339,14 @@ const Game = React.memo(({ giftLink, registerLink }) => {
 
                         <Link
                           className={style.game__banner__link_1}
-                          onClick={() => {
+                          onClick={async () => {
                             if (window.ym) {
-                              window.ym(
+                              await window.ym(
                                 98751165,
                                 "reachGoal",
-                                `offer--${rightSwipeCount}---conversion`
+                                `offer--${
+                                  index === 0 ? rightSwipeCount : index + 3
+                                }---conversion`
                               );
                             }
                           }}
@@ -357,12 +359,14 @@ const Game = React.memo(({ giftLink, registerLink }) => {
 
                       <div className={style.game__cards__correct__bottom}>
                         <button
-                          onClick={() => {
+                          onClick={async () => {
                             if (window.ym) {
-                              window.ym(
+                              await window.ym(
                                 98751165,
                                 "reachGoal",
-                                `offer--${rightSwipeCount}--play--interaction`
+                                `offer--${
+                                  index === 0 ? rightSwipeCount : index + 3
+                                }--play--interaction`
                               );
                             }
 
@@ -438,7 +442,8 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                     </div>
                   ) : (
                     showMessage &&
-                    index !== 0 && (
+                    index !== 0 &&
+                    !(index > 0 && index <= 7 && rightSwipeCount === 1) && (
                       <div className={style.message}>
                         {isCorrectChoose ? (
                           <>
