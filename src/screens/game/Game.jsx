@@ -366,8 +366,6 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                               );
                             }
 
-                            console.log(rightSwipeCount);
-
                             setSwiping(false);
                             setShowMessage(false);
                             setOnRightSwipe(false);

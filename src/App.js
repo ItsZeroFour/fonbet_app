@@ -64,30 +64,30 @@ function App() {
           <Route
             path="/"
             element={
-              <StartScreen giftLink={giftLink} registerLink={registerLink} />
+              <StartScreen giftLink={registerLink} registerLink={giftLink} />
             }
           />
           <Route
             path="/rules"
-            element={<Rules giftLink={giftLink} registerLink={registerLink} />}
+            element={<Rules giftLink={registerLink} registerLink={giftLink} />}
           />
           <Route
             path="/task"
-            element={<Task giftLink={giftLink} registerLink={registerLink} />}
+            element={<Task giftLink={registerLink} registerLink={giftLink} />}
           />
           <Route
             path="/game"
-            element={<Game giftLink={giftLink} registerLink={registerLink} />}
+            element={<Game giftLink={registerLink} registerLink={giftLink} />}
           />
           <Route
             path="/conversion"
             element={
-              <Conversion giftLink={giftLink} registerLink={registerLink} />
+              <Conversion giftLink={registerLink} registerLink={giftLink} />
             }
           />
           <Route
             path="/final"
-            element={<Final giftLink={giftLink} registerLink={registerLink} />}
+            element={<Final giftLink={registerLink} registerLink={giftLink} />}
           />
         </Routes>
       </div>
