@@ -491,7 +491,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                         dragElastic={0}
                         onDrag={(e, info) => {
                           const maxSwipeDistance = 40;
-                          // Обновление временного значения вместо обновления состояния
+                          // Обновление временного значения без setState
                           const newDragX = Math.min(
                             Math.max(info.offset.x, -maxSwipeDistance),
                             maxSwipeDistance
@@ -509,12 +509,20 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                             shuffledFootballers[currentIndex]?.isCorrect;
 
                           if (Math.abs(info.offset.x) > 150) {
+                            // Выполнение свайпа, если смещение превышает порог
                             handleSwipe(direction, isCorrect);
                             setSwiping(false);
                           } else {
-                            targetDragX.current = 0;
+                            // Возврат карточки в исходное положение, если смещение меньше порога
                             document.querySelector(
                               `.${style.card}`
+                            ).style.transition = "transform 0.3s ease-out";
+                            document.querySelector(
+                              `.${style.card}`
+                            ).style.transform = `translateX(0px) rotate(0deg)`;
+                            targetDragX.current = 0;
+                            document.querySelector(
+                              `.${style.swipe}`
                             ).style.transform = `translateX(0px) rotate(0deg)`;
                           }
                         }}
@@ -534,9 +542,6 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                             }`}
                             style={{
                               backfaceVisibility: "hidden",
-                              transition: !swiping
-                                ? "transform 0.3s ease-out"
-                                : "none",
                             }}
                           >
                             <img
