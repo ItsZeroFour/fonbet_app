@@ -524,7 +524,6 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                             document.querySelector(
                               `.${style.swipe}`
                             ).style.transform = `translateX(0px) rotate(0deg)`;
-                            setDragX(0);
                           }
                         }}
                         style={{
