@@ -485,7 +485,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                         {...handlers}
                         className={`${style.swipe}`}
                         initial={{ x: 0, rotate: 0 }}
-                        animate={{ x: 0, rotate: 0 }}
+                        animate={{ x: dragX, rotate: dragX / 15 }}
                         drag="x"
                         dragConstraints={{ left: -50, right: 50 }}
                         dragElastic={0}
@@ -496,11 +496,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                             Math.max(info.offset.x, -maxSwipeDistance),
                             maxSwipeDistance
                           );
-                          document.querySelector(
-                            `.${style.card}`
-                          ).style.transform = `translateX(${newDragX}px) rotate(${
-                            newDragX / 15
-                          }deg)`;
+                          setDragX(newDragX);
                         }}
                         onDragEnd={(e, info) => {
                           const direction =
@@ -509,21 +505,10 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                             shuffledFootballers[currentIndex]?.isCorrect;
 
                           if (Math.abs(info.offset.x) > 150) {
-                            // Выполнение свайпа, если смещение превышает порог
                             handleSwipe(direction, isCorrect);
                             setSwiping(false);
                           } else {
-                            // Возврат карточки в исходное положение, если смещение меньше порога
-                            document.querySelector(
-                              `.${style.card}`
-                            ).style.transition = "transform 0.3s ease-out";
-                            document.querySelector(
-                              `.${style.card}`
-                            ).style.transform = `translateX(0px) rotate(0deg)`;
-                            targetDragX.current = 0;
-                            document.querySelector(
-                              `.${style.swipe}`
-                            ).style.transform = `translateX(0px) rotate(0deg)`;
+                            setDragX(0);
                           }
                         }}
                         style={{
