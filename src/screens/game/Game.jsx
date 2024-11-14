@@ -490,16 +490,19 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                         dragConstraints={{ left: -50, right: 50 }}
                         dragElastic={0}
                         onDrag={(e, info) => {
-                          e.preventDefault(); // Предотвращение стандартного поведения
                           const maxSwipeDistance = 40;
+                          // Обновление временного значения вместо обновления состояния
                           const newDragX = Math.min(
                             Math.max(info.offset.x, -maxSwipeDistance),
                             maxSwipeDistance
                           );
-                          requestAnimationFrame(() => setDragX(newDragX)); // Использование requestAnimationFrame для улучшенной плавности
+                          document.querySelector(
+                            `.${style.card}`
+                          ).style.transform = `translateX(${newDragX}px) rotate(${
+                            newDragX / 15
+                          }deg)`;
                         }}
                         onDragEnd={(e, info) => {
-                          e.preventDefault(); // Предотвращение стандартного поведения
                           const direction =
                             info.offset.x > 0 ? "right" : "left";
                           const isCorrect =
@@ -510,12 +513,15 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                             setSwiping(false);
                           } else {
                             targetDragX.current = 0;
+                            document.querySelector(
+                              `.${style.card}`
+                            ).style.transform = `translateX(0px) rotate(0deg)`;
                           }
                         }}
                         style={{
                           position: "absolute",
                           willChange: "transform",
-                        }} // Оптимизация с помощью will-change
+                        }}
                       >
                         {isImageLoaded && (
                           <div
@@ -527,9 +533,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                               style.card__animate
                             }`}
                             style={{
-                              transform: `translateX(${dragX}px) rotate(${
-                                dragX / 15
-                              }deg)`,
+                              backfaceVisibility: "hidden",
                               transition: !swiping
                                 ? "transform 0.3s ease-out"
                                 : "none",
