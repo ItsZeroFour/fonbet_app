@@ -514,6 +514,16 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                             setSwiping(false);
                           } else {
                             // Возврат карточки в исходное положение, если смещение меньше порога
+                            document.querySelector(
+                              `.${style.card}`
+                            ).style.transition = "transform 0.3s ease-out";
+                            document.querySelector(
+                              `.${style.card}`
+                            ).style.transform = `translateX(0px) rotate(0deg)`;
+                            targetDragX.current = 0;
+                            document.querySelector(
+                              `.${style.swipe}`
+                            ).style.transform = `translateX(0px) rotate(0deg)`;
                             setDragX(0);
                           }
                         }}
