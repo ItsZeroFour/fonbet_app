@@ -487,17 +487,19 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                         initial={{ x: 0, rotate: 0 }}
                         animate={{ x: 0, rotate: 0 }}
                         drag="x"
-                        dragConstraints={{ left: 0, right: 0 }}
+                        dragConstraints={{ left: -50, right: 50 }}
                         dragElastic={0}
                         onDrag={(e, info) => {
+                          e.preventDefault(); // Предотвращение стандартного поведения
                           const maxSwipeDistance = 40;
                           const newDragX = Math.min(
                             Math.max(info.offset.x, -maxSwipeDistance),
                             maxSwipeDistance
                           );
-                          setDragX(newDragX);
+                          requestAnimationFrame(() => setDragX(newDragX)); // Использование requestAnimationFrame для улучшенной плавности
                         }}
                         onDragEnd={(e, info) => {
+                          e.preventDefault(); // Предотвращение стандартного поведения
                           const direction =
                             info.offset.x > 0 ? "right" : "left";
                           const isCorrect =
@@ -510,7 +512,10 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                             targetDragX.current = 0;
                           }
                         }}
-                        style={{ position: "absolute" }}
+                        style={{
+                          position: "absolute",
+                          willChange: "transform",
+                        }} // Оптимизация с помощью will-change
                       >
                         {isImageLoaded && (
                           <div
