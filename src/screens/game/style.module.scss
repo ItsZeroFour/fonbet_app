@@ -144,6 +144,21 @@
   will-change: transform;
   transform: translate3d(0, 0, 0);
   touch-action: none;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    width: 320px;
+    border-radius: 15px;
+
+    @media (max-width: 450px) {
+      width: 115%;
+      margin-top: 10px;
+    }
+  }
 }
 
 .card__animate {
@@ -181,7 +196,7 @@
     background: linear-gradient(180deg, rgba(232, 0, 36, 0) 50%, #e80024 100%);
 
     @media (max-width: 450px) {
-      width: 110%;
+      width: 115%;
     }
   }
 }

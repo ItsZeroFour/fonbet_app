@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import style from "./style.module.scss";
 import {
   Link,
@@ -16,6 +16,7 @@ import audioUncorrect from "../../assets/audios/wrong.mp3";
 import audioWin from "../../assets/audios/win_round.wav";
 import audioLoose from "../../assets/audios/loose_round.wav";
 import useSound from "use-sound";
+import { throttle } from "lodash";
 
 const Game = React.memo(({ giftLink, registerLink }) => {
   const navigate = useNavigate();
@@ -42,6 +43,9 @@ const Game = React.memo(({ giftLink, registerLink }) => {
   const [onRightSwipe, setOnRightSwipe] = useState(false);
   const [trueSwiperCount, setTrueSwiperCount] = useState(0);
   const [isImageLoaded, setImageLoaded] = useState(false);
+
+  const [isSwiping, setIsSwiping] = useState(false);
+  const dragRef = useRef(null);
 
   const targetDragX = useRef(0);
   const animationFrameId = useRef(null);
@@ -255,6 +259,72 @@ const Game = React.memo(({ giftLink, registerLink }) => {
     preventScrollOnSwipe: true,
     trackMouse: true,
   });
+
+  const throttledDragUpdate = useCallback(
+    throttle((newDragX) => setDragX(newDragX), 16), // ~60 FPS
+    []
+  );
+
+  useEffect(() => {
+    // Сбрасываем transform при каждом новом слайде
+    if (dragRef.current) {
+      dragRef.current.style.transform = "translate3d(0, 0, 0)";
+    }
+    setDragX(0);
+  }, [currentIndex]);
+
+  const handleDrag = (offsetX) => {
+    // Ограничиваем движение карточки
+    const maxSwipeDistance = 40;
+    const limitedX = Math.min(
+      Math.max(offsetX, -maxSwipeDistance),
+      maxSwipeDistance
+    );
+    setDragX(limitedX);
+
+    // Прямой доступ к DOM для улучшения производительности
+    if (dragRef.current) {
+      dragRef.current.style.transform = `translate3d(${limitedX}px, 0, 0) rotate(${
+        limitedX / 15
+      }deg)`;
+    }
+  };
+
+  const handleDragEnd = (offsetX) => {
+    const swipeThreshold = 150; // Порог для завершения свайпа
+    const direction = offsetX > 0 ? "right" : "left";
+
+    if (Math.abs(offsetX) > swipeThreshold) {
+      handleSwipe(direction, shuffledFootballers[currentIndex]?.isCorrect);
+    } else {
+      // Возврат карточки
+      if (dragRef.current) {
+        dragRef.current.style.transition = "transform 0.3s ease-out";
+        dragRef.current.style.transform = "translate3d(0, 0, 0)";
+      }
+      setDragX(0);
+    }
+  };
+
+  const onPointerMove = (e) => {
+    if (!isSwiping) return;
+    const offsetX = e.clientX - dragRef.current.startX;
+    handleDrag(offsetX);
+  };
+
+  const onPointerUp = (e) => {
+    setIsSwiping(false);
+    const offsetX = e.clientX - dragRef.current.startX;
+    handleDragEnd(offsetX);
+  };
+
+  const onPointerDown = (e) => {
+    setIsSwiping(true);
+    dragRef.current.startX = e.clientX;
+    if (dragRef.current) {
+      dragRef.current.style.transition = "none"; // Убираем инерцию для drag
+    }
+  };
 
   const buttonVariants = {
     initial: { backgroundColor: "transparent", color: "#fff" },
@@ -481,66 +551,36 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                   {!showMessage &&
                     currentIndex < shuffledFootballers.length &&
                     shuffledFootballers.length > 0 && (
-                      <motion.div
-                        {...handlers}
-                        className={`${style.swipe}`}
-                        initial={{ x: 0, rotate: 0 }}
-                        animate={{ x: dragX, rotate: dragX / 15 }}
-                        drag="x"
-                        dragConstraints={{ left: -50, right: 50 }}
-                        dragElastic={0}
-                        onDrag={(e, info) => {
-                          const maxSwipeDistance = 40;
-                          // Обновление временного значения без setState
-                          const newDragX = Math.min(
-                            Math.max(info.offset.x, -maxSwipeDistance),
-                            maxSwipeDistance
-                          );
-                          setDragX(newDragX);
-                        }}
-                        onDragEnd={(e, info) => {
-                          const direction =
-                            info.offset.x > 0 ? "right" : "left";
-                          const isCorrect =
-                            shuffledFootballers[currentIndex]?.isCorrect;
-
-                          if (Math.abs(info.offset.x) > 150) {
-                            handleSwipe(direction, isCorrect);
-                            setSwiping(false);
-                          } else {
-                            setDragX(0);
-                          }
-                        }}
-                        style={{
-                          position: "absolute",
-                          willChange: "transform",
-                        }}
+                      <div
+                        className={style.cardWrapper}
+                        onPointerDown={onPointerDown}
+                        onPointerMove={onPointerMove}
+                        onPointerUp={onPointerUp}
+                        onPointerLeave={onPointerUp}
                       >
-                        {isImageLoaded && (
-                          <div
-                            className={`${style.card} ${
-                              swiping ? style.swipeActive : ""
-                            } ${
-                              index === 0 &&
-                              currentIndex === 0 &&
-                              style.card__animate
-                            }`}
-                            style={{
-                              backfaceVisibility: "hidden",
-                            }}
-                          >
-                            <img
-                              src={require(`../../assets/images/footballers/${shuffledFootballers[currentIndex].image}`)}
-                              alt="card"
-                              onLoad={() => setImageLoaded(true)}
-                              onError={() => setImageLoaded(false)}
-                            />
-                            {isImageLoaded && (
-                              <h3>{shuffledFootballers[currentIndex]?.name}</h3>
-                            )}
-                          </div>
-                        )}
-                      </motion.div>
+                        <div
+                          ref={dragRef}
+                          className={`${style.card} ${
+                            swiping ? style.swipeActive : ""
+                          } ${
+                            index === 0 &&
+                            currentIndex === 0 &&
+                            style.card__animate
+                          }`}
+                          style={{
+                            willChange: "transform",
+                            transform: `translate3d(${dragX}px, 0, 0) rotate(${
+                              dragX / 15
+                            }deg)`,
+                          }}
+                        >
+                          <img
+                            src={require(`../../assets/images/footballers/${shuffledFootballers[currentIndex].image}`)}
+                            alt="card"
+                          />
+                          <h3>{shuffledFootballers[currentIndex]?.name}</h3>
+                        </div>
+                      </div>
                     )}
                 </div>
 
