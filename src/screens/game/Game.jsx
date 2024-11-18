@@ -802,7 +802,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
 
                 <p>
                   Регистрируйтесь по ссылке, получите подарок до 15 000 ₽* и
-                  примите участие в розыгрыше 100 000 ₽* !
+                  примите участие <br /> в розыгрыше 100 000 ₽* !
                 </p>
 
                 {/* <div className={style.game__banner__cupon}>
