@@ -46,12 +46,12 @@ const Conversion = ({ giftLink, registerLink }) => {
 
         <div className={style.final__container}>
           <div className={style.final__main}>
-            <h2>Ваш подарок</h2>
+            <h2>Участие в розыгрыше</h2>
 
             <div className={style.final__image}>
               <img src={logo} alt="logo" />
               <div className={style.final__sum}>
-                <h1>100 000 ₽</h1>
+                <h1>до 100 000 ₽</h1>
               </div>
             </div>
 
