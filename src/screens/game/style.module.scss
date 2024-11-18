@@ -207,25 +207,60 @@
   justify-content: center;
   align-items: center;
 
-  margin-top: 70%;
-  left: 50%;
-  right: 50%;
-  width: 250px;
-  transform: translate(-50%, 50%);
-  position: absolute;
+  height: 100%;
+}
+
+.message > p {
+  font-size: 32px;
+  margin-bottom: 20px;
+  font-family: "Cera-pro-md", sans-serif;
+  font-weight: 500;
+}
+
+.message__correct {
+  margin-top: 150px;
+  .message__container {
+    position: relative;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: -150%;
+      z-index: -1;
+      width: 100%;
+      height: 200%;
+      background: url("../../assets/images/cerfity.svg");
+      background-position: center;
+    }
+  }
+}
+
+.message__container {
+  text-align: center;
+  padding: 10px;
+  background: var(--color-white);
+  border-radius: 20px;
+  color: var(--color-black);
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 
   p {
-    font-size: 24px;
-    font-family: "Cera-pro-md", sans-serif;
+    font-size: 16px;
   }
 
-  animation-name: opacity1;
-  animation-duration: 0.5s;
+  h3 {
+    font-size: 20px;
+  }
+}
+
+.message__sec {
+  background: red;
 }
 
 .message__index {
-  margin-top: 200px;
-
   &::before {
     content: "";
     position: absolute;

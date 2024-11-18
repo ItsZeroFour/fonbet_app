@@ -43,6 +43,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
   const [onRightSwipe, setOnRightSwipe] = useState(false);
   const [trueSwiperCount, setTrueSwiperCount] = useState(0);
   const [isImageLoaded, setImageLoaded] = useState(false);
+  const [swipeText, setSwipeText] = useState("");
 
   const [isSwiping, setIsSwiping] = useState(false);
   const dragRef = useRef(null);
@@ -107,11 +108,11 @@ const Game = React.memo(({ giftLink, registerLink }) => {
     if (isCorrectChoose >= item?.footballers.length) {
       setTimeout(() => {
         setIsEnd(true);
-      }, 3000);
+      }, 4000);
     } else if (currentIndex + 1 > item?.footballers.length) {
       setTimeout(() => {
         setIsEnd(true);
-      }, 3000);
+      }, 4000);
     }
   }
 
@@ -184,6 +185,8 @@ const Game = React.memo(({ giftLink, registerLink }) => {
       if (JSON.parse(localStorage.getItem("offVoice")) === false) {
         playAudioCorrect();
       }
+      setSwipeText("Этот игрок был вам не нужен");
+      console.log(1);
     } else if (dir === "right" && isCorrect) {
       setIsCorrectChoose(true);
       setScore((prevScore) => prevScore + 1);
@@ -196,12 +199,24 @@ const Game = React.memo(({ giftLink, registerLink }) => {
       if (JSON.parse(localStorage.getItem("offVoice")) === false) {
         playAudioCorrect();
       }
+      setSwipeText("Вы приобрели нужного игрока!");
+      console.log(2);
+    } else if (dir === "left" && isCorrect) {
+      setIsCorrectChoose(false);
+      setScore((prevScore) => prevScore - 1);
+      if (JSON.parse(localStorage.getItem("offVoice")) === false) {
+        playAudioUncorrect();
+      }
+      setSwipeText("Этот игрок был вам нужен");
+      console.log(3);
     } else {
       setIsCorrectChoose(false);
       setScore((prevScore) => prevScore - 1);
       if (JSON.parse(localStorage.getItem("offVoice")) === false) {
         playAudioUncorrect();
       }
+      setSwipeText("Вы приобрели не нужного игрока!");
+      console.log(4);
     }
 
     if (dir === "right") {
@@ -217,7 +232,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
     ) {
       setTimeout(() => {
         setShowMessage(false);
-      }, 3000);
+      }, 4000);
     } else {
       setOnRightSwipe(true);
     }
@@ -247,23 +262,12 @@ const Game = React.memo(({ giftLink, registerLink }) => {
     ) {
       setTimeout(() => {
         setSwiping(true);
-      }, 3000);
+      }, 4000);
     }
 
     swiped(direction, isCorrect);
     setDragX(0);
   };
-
-  const handlers = useSwipeable({
-    delta: 10,
-    preventScrollOnSwipe: true,
-    trackMouse: true,
-  });
-
-  const throttledDragUpdate = useCallback(
-    throttle((newDragX) => setDragX(newDragX), 16), // ~60 FPS
-    []
-  );
 
   useEffect(() => {
     // Сбрасываем transform при каждом новом слайде
@@ -337,6 +341,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
     animate: { backgroundColor: "#fff", fill: "#e80024" },
     whileTap: { backgroundColor: "#e80024", color: "#e80024" },
   };
+
 
   return (
     <div className={style.game}>
@@ -476,14 +481,20 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                       <div
                         className={`${style.message} ${style.message__index}`}
                       >
+                        {console.log(666)}
                         <p>Не верно</p>
+
+                        <div className={style.message__container}>
+                          <h3>{swipeText}</h3>
+                          <p>{shuffledFootballers[currentIndex - 1]?.text}</p>
+                        </div>
 
                         <p style={{ opacity: 0 }}>
                           {setTimeout(() => {
                             setSwiping(false);
                             setShowMessage(false);
                             setOnRightSwipe(false);
-                          }, 3000)}
+                          }, 4000)}
                         </p>
                       </div>
                     )
@@ -495,27 +506,43 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                   index === 0 ? (
                     <div className={style.message}>
                       {isCorrectChoose ? (
-                        <>
-                          <p style={{ opacity: 0 }}>
-                            {setTimeout(() => {
-                              setSwiping(false);
-                              setShowMessage(false);
-                              setOnRightSwipe(false);
-                            }, 3000)}
-                          </p>
+                        <div
+                          className={`${style.message} ${style.message__index} ${style.message__correct}`}
+                        >
                           <p>Верно!</p>
-                        </>
-                      ) : (
-                        <>
+
+                          <div className={style.message__container}>
+                            <h3>{swipeText}</h3>
+                            <p>{shuffledFootballers[currentIndex - 1]?.text}</p>
+                          </div>
+
                           <p style={{ opacity: 0 }}>
                             {setTimeout(() => {
                               setSwiping(false);
                               setShowMessage(false);
                               setOnRightSwipe(false);
-                            }, 3000)}
+                            }, 4000)}
                           </p>
+                        </div>
+                      ) : (
+                        <div
+                          className={`${style.message} ${style.message__index}`}
+                        >
                           <p>Не верно</p>
-                        </>
+
+                          <div className={style.message__container}>
+                            <h3>{swipeText}</h3>
+                            <p>{shuffledFootballers[currentIndex - 1]?.text}</p>
+                          </div>
+
+                          <p style={{ opacity: 0 }}>
+                            {setTimeout(() => {
+                              setSwiping(false);
+                              setShowMessage(false);
+                              setOnRightSwipe(false);
+                            }, 4000)}
+                          </p>
+                        </div>
                       )}
                     </div>
                   ) : (
@@ -524,25 +551,43 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                     !(index > 0 && index <= 7 && rightSwipeCount === 1) && (
                       <div className={style.message}>
                         {isCorrectChoose ? (
-                          <>
+                          <div
+                            className={`${style.message} ${style.message__index} ${style.message__correct}`}
+                          >
                             <p>Верно!</p>
+
+                            <div className={style.message__container}>
+                              <h3>{swipeText}</h3>
+                              <p>{shuffledFootballers[currentIndex - 1]?.text}</p>
+                            </div>
+
                             <p style={{ opacity: 0 }}>
                               {setTimeout(() => {
-                                setShowMessage(false);
                                 setSwiping(false);
-                              }, 3000)}
+                                setShowMessage(false);
+                                setOnRightSwipe(false);
+                              }, 4000)}
                             </p>
-                          </>
+                          </div>
                         ) : (
-                          <>
+                          <div
+                            className={`${style.message} ${style.message__index}`}
+                          >
                             <p>Не верно</p>
+
+                            <div className={style.message__container}>
+                              <h3>{swipeText}</h3>
+                              <p>{shuffledFootballers[currentIndex - 1]?.text}</p>
+                            </div>
+
                             <p style={{ opacity: 0 }}>
                               {setTimeout(() => {
-                                setShowMessage(false);
                                 setSwiping(false);
-                              }, 3000)}
+                                setShowMessage(false);
+                                setOnRightSwipe(false);
+                              }, 4000)}
                             </p>
-                          </>
+                          </div>
                         )}
                       </div>
                     )
