@@ -180,7 +180,8 @@ const Game = React.memo(({ giftLink, registerLink }) => {
     if (!shuffledFootballers[currentIndex]) return;
 
     const footballerText = shuffledFootballers[currentIndex]?.text;
-    setFootballerTextContent(footballerText);
+    // setFootballerTextContent(footballerText);
+    setFootballerTextContent("");
 
     if (dir === "left" && !isCorrect) {
       setIsCorrectChoose(true);
