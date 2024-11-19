@@ -44,6 +44,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
   const [trueSwiperCount, setTrueSwiperCount] = useState(0);
   const [isImageLoaded, setImageLoaded] = useState(false);
   const [swipeText, setSwipeText] = useState("");
+  const [footballerTextContent, setFootballerTextContent] = useState("");
 
   const [isSwiping, setIsSwiping] = useState(false);
   const dragRef = useRef(null);
@@ -177,6 +178,9 @@ const Game = React.memo(({ giftLink, registerLink }) => {
 
   const swiped = (dir, isCorrect) => {
     if (!shuffledFootballers[currentIndex]) return;
+
+    const footballerText = shuffledFootballers[currentIndex]?.text;
+    setFootballerTextContent(footballerText);
 
     if (dir === "left" && !isCorrect) {
       setIsCorrectChoose(true);
@@ -485,7 +489,13 @@ const Game = React.memo(({ giftLink, registerLink }) => {
 
                         <div className={style.message__container}>
                           <h3>{swipeText}</h3>
-                          <p>{shuffledFootballers[currentIndex - 1]?.text}</p>
+                          <motion.p
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                          >
+                            {footballerTextContent}
+                          </motion.p>
                         </div>
 
                         <p style={{ opacity: 0 }}>
@@ -512,7 +522,13 @@ const Game = React.memo(({ giftLink, registerLink }) => {
 
                           <div className={style.message__container}>
                             <h3>{swipeText}</h3>
-                            <p>{shuffledFootballers[currentIndex - 1]?.text}</p>
+                            <motion.p
+                              initial={{ opacity: 0 }}
+                              animate={{ opacity: 1 }}
+                              exit={{ opacity: 0 }}
+                            >
+                              {footballerTextContent}
+                            </motion.p>
                           </div>
 
                           <p style={{ opacity: 0 }}>
@@ -531,7 +547,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
 
                           <div className={style.message__container}>
                             <h3>{swipeText}</h3>
-                            <p>{shuffledFootballers[currentIndex - 1]?.text}</p>
+                            <p>{footballerTextContent}</p>
                           </div>
 
                           <p style={{ opacity: 0 }}>
@@ -557,9 +573,13 @@ const Game = React.memo(({ giftLink, registerLink }) => {
 
                             <div className={style.message__container}>
                               <h3>{swipeText}</h3>
-                              <p>
-                                {shuffledFootballers[currentIndex - 1]?.text}
-                              </p>
+                              <motion.p
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                              >
+                                {footballerTextContent}
+                              </motion.p>
                             </div>
 
                             <p style={{ opacity: 0 }}>
@@ -578,9 +598,13 @@ const Game = React.memo(({ giftLink, registerLink }) => {
 
                             <div className={style.message__container}>
                               <h3>{swipeText}</h3>
-                              <p>
-                                {shuffledFootballers[currentIndex - 1]?.text}
-                              </p>
+                              <motion.p
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                              >
+                                {footballerTextContent}
+                              </motion.p>
                             </div>
 
                             <p style={{ opacity: 0 }}>
