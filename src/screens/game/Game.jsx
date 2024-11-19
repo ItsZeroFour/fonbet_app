@@ -44,6 +44,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
   const [trueSwiperCount, setTrueSwiperCount] = useState(0);
   const [isImageLoaded, setImageLoaded] = useState(false);
   const [swipeText, setSwipeText] = useState("");
+  const [footballerTextContent, setFootballerTextContent] = useState("");
 
   const [isSwiping, setIsSwiping] = useState(false);
   const dragRef = useRef(null);
@@ -108,11 +109,11 @@ const Game = React.memo(({ giftLink, registerLink }) => {
     if (isCorrectChoose >= item?.footballers.length) {
       setTimeout(() => {
         setIsEnd(true);
-      }, 4000);
+      }, 5000);
     } else if (currentIndex + 1 > item?.footballers.length) {
       setTimeout(() => {
         setIsEnd(true);
-      }, 4000);
+      }, 5000);
     }
   }
 
@@ -178,6 +179,10 @@ const Game = React.memo(({ giftLink, registerLink }) => {
   const swiped = (dir, isCorrect) => {
     if (!shuffledFootballers[currentIndex]) return;
 
+    const footballerText = shuffledFootballers[currentIndex]?.text;
+    // setFootballerTextContent(footballerText);
+    setFootballerTextContent("");
+
     if (dir === "left" && !isCorrect) {
       setIsCorrectChoose(true);
       setRightSwipeCount((prevCount) => prevCount + 1);
@@ -232,7 +237,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
     ) {
       setTimeout(() => {
         setShowMessage(false);
-      }, 4000);
+      }, 5000);
     } else {
       setOnRightSwipe(true);
     }
@@ -262,7 +267,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
     ) {
       setTimeout(() => {
         setSwiping(true);
-      }, 4000);
+      }, 5000);
     }
 
     swiped(direction, isCorrect);
@@ -400,7 +405,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                       <h3>Верно!</h3>
 
                       <div className={style.game__banner}>
-                        <h2>Вам подарок от FONBET!</h2>
+                        <h2>Ваш подарок от FONBET!</h2>
 
                         <div className={style.game__banner__cupon}>
                           <p>до 15 000 ₽*</p>
@@ -485,7 +490,13 @@ const Game = React.memo(({ giftLink, registerLink }) => {
 
                         <div className={style.message__container}>
                           <h3>{swipeText}</h3>
-                          <p>{shuffledFootballers[currentIndex - 1]?.text}</p>
+                          <motion.p
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                          >
+                            {footballerTextContent}
+                          </motion.p>
                         </div>
 
                         <p style={{ opacity: 0 }}>
@@ -493,7 +504,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                             setSwiping(false);
                             setShowMessage(false);
                             setOnRightSwipe(false);
-                          }, 4000)}
+                          }, 5000)}
                         </p>
                       </div>
                     )
@@ -512,7 +523,13 @@ const Game = React.memo(({ giftLink, registerLink }) => {
 
                           <div className={style.message__container}>
                             <h3>{swipeText}</h3>
-                            <p>{shuffledFootballers[currentIndex - 1]?.text}</p>
+                            <motion.p
+                              initial={{ opacity: 0 }}
+                              animate={{ opacity: 1 }}
+                              exit={{ opacity: 0 }}
+                            >
+                              {footballerTextContent}
+                            </motion.p>
                           </div>
 
                           <p style={{ opacity: 0 }}>
@@ -520,7 +537,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                               setSwiping(false);
                               setShowMessage(false);
                               setOnRightSwipe(false);
-                            }, 4000)}
+                            }, 5000)}
                           </p>
                         </div>
                       ) : (
@@ -531,7 +548,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
 
                           <div className={style.message__container}>
                             <h3>{swipeText}</h3>
-                            <p>{shuffledFootballers[currentIndex - 1]?.text}</p>
+                            <p>{footballerTextContent}</p>
                           </div>
 
                           <p style={{ opacity: 0 }}>
@@ -539,7 +556,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                               setSwiping(false);
                               setShowMessage(false);
                               setOnRightSwipe(false);
-                            }, 4000)}
+                            }, 5000)}
                           </p>
                         </div>
                       )}
@@ -557,9 +574,13 @@ const Game = React.memo(({ giftLink, registerLink }) => {
 
                             <div className={style.message__container}>
                               <h3>{swipeText}</h3>
-                              <p>
-                                {shuffledFootballers[currentIndex - 1]?.text}
-                              </p>
+                              <motion.p
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                              >
+                                {footballerTextContent}
+                              </motion.p>
                             </div>
 
                             <p style={{ opacity: 0 }}>
@@ -567,7 +588,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                                 setSwiping(false);
                                 setShowMessage(false);
                                 setOnRightSwipe(false);
-                              }, 4000)}
+                              }, 5000)}
                             </p>
                           </div>
                         ) : (
@@ -578,9 +599,13 @@ const Game = React.memo(({ giftLink, registerLink }) => {
 
                             <div className={style.message__container}>
                               <h3>{swipeText}</h3>
-                              <p>
-                                {shuffledFootballers[currentIndex - 1]?.text}
-                              </p>
+                              <motion.p
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                              >
+                                {footballerTextContent}
+                              </motion.p>
                             </div>
 
                             <p style={{ opacity: 0 }}>
@@ -588,7 +613,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                                 setSwiping(false);
                                 setShowMessage(false);
                                 setOnRightSwipe(false);
-                              }, 4000)}
+                              }, 5000)}
                             </p>
                           </div>
                         )}
@@ -801,6 +826,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                 </h2>
 
                 {/* <div className={style.game__banner__cupon}>
+                {/* <div className={style.game__banner__cupon}>
                   <p>100 000 ₽*</p>
                 </div> */}
 
@@ -825,6 +851,15 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                 >
                   Регистрация
                 </Link>
+
+                {/* <div className={style.game__banner__link__container}>
+                  <button
+                    className={style.game__banner__link_2}
+                    onClick={handleNavigateToConversionPage}
+                  >
+                    Я уже с FONBET <img src={arrowRight} alt="arrow right" />
+                  </button>
+                </div> */}
               </div>
             ) : (
               <div className={style.game__banner}>
