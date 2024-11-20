@@ -412,8 +412,8 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                         </div>
 
                         <p>
-                          Регистрируйтесь по ссылке, получите подарок до 15 000
-                          ₽* и примите участие в розыгрыше 100 000 ₽* !
+                          Пройдите игру до конца, чтобы принять участие в
+                          розыгрыше 100 000 ₽ фрибетами.
                         </p>
 
                         <Link
@@ -820,19 +820,20 @@ const Game = React.memo(({ giftLink, registerLink }) => {
               : currentChapter === 3
               ? 4
               : 5) ? (
-              <div className={`${style.game__banner} ${style.game__banner_2}`}>
+              <div className={`${style.game__banner} ${style.game__banner__2}`}>
                 <h2>
                   Ваш подарок <br /> от FONBET!
                 </h2>
 
-                <p>
-                  Регистрируйтесь по ссылке, получите подарок до 15 000 ₽* и
-                  примите участие <br /> в розыгрыше 100 000 ₽* !
-                </p>
-
+                {/* <div className={style.game__banner__cupon}>
                 {/* <div className={style.game__banner__cupon}>
                   <p>100 000 ₽*</p>
                 </div> */}
+
+                <p>
+                  Регистрируйтесь по ссылке, получите <br /> подарок до 15 000 ₽
+                  и примите участие <br /> в розыгрыше 100 000 ₽ !
+                </p>
 
                 <Link
                   className={style.game__banner__link_1}
@@ -869,8 +870,8 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                 </div>
 
                 <p>
-                  Пройдите игру до конца, чтобы принять участие в розыгрыше 100
-                  000 ₽ фрибетами.
+                  Пройдите раунд до конца, чтобы принять участие в розыгрыше{" "}
+                  <span>100 000 ₽ фрибетами.</span>
                 </p>
 
                 <Link
