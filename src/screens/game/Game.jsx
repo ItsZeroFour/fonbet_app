@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import style from "./style.module.scss";
 import {
   Link,
@@ -8,15 +8,12 @@ import {
 } from "react-router-dom";
 import footballers from "../../data/footballers.json";
 import Header from "../../components/header/Header";
-import { useSwipeable } from "react-swipeable";
 import { motion } from "framer-motion";
-import arrowRight from "../../assets/icons/arrow_right_alt.svg";
 import audioCorrect from "../../assets/audios/true.mp3";
 import audioUncorrect from "../../assets/audios/wrong.mp3";
 import audioWin from "../../assets/audios/win_round.wav";
 import audioLoose from "../../assets/audios/loose_round.wav";
 import useSound from "use-sound";
-import { throttle } from "lodash";
 
 const Game = React.memo(({ giftLink, registerLink }) => {
   const navigate = useNavigate();
@@ -45,11 +42,11 @@ const Game = React.memo(({ giftLink, registerLink }) => {
   const [isImageLoaded, setImageLoaded] = useState(false);
   const [swipeText, setSwipeText] = useState("");
   const [footballerTextContent, setFootballerTextContent] = useState("");
+  const [itemAchives, setItemAchives] = useState([]);
 
   const [isSwiping, setIsSwiping] = useState(false);
   const dragRef = useRef(null);
 
-  const targetDragX = useRef(0);
   const animationFrameId = useRef(null);
 
   useEffect(() => {
@@ -86,12 +83,6 @@ const Game = React.memo(({ giftLink, registerLink }) => {
     }, 100);
   }, []);
 
-  const handleNavigateToConversionPage = () => {
-    navigate(
-      `/conversion?array=[${correctChoosedImages}]&score=${score}&index=${index}`
-    );
-  };
-
   const currentChapter = index < 4 ? 1 : index < 8 ? 2 : index < 12 ? 3 : 4;
 
   useEffect(() => {
@@ -101,9 +92,6 @@ const Game = React.memo(({ giftLink, registerLink }) => {
   }, []);
 
   const item = footballers?.items[index];
-  const totalCorrectItems = item?.footballers.filter(
-    ({ isCorrect }) => isCorrect === true
-  ).length;
 
   function checkIsEnd() {
     if (isCorrectChoose >= item?.footballers.length) {
@@ -335,6 +323,17 @@ const Game = React.memo(({ giftLink, registerLink }) => {
     }
   };
 
+  useEffect(() => {
+    if (
+      currentIndex >= 0 &&
+      shuffledFootballers &&
+      shuffledFootballers.length !== 0
+    ) {
+      const item = shuffledFootballers[currentIndex].achive;
+      setItemAchives(item);
+    }
+  }, [currentIndex, shuffledFootballers, item?.footballers]);
+
   const buttonVariants = {
     initial: { backgroundColor: "transparent", color: "#fff" },
     animate: { backgroundColor: "#e80024", color: "#fff" },
@@ -485,7 +484,6 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                       <div
                         className={`${style.message} ${style.message__index}`}
                       >
-                        {console.log(666)}
                         <p>Не верно</p>
 
                         <div className={style.message__container}>

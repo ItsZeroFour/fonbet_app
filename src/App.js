@@ -7,6 +7,7 @@ import Conversion from "./screens/conversion/Conversion";
 import { useEffect, useState } from "react";
 import linkData from "./data/links.json";
 import Final from "./screens/final/Final";
+import Achives from "./screens/achives/Achives";
 
 function App() {
   const [giftLink, setGiftLink] = useState(
@@ -88,6 +89,13 @@ function App() {
           <Route
             path="/final"
             element={<Final giftLink={registerLink} registerLink={giftLink} />}
+          />
+
+          <Route
+            path="/achives"
+            element={
+              <Achives giftLink={registerLink} registerLink={giftLink} />
+            }
           />
         </Routes>
       </div>
