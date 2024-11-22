@@ -325,7 +325,9 @@ const Game = React.memo(({ giftLink, registerLink }) => {
 
   useEffect(() => {
     if (
+      currentIndex &&
       currentIndex >= 0 &&
+      currentIndex < shuffledFootballers.length &&
       shuffledFootballers &&
       shuffledFootballers.length !== 0
     ) {
