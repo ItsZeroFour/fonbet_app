@@ -48,11 +48,12 @@ html {
 
 ::-webkit-scrollbar {
   background: none;
-  width: 0px;
+  width: 5px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: none;
+  background: white;
+  border-radius: 5px;
 }
 
 @keyframes changeBg {

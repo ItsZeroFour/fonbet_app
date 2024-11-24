@@ -6,8 +6,17 @@ import gift from "../../assets/icons/gift.png";
 import voice from "../../assets/icons/voice.svg";
 import voiceOff from "../../assets/icons/voice-off.svg";
 import { motion } from "framer-motion";
+import achive from "../../assets/achives/5.svg";
 
-const Header = ({ giftLink, index, currentChapter }) => {
+const Header = ({
+  giftLink,
+  index,
+  currentChapter,
+  isGameRef,
+  score,
+  currentIndex,
+  shuffledFootballers,
+}) => {
   const [animationSequence, setAnimationSequence] = useState("pulse");
 
   const navigate = useNavigate();
@@ -53,6 +62,33 @@ const Header = ({ giftLink, index, currentChapter }) => {
     }
   };
 
+  useEffect(() => {
+    if (score >= 0) {
+      localStorage.setItem("score1", score);
+    }
+
+    if (shuffledFootballers) {
+      localStorage.setItem(
+        "shuffledFootballers1",
+        JSON.stringify(shuffledFootballers)
+      );
+    }
+
+    if (currentIndex >= 0) {
+      localStorage.setItem("currentIndex", currentIndex);
+    }
+  }, [score, shuffledFootballers, currentIndex]);
+
+  const goToAchives = () => {
+    navigate(`/achives?index=${index}`, {
+      state: {
+        score1: score,
+        shuffledFootballers: shuffledFootballers,
+        currentIndex: currentIndex,
+      },
+    });
+  };
+
   return (
     <header className={style.head}>
       <Link to={giftLink} target="_blank">
@@ -60,6 +96,16 @@ const Header = ({ giftLink, index, currentChapter }) => {
       </Link>
 
       <div className={style.head__buttons}>
+        {isGameRef ? (
+          <button onClick={() => goToAchives()}>
+            <img src={achive} alt="achives" />
+          </button>
+        ) : (
+          <button onClick={() => navigate(-1)}>
+            <img src={achive} alt="achives" />
+          </button>
+        )}
+
         <Link
           onClick={() => {
             if (window.ym) {

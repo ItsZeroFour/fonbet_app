@@ -15,6 +15,54 @@ import audioWin from "../../assets/audios/win_round.wav";
 import audioLoose from "../../assets/audios/loose_round.wav";
 import useSound from "use-sound";
 
+const achievementsData = [
+  {
+    id: 1,
+    title: "Наши парни",
+    description: "Ответь 5 раз верно по российским футболистам",
+  },
+  {
+    id: 2,
+    title: "Кудесники мяча",
+    description: "Ответь 5 раз верно по бразильским футболистам",
+  },
+  {
+    id: 3,
+    title: "Золото России",
+    description: "Ответь 5 раз верно по выигрывавшим РПЛ футболистам",
+  },
+  {
+    id: 4,
+    title: "Победители ЛЧ",
+    description: "Ответь 5 раз верно по выигрывавшим ЛЧ футболистам",
+  },
+  {
+    id: 5,
+    title: "Чемпионы мира",
+    description: "Ответь 5 раз верно по выигрывавшим ЧМ футболистам",
+  },
+  {
+    id: 6,
+    title: "Чемпионы Европы",
+    description: "Ответь 5 раз верно по выигрывавшим Евро футболистам",
+  },
+  {
+    id: 7,
+    title: "Ветераны",
+    description: "Ответь 5 раз верно по футболистам старше 35 лет",
+  },
+  {
+    id: 8,
+    title: "Молодежка",
+    description: "Ответь 5 раз верно по футболистам младше 21 года",
+  },
+  {
+    id: 9,
+    title: "FONBET",
+    description: "Ответь 5 раз верно по футболистам из клубов-партнеров FONBET",
+  },
+];
+
 const Game = React.memo(({ giftLink, registerLink }) => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -44,6 +92,54 @@ const Game = React.memo(({ giftLink, registerLink }) => {
   const [footballerTextContent, setFootballerTextContent] = useState("");
   const [itemAchives, setItemAchives] = useState([]);
 
+  const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
+  const [achives, setAchives] = useState([]);
+
+  const [achive1List, setAchive1List] = useState(() => {
+    const saved = localStorage.getItem("achive1List");
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  const [achive2List, setAchive2List] = useState(() => {
+    const saved = localStorage.getItem("achive2List");
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  const [achive3List, setAchive3List] = useState(() => {
+    const saved = localStorage.getItem("achive3List");
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  const [achive4List, setAchive4List] = useState(() => {
+    const saved = localStorage.getItem("achive4List");
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  const [achive5List, setAchive5List] = useState(() => {
+    const saved = localStorage.getItem("achive5List");
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  const [achive6List, setAchive6List] = useState(() => {
+    const saved = localStorage.getItem("achive6List");
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  const [achive7List, setAchive7List] = useState(() => {
+    const saved = localStorage.getItem("achive7List");
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  const [achive8List, setAchive8List] = useState(() => {
+    const saved = localStorage.getItem("achive8List");
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  const [achive9List, setAchive9List] = useState(() => {
+    const saved = localStorage.getItem("achive9List");
+    return saved ? JSON.parse(saved) : [];
+  });
+
   const [isSwiping, setIsSwiping] = useState(false);
   const dragRef = useRef(null);
 
@@ -59,6 +155,20 @@ const Game = React.memo(({ giftLink, registerLink }) => {
       setCorrectChoosedImages(location.state.array);
       setIsEnd(true);
     }
+
+    if (location.state?.shuffledFootballers) {
+      setShuffledFootballers(location.state.shuffledFootballers);
+    }
+
+    if (location.state?.score1) {
+      setScore(location.state.score1);
+    }
+
+    if (location.state?.currentIndex) {
+      setCurrentIndex(location.state.currentIndex);
+    }
+
+    console.log(location);
   }, [location]);
 
   useEffect(() => {
@@ -82,6 +192,168 @@ const Game = React.memo(({ giftLink, registerLink }) => {
       setImageLoaded(true);
     }, 100);
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem("achive1List", JSON.stringify(achive1List));
+
+    if (
+      isEnd &&
+      achive1List.length >= 5 &&
+      !localStorage.getItem("messageShownArray1")
+    ) {
+      localStorage.setItem("messageShownArray1", "true");
+      setAchives((prevList) => [
+        ...prevList,
+        {
+          id: 1,
+        },
+      ]);
+    }
+  }, [achive1List, isEnd]);
+
+  useEffect(() => {
+    localStorage.setItem("achive2List", JSON.stringify(achive2List));
+
+    if (
+      isEnd &&
+      achive2List.length >= 5 &&
+      !localStorage.getItem("messageShownArray2")
+    ) {
+      localStorage.setItem("messageShownArray2", "true");
+      setAchives((prevList) => [
+        ...prevList,
+        {
+          id: 2,
+        },
+      ]);
+    }
+  }, [achive2List, isEnd]);
+
+  useEffect(() => {
+    localStorage.setItem("achive3List", JSON.stringify(achive3List));
+
+    if (
+      isEnd &&
+      achive3List.length >= 5 &&
+      !localStorage.getItem("messageShownArray3")
+    ) {
+      localStorage.setItem("messageShownArray3", "true");
+      setAchives((prevList) => [
+        ...prevList,
+        {
+          id: 3,
+        },
+      ]);
+    }
+  }, [achive3List, isEnd]);
+
+  useEffect(() => {
+    localStorage.setItem("achive4List", JSON.stringify(achive4List));
+
+    if (
+      isEnd &&
+      achive4List.length >= 5 &&
+      !localStorage.getItem("messageShownArray4")
+    ) {
+      localStorage.setItem("messageShownArray4", "true");
+      setAchives((prevList) => [
+        ...prevList,
+        {
+          id: 4,
+        },
+      ]);
+    }
+  }, [achive4List, isEnd]);
+
+  useEffect(() => {
+    localStorage.setItem("achive5List", JSON.stringify(achive5List));
+
+    if (
+      isEnd &&
+      achive5List.length >= 5 &&
+      !localStorage.getItem("messageShownArray5")
+    ) {
+      localStorage.setItem("messageShownArray5", "true");
+      setAchives((prevList) => [
+        ...prevList,
+        {
+          id: 5,
+        },
+      ]);
+    }
+  }, [achive5List, isEnd]);
+
+  useEffect(() => {
+    localStorage.setItem("achive6List", JSON.stringify(achive6List));
+
+    if (
+      isEnd &&
+      achive6List.length >= 5 &&
+      !localStorage.getItem("messageShownArray6")
+    ) {
+      localStorage.setItem("messageShownArray6", "true");
+      setAchives((prevList) => [
+        ...prevList,
+        {
+          id: 6,
+        },
+      ]);
+    }
+  }, [achive6List, isEnd]);
+
+  useEffect(() => {
+    localStorage.setItem("achive7List", JSON.stringify(achive7List));
+
+    if (
+      isEnd &&
+      achive7List.length >= 5 &&
+      !localStorage.getItem("messageShownArray7")
+    ) {
+      localStorage.setItem("messageShownArray7", "true");
+      setAchives((prevList) => [
+        ...prevList,
+        {
+          id: 7,
+        },
+      ]);
+    }
+  }, [achive7List, isEnd]);
+
+  useEffect(() => {
+    localStorage.setItem("achive8List", JSON.stringify(achive8List));
+
+    if (
+      isEnd &&
+      achive8List.length >= 5 &&
+      !localStorage.getItem("messageShownArray8")
+    ) {
+      localStorage.setItem("messageShownArray8", "true");
+      setAchives((prevList) => [
+        ...prevList,
+        {
+          id: 8,
+        },
+      ]);
+    }
+  }, [achive8List, isEnd]);
+
+  useEffect(() => {
+    localStorage.setItem("achive9List", JSON.stringify(achive9List));
+
+    if (
+      isEnd &&
+      achive9List.length >= 5 &&
+      !localStorage.getItem("messageShownArray9")
+    ) {
+      localStorage.setItem("messageShownArray9", "true");
+      setAchives((prevList) => [
+        ...prevList,
+        {
+          id: 9,
+        },
+      ]);
+    }
+  }, [achive9List, isEnd]);
 
   const currentChapter = index < 4 ? 1 : index < 8 ? 2 : index < 12 ? 3 : 4;
 
@@ -138,7 +410,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
   }
 
   useEffect(() => {
-    if (item?.footballers) {
+    if (item?.footballers && !location.state?.shuffledFootballers) {
       setShuffledFootballers(shuffle([...item.footballers]));
     }
   }, [item?.footballers]);
@@ -164,6 +436,17 @@ const Game = React.memo(({ giftLink, registerLink }) => {
     preloadNextImage(currentIndex);
   }, [currentIndex]);
 
+  function contains(arr, elem) {
+    if (arr) {
+      for (var i = 0; i < arr.length; i++) {
+        if (arr[i] === elem) {
+          return true;
+        }
+      }
+      return false;
+    }
+  }
+
   const swiped = (dir, isCorrect) => {
     if (!shuffledFootballers[currentIndex]) return;
 
@@ -179,7 +462,79 @@ const Game = React.memo(({ giftLink, registerLink }) => {
         playAudioCorrect();
       }
       setSwipeText("Этот игрок был вам не нужен");
-      console.log(1);
+
+      if (contains(itemAchives, 1)) {
+        if (!contains(achive1List, shuffledFootballers[currentIndex].iIndex)) {
+          setAchive1List((prevList) => [
+            ...prevList,
+            shuffledFootballers[currentIndex].iIndex,
+          ]);
+        }
+      }
+      if (contains(itemAchives, 2)) {
+        if (!contains(achive2List, shuffledFootballers[currentIndex].iIndex)) {
+          setAchive2List((prevList) => [
+            ...prevList,
+            shuffledFootballers[currentIndex].iIndex,
+          ]);
+        }
+      }
+      if (contains(itemAchives, 3)) {
+        if (!contains(achive3List, shuffledFootballers[currentIndex].iIndex)) {
+          setAchive3List((prevList) => [
+            ...prevList,
+            shuffledFootballers[currentIndex].iIndex,
+          ]);
+        }
+      }
+      if (contains(itemAchives, 4)) {
+        if (!contains(achive4List, shuffledFootballers[currentIndex].iIndex)) {
+          setAchive4List((prevList) => [
+            ...prevList,
+            shuffledFootballers[currentIndex].iIndex,
+          ]);
+        }
+      }
+      if (contains(itemAchives, 5)) {
+        if (!contains(achive5List, shuffledFootballers[currentIndex].iIndex)) {
+          setAchive5List((prevList) => [
+            ...prevList,
+            shuffledFootballers[currentIndex].iIndex,
+          ]);
+        }
+      }
+      if (contains(itemAchives, 6)) {
+        if (!contains(achive6List, shuffledFootballers[currentIndex].iIndex)) {
+          setAchive6List((prevList) => [
+            ...prevList,
+            shuffledFootballers[currentIndex].iIndex,
+          ]);
+        }
+      }
+      if (contains(itemAchives, 7)) {
+        if (!contains(achive7List, shuffledFootballers[currentIndex].iIndex)) {
+          setAchive7List((prevList) => [
+            ...prevList,
+            shuffledFootballers[currentIndex].iIndex,
+          ]);
+        }
+      }
+      if (contains(itemAchives, 8)) {
+        if (!contains(achive8List, shuffledFootballers[currentIndex].iIndex)) {
+          setAchive8List((prevList) => [
+            ...prevList,
+            shuffledFootballers[currentIndex].iIndex,
+          ]);
+        }
+      }
+      if (contains(itemAchives, 9)) {
+        if (!contains(achive9List, shuffledFootballers[currentIndex].iIndex)) {
+          setAchive9List((prevList) => [
+            ...prevList,
+            shuffledFootballers[currentIndex].iIndex,
+          ]);
+        }
+      }
     } else if (dir === "right" && isCorrect) {
       setIsCorrectChoose(true);
       setScore((prevScore) => prevScore + 1);
@@ -193,7 +548,79 @@ const Game = React.memo(({ giftLink, registerLink }) => {
         playAudioCorrect();
       }
       setSwipeText("Вы приобрели нужного игрока!");
-      console.log(2);
+
+      if (contains(itemAchives, 1)) {
+        if (!contains(achive1List, shuffledFootballers[currentIndex].iIndex)) {
+          setAchive1List((prevList) => [
+            ...prevList,
+            shuffledFootballers[currentIndex].iIndex,
+          ]);
+        }
+      }
+      if (contains(itemAchives, 2)) {
+        if (!contains(achive2List, shuffledFootballers[currentIndex].iIndex)) {
+          setAchive2List((prevList) => [
+            ...prevList,
+            shuffledFootballers[currentIndex].iIndex,
+          ]);
+        }
+      }
+      if (contains(itemAchives, 3)) {
+        if (!contains(achive3List, shuffledFootballers[currentIndex].iIndex)) {
+          setAchive3List((prevList) => [
+            ...prevList,
+            shuffledFootballers[currentIndex].iIndex,
+          ]);
+        }
+      }
+      if (contains(itemAchives, 4)) {
+        if (!contains(achive4List, shuffledFootballers[currentIndex].iIndex)) {
+          setAchive4List((prevList) => [
+            ...prevList,
+            shuffledFootballers[currentIndex].iIndex,
+          ]);
+        }
+      }
+      if (contains(itemAchives, 5)) {
+        if (!contains(achive5List, shuffledFootballers[currentIndex].iIndex)) {
+          setAchive5List((prevList) => [
+            ...prevList,
+            shuffledFootballers[currentIndex].iIndex,
+          ]);
+        }
+      }
+      if (contains(itemAchives, 6)) {
+        if (!contains(achive6List, shuffledFootballers[currentIndex].iIndex)) {
+          setAchive6List((prevList) => [
+            ...prevList,
+            shuffledFootballers[currentIndex].iIndex,
+          ]);
+        }
+      }
+      if (contains(itemAchives, 7)) {
+        if (!contains(achive7List, shuffledFootballers[currentIndex].iIndex)) {
+          setAchive7List((prevList) => [
+            ...prevList,
+            shuffledFootballers[currentIndex].iIndex,
+          ]);
+        }
+      }
+      if (contains(itemAchives, 8)) {
+        if (!contains(achive8List, shuffledFootballers[currentIndex].iIndex)) {
+          setAchive8List((prevList) => [
+            ...prevList,
+            shuffledFootballers[currentIndex].iIndex,
+          ]);
+        }
+      }
+      if (contains(itemAchives, 9)) {
+        if (!contains(achive9List, shuffledFootballers[currentIndex].iIndex)) {
+          setAchive9List((prevList) => [
+            ...prevList,
+            shuffledFootballers[currentIndex].iIndex,
+          ]);
+        }
+      }
     } else if (dir === "left" && isCorrect) {
       setIsCorrectChoose(false);
       setScore((prevScore) => prevScore - 1);
@@ -201,7 +628,6 @@ const Game = React.memo(({ giftLink, registerLink }) => {
         playAudioUncorrect();
       }
       setSwipeText("Этот игрок был вам нужен");
-      console.log(3);
     } else {
       setIsCorrectChoose(false);
       setScore((prevScore) => prevScore - 1);
@@ -209,7 +635,6 @@ const Game = React.memo(({ giftLink, registerLink }) => {
         playAudioUncorrect();
       }
       setSwipeText("Вы приобрели не нужного игрока!");
-      console.log(4);
     }
 
     if (dir === "right") {
@@ -336,6 +761,10 @@ const Game = React.memo(({ giftLink, registerLink }) => {
     }
   }, [currentIndex, shuffledFootballers, item?.footballers]);
 
+  const handleNextMessage = () => {
+    setCurrentMessageIndex((prevIndex) => prevIndex + 1);
+  };
+
   const buttonVariants = {
     initial: { backgroundColor: "transparent", color: "#fff" },
     animate: { backgroundColor: "#e80024", color: "#fff" },
@@ -355,6 +784,10 @@ const Game = React.memo(({ giftLink, registerLink }) => {
           giftLink={giftLink}
           index={index}
           currentChapter={currentChapter}
+          isGameRef={true}
+          currentIndex={currentIndex}
+          shuffledFootballers={shuffledFootballers}
+          score={score}
         />
 
         {!isEnd ? (
@@ -730,234 +1163,265 @@ const Game = React.memo(({ giftLink, registerLink }) => {
             )}
           </div>
         ) : (
-          <div className={style.game__final}>
-            <div className={style.game__total}>
-              <h1>
-                {index === 15 && score >= 5 ? (
-                  <>Игра пройдена!</>
-                ) : (
-                  <>
-                    {currentChapter === 1
-                      ? score >= 2
-                        ? "Раунд пройден!"
-                        : "Вы проиграли :("
-                      : currentChapter === 2
-                      ? score >= 3
-                        ? "Раунд пройден!"
-                        : "Вы проиграли :("
-                      : currentChapter === 3
-                      ? score >= 4
-                        ? "Раунд пройден!"
-                        : "Вы проиграли :("
-                      : score >= 5
-                      ? "Раунд пройден!"
-                      : "Вы проиграли :("}
-                  </>
-                )}
-              </h1>
+          <React.Fragment>
+            {achives.length > 0 && currentMessageIndex < achives.length && (
+              <div className={style.game__achive}>
+                <div className={style.game__achive__container}>
+                  <h2>Класс!</h2>
 
-              <div>
-                <p>
-                  {correctChoosedImages.length}/
-                  {
-                    shuffledFootballers.filter(
-                      ({ isCorrect }) => isCorrect === true
-                    ).length
-                  }
-                </p>
-                <p>Очки: {score}</p>
-              </div>
-            </div>
-
-            <p>
-              {score >=
-              (currentChapter === 1
-                ? 2
-                : currentChapter === 2
-                ? 3
-                : currentChapter === 3
-                ? 4
-                : 5) ? (
-                <>
-                  Поздравляем, скаут! <br /> Вот кого из нужных игроков вы взяли
-                  в команду:
-                </>
-              ) : (
-                <>Вот кого из нужных игроков вы взяли в команду:</>
-              )}
-            </p>
-
-            <div className={style.game__final__chosed}>
-              <ul>
-                {item.footballers
-                  .filter(({ isCorrect }) => isCorrect === true)
-                  .map(({ image }, idx) => (
-                    <li key={idx}>
-                      <motion.img
-                        src={require(`../../assets/images/footballers/${image}`)}
-                        alt={idx + 1}
-                        initial={{ opacity: 0.25 }}
-                        animate={
-                          correctChoosedImages.includes(image) && { opacity: 1 }
-                        }
-                        transition={
-                          correctChoosedImages.includes(image) && {
-                            delay: 2,
-                            duration: 0.5,
-                          }
-                        }
-                      />
-                    </li>
-                  ))}
-              </ul>
-            </div>
-
-            {score >=
-            (currentChapter === 1
-              ? 2
-              : currentChapter === 2
-              ? 3
-              : currentChapter === 3
-              ? 4
-              : 5) ? (
-              <div className={`${style.game__banner} ${style.game__banner__2}`}>
-                <h2>
-                  Ваш подарок <br /> от FONBET!
-                </h2>
-
-                {/* <div className={style.game__banner__cupon}>
-                {/* <div className={style.game__banner__cupon}>
-                  <p>100 000 ₽*</p>
-                </div> */}
-
-                <p>
-                  Регистрируйтесь по ссылке, получите <br /> подарок до 15 000 ₽
-                  и примите участие <br /> в розыгрыше 100 000 ₽ !
-                </p>
-
-                <Link
-                  className={style.game__banner__link_1}
-                  onClick={() => {
-                    if (window.ym) {
-                      window.ym(
-                        98751165,
-                        "reachGoal",
-                        `final--${index + 1}---conversion`
-                      );
+                  <img
+                    src={require(`../../assets/achives/${achives[currentMessageIndex].id}.svg`)}
+                    alt="achive"
+                  />
+                  <p>
+                    Вы получили ачивку <br /> "
+                    {
+                      achievementsData.filter(
+                        ({ id }) => id === achives[currentMessageIndex].id
+                      ).title
                     }
-                  }}
-                  to={registerLink}
-                  target="_blank"
-                >
-                  Регистрация
-                </Link>
-
-                {/* <div className={style.game__banner__link__container}>
-                  <button
-                    className={style.game__banner__link_2}
-                    onClick={handleNavigateToConversionPage}
-                  >
-                    Я уже с FONBET <img src={arrowRight} alt="arrow right" />
-                  </button>
-                </div> */}
-              </div>
-            ) : (
-              <div className={style.game__banner}>
-                <h2>Вам подарок от FONBET!</h2>
-
-                <div className={style.game__banner__cupon}>
-                  <p>до 15 000 ₽*</p>
+                    "
+                  </p>
                 </div>
-
-                <p>
-                  Пройдите раунд до конца, чтобы принять участие в розыгрыше{" "}
-                  <span>100 000 ₽ фрибетами.</span>
-                </p>
-
-                <Link
-                  className={style.game__banner__link_1}
-                  onClick={() => {
-                    if (window.ym) {
-                      window.ym(
-                        98751165,
-                        "reachGoal",
-                        "offer--10---conversion"
-                      );
-                    }
-                  }}
-                  to={giftLink}
-                  target="_blank"
-                >
-                  Забрать подарок
-                </Link>
+                <button onClick={handleNextMessage}>Следующее сообщение</button>
               </div>
             )}
 
-            {score >=
-            (currentChapter === 1
-              ? 2
-              : currentChapter === 2
-              ? 3
-              : currentChapter === 3
-              ? 4
-              : 5) ? (
-              <>
-                {index !== 15 && (
-                  <button
+            {!(achives.length > 0 && currentMessageIndex < achives.length) && (
+              <div className={style.game__final}>
+                <div className={style.game__total}>
+                  <h1>
+                    {index === 15 && score >= 5 ? (
+                      <>Игра пройдена!</>
+                    ) : (
+                      <>
+                        {currentChapter === 1
+                          ? score >= 2
+                            ? "Раунд пройден!"
+                            : "Вы проиграли :("
+                          : currentChapter === 2
+                          ? score >= 3
+                            ? "Раунд пройден!"
+                            : "Вы проиграли :("
+                          : currentChapter === 3
+                          ? score >= 4
+                            ? "Раунд пройден!"
+                            : "Вы проиграли :("
+                          : score >= 5
+                          ? "Раунд пройден!"
+                          : "Вы проиграли :("}
+                      </>
+                    )}
+                  </h1>
+
+                  <div>
+                    <p>
+                      {correctChoosedImages.length}/
+                      {
+                        shuffledFootballers.filter(
+                          ({ isCorrect }) => isCorrect === true
+                        ).length
+                      }
+                    </p>
+                    <p>Очки: {score}</p>
+                  </div>
+                </div>
+
+                <p>
+                  {score >=
+                  (currentChapter === 1
+                    ? 2
+                    : currentChapter === 2
+                    ? 3
+                    : currentChapter === 3
+                    ? 4
+                    : 5) ? (
+                    <>
+                      Поздравляем, скаут! <br /> Вот кого из нужных игроков вы
+                      взяли в команду:
+                    </>
+                  ) : (
+                    <>Вот кого из нужных игроков вы взяли в команду:</>
+                  )}
+                </p>
+
+                <div className={style.game__final__chosed}>
+                  <ul>
+                    {item.footballers
+                      .filter(({ isCorrect }) => isCorrect === true)
+                      .map(({ image }, idx) => (
+                        <li key={idx}>
+                          <motion.img
+                            src={require(`../../assets/images/footballers/${image}`)}
+                            alt={idx + 1}
+                            initial={{ opacity: 0.25 }}
+                            animate={
+                              correctChoosedImages.includes(image) && {
+                                opacity: 1,
+                              }
+                            }
+                            transition={
+                              correctChoosedImages.includes(image) && {
+                                delay: 2,
+                                duration: 0.5,
+                              }
+                            }
+                          />
+                        </li>
+                      ))}
+                  </ul>
+                </div>
+
+                {score >=
+                (currentChapter === 1
+                  ? 2
+                  : currentChapter === 2
+                  ? 3
+                  : currentChapter === 3
+                  ? 4
+                  : 5) ? (
+                  <div
+                    className={`${style.game__banner} ${style.game__banner__2}`}
+                  >
+                    <h2>
+                      Ваш подарок <br /> от FONBET!
+                    </h2>
+
+                    {/* <div className={style.game__banner__cupon}>
+                            {/* <div className={style.game__banner__cupon}>
+                              <p>100 000 ₽*</p>
+                            </div> */}
+
+                    <p>
+                      Регистрируйтесь по ссылке, получите <br /> подарок до 15
+                      000 ₽ и примите участие <br /> в розыгрыше 100 000 ₽ !
+                    </p>
+
+                    <Link
+                      className={style.game__banner__link_1}
+                      onClick={() => {
+                        if (window.ym) {
+                          window.ym(
+                            98751165,
+                            "reachGoal",
+                            `final--${index + 1}---conversion`
+                          );
+                        }
+                      }}
+                      to={registerLink}
+                      target="_blank"
+                    >
+                      Регистрация
+                    </Link>
+
+                    {/* <div className={style.game__banner__link__container}>
+                              <button
+                                className={style.game__banner__link_2}
+                                onClick={handleNavigateToConversionPage}
+                              >
+                                Я уже с FONBET <img src={arrowRight} alt="arrow right" />
+                              </button>
+                            </div> */}
+                  </div>
+                ) : (
+                  <div className={style.game__banner}>
+                    <h2>Вам подарок от FONBET!</h2>
+
+                    <div className={style.game__banner__cupon}>
+                      <p>до 15 000 ₽*</p>
+                    </div>
+
+                    <p>
+                      Пройдите раунд до конца, чтобы принять участие в розыгрыше{" "}
+                      <span>100 000 ₽ фрибетами.</span>
+                    </p>
+
+                    <Link
+                      className={style.game__banner__link_1}
+                      onClick={() => {
+                        if (window.ym) {
+                          window.ym(
+                            98751165,
+                            "reachGoal",
+                            "offer--10---conversion"
+                          );
+                        }
+                      }}
+                      to={giftLink}
+                      target="_blank"
+                    >
+                      Забрать подарок
+                    </Link>
+                  </div>
+                )}
+
+                {score >=
+                (currentChapter === 1
+                  ? 2
+                  : currentChapter === 2
+                  ? 3
+                  : currentChapter === 3
+                  ? 4
+                  : 5) ? (
+                  <>
+                    {index !== 15 && (
+                      <button
+                        onClick={async () => {
+                          if (window.ym) {
+                            await window.ym(
+                              98751165,
+                              "reachGoal",
+                              `final--${index + 1}--play--interaction`
+                            );
+                          }
+
+                          if (index === 3 || index === 7 || index === 11) {
+                            navigate("/task", {
+                              state: { index: index + 1, currentChapter },
+                            });
+                          } else {
+                            navigate("/task", {
+                              state: { index: index + 1, currentChapter },
+                            });
+                          }
+                        }}
+                      >
+                        Играть дальше
+                      </button>
+                    )}
+                  </>
+                ) : (
+                  <Link
+                    to={`/game?index=${index}`}
                     onClick={async () => {
                       if (window.ym) {
                         await window.ym(
                           98751165,
                           "reachGoal",
-                          `final--${index + 1}--play--interaction`
+                          "died-play----interaction"
                         );
                       }
 
-                      if (index === 3 || index === 7 || index === 11) {
-                        navigate("/task", {
-                          state: { index: index + 1, currentChapter },
-                        });
-                      } else {
-                        navigate("/task", {
-                          state: { index: index + 1, currentChapter },
-                        });
-                      }
+                      window.location.href = `/game?index=${index}`;
                     }}
                   >
-                    Играть дальше
-                  </button>
+                    Играть снова
+                  </Link>
                 )}
-              </>
-            ) : (
-              <Link
-                to={`/game?index=${index}`}
-                onClick={async () => {
-                  if (window.ym) {
-                    await window.ym(
-                      98751165,
-                      "reachGoal",
-                      "died-play----interaction"
-                    );
-                  }
 
-                  window.location.href = `/game?index=${index}`;
-                }}
-              >
-                Играть снова
-              </Link>
+                <p>
+                  *Предоставляется в виде бонусов (Фрибетов), подробнее в{" "}
+                  <Link
+                    style={{ textDecoration: "underline" }}
+                    to="https://fon.bet/pages/scout"
+                    target="_blank"
+                  >
+                    правилах игры.
+                  </Link>
+                </p>
+              </div>
             )}
-
-            <p>
-              *Предоставляется в виде бонусов (Фрибетов), подробнее в{" "}
-              <Link
-                style={{ textDecoration: "underline" }}
-                to="https://fon.bet/pages/scout"
-                target="_blank"
-              >
-                правилах игры.
-              </Link>
-            </p>
-          </div>
+          </React.Fragment>
         )}
       </div>
     </div>
