@@ -1227,7 +1227,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
           </div>
         ) : (
           <React.Fragment>
-            {!(achives.length > 0 && currentMessageIndex < achives.length) && (
+            {(
               <div className={style.game__final}>
                 <div className={style.game__total}>
                   <h1>
