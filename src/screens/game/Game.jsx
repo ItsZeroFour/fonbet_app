@@ -1173,17 +1173,48 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                     src={require(`../../assets/achives/${achives[currentMessageIndex].id}.svg`)}
                     alt="achive"
                   />
+                  {console.log(
+                    achievementsData.filter(
+                      ({ id }) => id === achives[currentMessageIndex].id
+                    )
+                  )}
                   <p>
                     Вы получили ачивку <br /> "
                     {
                       achievementsData.filter(
                         ({ id }) => id === achives[currentMessageIndex].id
-                      ).title
+                      )[0].title
                     }
                     "
                   </p>
                 </div>
-                <button onClick={handleNextMessage}>Следующее сообщение</button>
+                
+                <h4>
+                  Вам подарок от FONBET – <span>до 15 000 ₽</span>
+                </h4>
+                <p>
+                  Предоставляется в виде бонусов (Фрибетов), подробнее в
+                  правилах игры.
+                </p>
+
+                <div className={style.game__achive__buttons}>
+                  <button onClick={handleNextMessage}>Играть дальше</button>
+                  <Link
+                    onClick={async () => {
+                      if (window.ym) {
+                        await window.ym(
+                          98751165,
+                          "reachGoal",
+                          "offer--10---conversion"
+                        );
+                      }
+                    }}
+                    to={giftLink}
+                    target="_blank"
+                  >
+                    Забрать бонус
+                  </Link>
+                </div>
               </div>
             )}
 
@@ -1338,9 +1369,9 @@ const Game = React.memo(({ giftLink, registerLink }) => {
 
                     <Link
                       className={style.game__banner__link_1}
-                      onClick={() => {
+                      onClick={async () => {
                         if (window.ym) {
-                          window.ym(
+                          await window.ym(
                             98751165,
                             "reachGoal",
                             "offer--10---conversion"
