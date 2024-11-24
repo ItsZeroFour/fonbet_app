@@ -196,11 +196,14 @@ const Game = React.memo(({ giftLink, registerLink }) => {
   useEffect(() => {
     localStorage.setItem("achive1List", JSON.stringify(achive1List));
 
+    console.log(12345);
+
     if (
-      isEnd &&
       achive1List.length >= 5 &&
       !localStorage.getItem("messageShownArray1")
     ) {
+      console.log(123);
+
       localStorage.setItem("messageShownArray1", "true");
       setAchives((prevList) => [
         ...prevList,
@@ -209,13 +212,12 @@ const Game = React.memo(({ giftLink, registerLink }) => {
         },
       ]);
     }
-  }, [achive1List, isEnd]);
+  }, [achive1List]);
 
   useEffect(() => {
     localStorage.setItem("achive2List", JSON.stringify(achive2List));
 
     if (
-      isEnd &&
       achive2List.length >= 5 &&
       !localStorage.getItem("messageShownArray2")
     ) {
@@ -227,13 +229,12 @@ const Game = React.memo(({ giftLink, registerLink }) => {
         },
       ]);
     }
-  }, [achive2List, isEnd]);
+  }, [achive2List]);
 
   useEffect(() => {
     localStorage.setItem("achive3List", JSON.stringify(achive3List));
 
     if (
-      isEnd &&
       achive3List.length >= 5 &&
       !localStorage.getItem("messageShownArray3")
     ) {
@@ -245,13 +246,12 @@ const Game = React.memo(({ giftLink, registerLink }) => {
         },
       ]);
     }
-  }, [achive3List, isEnd]);
+  }, [achive3List]);
 
   useEffect(() => {
     localStorage.setItem("achive4List", JSON.stringify(achive4List));
 
     if (
-      isEnd &&
       achive4List.length >= 5 &&
       !localStorage.getItem("messageShownArray4")
     ) {
@@ -263,13 +263,12 @@ const Game = React.memo(({ giftLink, registerLink }) => {
         },
       ]);
     }
-  }, [achive4List, isEnd]);
+  }, [achive4List]);
 
   useEffect(() => {
     localStorage.setItem("achive5List", JSON.stringify(achive5List));
 
     if (
-      isEnd &&
       achive5List.length >= 5 &&
       !localStorage.getItem("messageShownArray5")
     ) {
@@ -281,13 +280,12 @@ const Game = React.memo(({ giftLink, registerLink }) => {
         },
       ]);
     }
-  }, [achive5List, isEnd]);
+  }, [achive5List]);
 
   useEffect(() => {
     localStorage.setItem("achive6List", JSON.stringify(achive6List));
 
     if (
-      isEnd &&
       achive6List.length >= 5 &&
       !localStorage.getItem("messageShownArray6")
     ) {
@@ -299,13 +297,12 @@ const Game = React.memo(({ giftLink, registerLink }) => {
         },
       ]);
     }
-  }, [achive6List, isEnd]);
+  }, [achive6List]);
 
   useEffect(() => {
     localStorage.setItem("achive7List", JSON.stringify(achive7List));
 
     if (
-      isEnd &&
       achive7List.length >= 5 &&
       !localStorage.getItem("messageShownArray7")
     ) {
@@ -317,13 +314,12 @@ const Game = React.memo(({ giftLink, registerLink }) => {
         },
       ]);
     }
-  }, [achive7List, isEnd]);
+  }, [achive7List]);
 
   useEffect(() => {
     localStorage.setItem("achive8List", JSON.stringify(achive8List));
 
     if (
-      isEnd &&
       achive8List.length >= 5 &&
       !localStorage.getItem("messageShownArray8")
     ) {
@@ -335,13 +331,12 @@ const Game = React.memo(({ giftLink, registerLink }) => {
         },
       ]);
     }
-  }, [achive8List, isEnd]);
+  }, [achive8List]);
 
   useEffect(() => {
     localStorage.setItem("achive9List", JSON.stringify(achive9List));
 
     if (
-      isEnd &&
       achive9List.length >= 5 &&
       !localStorage.getItem("messageShownArray9")
     ) {
@@ -353,7 +348,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
         },
       ]);
     }
-  }, [achive9List, isEnd]);
+  }, [achive9List]);
 
   const currentChapter = index < 4 ? 1 : index < 8 ? 2 : index < 12 ? 3 : 4;
 
@@ -800,31 +795,90 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                   (rightSwipeCount === 1 || rightSwipeCount === 3)
                 ) && (
                   <React.Fragment>
-                    <div className={style.game__task}>
-                      <div className={style.game__task__index}>
-                        {item.index}
-                      </div>
-                      <p>{item.task}</p>
-                    </div>
+                    {!(
+                      achives.length > 0 && currentMessageIndex < achives.length
+                    ) && (
+                      <React.Fragment>
+                        <div className={style.game__task}>
+                          <div className={style.game__task__index}>
+                            {item.index}
+                          </div>
+                          <p>{item.task}</p>
+                        </div>
 
-                    <div className={style.game__task__score}>
-                      <ul>
-                        {item.footballers.map((_, idx) => (
-                          <li
-                            key={idx}
-                            style={
-                              currentIndex === idx
-                                ? { background: "#E80024" }
-                                : { background: "rgba(255, 255, 255, 0.1)" }
-                            }
-                          ></li>
-                        ))}
-                      </ul>
+                        <div className={style.game__task__score}>
+                          <ul>
+                            {item.footballers.map((_, idx) => (
+                              <li
+                                key={idx}
+                                style={
+                                  currentIndex === idx
+                                    ? { background: "#E80024" }
+                                    : { background: "rgba(255, 255, 255, 0.1)" }
+                                }
+                              ></li>
+                            ))}
+                          </ul>
 
-                      <p>Очки: {score}</p>
-                    </div>
+                          <p>Очки: {score}</p>
+                        </div>
+                      </React.Fragment>
+                    )}
                   </React.Fragment>
                 )}
+
+                {!showMessage &&
+                  achives.length > 0 &&
+                  currentMessageIndex < achives.length && (
+                    <div className={style.game__achive}>
+                      <div className={style.game__achive__container}>
+                        <h2>Класс!</h2>
+
+                        <img
+                          src={require(`../../assets/achives/${achives[currentMessageIndex].id}.svg`)}
+                          alt="achive"
+                        />
+                        <p>
+                          Вы получили ачивку <br /> "
+                          {
+                            achievementsData.filter(
+                              ({ id }) => id === achives[currentMessageIndex].id
+                            )[0].title
+                          }
+                          "
+                        </p>
+                      </div>
+
+                      <h4>
+                        Вам подарок от FONBET – <span>до 15 000 ₽</span>
+                      </h4>
+                      <p>
+                        Предоставляется в виде бонусов (Фрибетов), подробнее в
+                        правилах игры.
+                      </p>
+
+                      <div className={style.game__achive__buttons}>
+                        <button onClick={handleNextMessage}>
+                          Играть дальше
+                        </button>
+                        <Link
+                          onClick={async () => {
+                            if (window.ym) {
+                              await window.ym(
+                                98751165,
+                                "reachGoal",
+                                "offer--10---conversion"
+                              );
+                            }
+                          }}
+                          to={giftLink}
+                          target="_blank"
+                        >
+                          Забрать бонус
+                        </Link>
+                      </div>
+                    </div>
+                  )}
 
                 <div className={style.game__cards__container}>
                   {(showMessage &&
@@ -1054,170 +1108,125 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                     )
                   )}
 
-                  {!showMessage &&
-                    currentIndex < shuffledFootballers.length &&
-                    shuffledFootballers.length > 0 && (
-                      <div
-                        className={style.cardWrapper}
-                        onPointerDown={onPointerDown}
-                        onPointerMove={onPointerMove}
-                        onPointerUp={onPointerUp}
-                        onPointerLeave={onPointerUp}
-                      >
-                        <div
-                          ref={dragRef}
-                          className={`${style.card} ${
-                            swiping ? style.swipeActive : ""
-                          } ${
-                            index === 0 &&
-                            currentIndex === 0 &&
-                            style.card__animate
-                          }`}
-                          style={{
-                            willChange: "transform",
-                            transform: `translate3d(${dragX}px, 0, 0) rotate(${
-                              dragX / 15
-                            }deg)`,
-                          }}
-                        >
-                          <img
-                            src={require(`../../assets/images/footballers/${shuffledFootballers[currentIndex].image}`)}
-                            alt="card"
-                          />
-                          <h3>{shuffledFootballers[currentIndex]?.name}</h3>
-                        </div>
-                      </div>
-                    )}
+                  {!(
+                    achives.length > 0 && currentMessageIndex < achives.length
+                  ) && (
+                    <React.Fragment>
+                      {!showMessage &&
+                        currentIndex < shuffledFootballers.length &&
+                        shuffledFootballers.length > 0 && (
+                          <div
+                            className={style.cardWrapper}
+                            onPointerDown={onPointerDown}
+                            onPointerMove={onPointerMove}
+                            onPointerUp={onPointerUp}
+                            onPointerLeave={onPointerUp}
+                          >
+                            <div
+                              ref={dragRef}
+                              className={`${style.card} ${
+                                swiping ? style.swipeActive : ""
+                              } ${
+                                index === 0 &&
+                                currentIndex === 0 &&
+                                style.card__animate
+                              }`}
+                              style={{
+                                willChange: "transform",
+                                transform: `translate3d(${dragX}px, 0, 0) rotate(${
+                                  dragX / 15
+                                }deg)`,
+                              }}
+                            >
+                              <img
+                                src={require(`../../assets/images/footballers/${shuffledFootballers[currentIndex].image}`)}
+                                alt="card"
+                              />
+                              <h3>{shuffledFootballers[currentIndex]?.name}</h3>
+                            </div>
+                          </div>
+                        )}
+                    </React.Fragment>
+                  )}
                 </div>
 
-                {!showMessage && (
-                  <div
-                    className={`${style.game__cards__nav} ${
-                      index === 0 &&
-                      currentIndex === 0 &&
-                      style.game__cards__nav__animate
-                    }`}
-                  >
-                    <motion.button
-                      variants={buttonVariants}
-                      initial="initial"
-                      animate="animate"
-                      whileHover="hover"
-                      whileTap="whileTap"
-                      disabled={swiping}
-                      onClick={() => {
-                        setDragX(0);
-                        handleSwipe(
-                          "left",
-                          shuffledFootballers[currentIndex]?.isCorrect
-                        );
-                      }}
+                {!(
+                  achives.length > 0 && currentMessageIndex < achives.length
+                ) &&
+                  !showMessage && (
+                    <div
+                      className={`${style.game__cards__nav} ${
+                        index === 0 &&
+                        currentIndex === 0 &&
+                        style.game__cards__nav__animate
+                      }`}
                     >
-                      <svg
-                        width="21"
-                        height="20"
-                        viewBox="0 0 21 20"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
+                      <motion.button
+                        variants={buttonVariants}
+                        initial="initial"
+                        animate="animate"
+                        whileHover="hover"
+                        whileTap="whileTap"
+                        disabled={swiping}
+                        onClick={() => {
+                          setDragX(0);
+                          handleSwipe(
+                            "left",
+                            shuffledFootballers[currentIndex]?.isCorrect
+                          );
+                        }}
                       >
-                        <path
-                          d="M3.87124 0.589305C3.10304 -0.178898 1.85754 -0.178898 1.08934 0.589305C0.321133 1.35751 0.321133 2.60301 1.08934 3.37121L7.71812 10L1.08933 16.6288C0.321133 17.397 0.321133 18.6425 1.08934 19.4107C1.85754 20.1789 3.10304 20.1789 3.87124 19.4107L10.5 12.7819L17.1288 19.4107C17.897 20.1789 19.1425 20.1789 19.9107 19.4107C20.6789 18.6425 20.6789 17.397 19.9107 16.6288L13.2819 10L19.9107 3.37121C20.6789 2.60301 20.6789 1.35751 19.9107 0.589305C19.1425 -0.178898 17.897 -0.178898 17.1288 0.589305L10.5 7.21809L3.87124 0.589305Z"
-                          fill="white"
-                        />
-                      </svg>
-                    </motion.button>
+                        <svg
+                          width="21"
+                          height="20"
+                          viewBox="0 0 21 20"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M3.87124 0.589305C3.10304 -0.178898 1.85754 -0.178898 1.08934 0.589305C0.321133 1.35751 0.321133 2.60301 1.08934 3.37121L7.71812 10L1.08933 16.6288C0.321133 17.397 0.321133 18.6425 1.08934 19.4107C1.85754 20.1789 3.10304 20.1789 3.87124 19.4107L10.5 12.7819L17.1288 19.4107C17.897 20.1789 19.1425 20.1789 19.9107 19.4107C20.6789 18.6425 20.6789 17.397 19.9107 16.6288L13.2819 10L19.9107 3.37121C20.6789 2.60301 20.6789 1.35751 19.9107 0.589305C19.1425 -0.178898 17.897 -0.178898 17.1288 0.589305L10.5 7.21809L3.87124 0.589305Z"
+                            fill="white"
+                          />
+                        </svg>
+                      </motion.button>
 
-                    <motion.button
-                      variants={buttonVariants2}
-                      initial="initial"
-                      animate="animate"
-                      whileHover="hover"
-                      whileTap="whileTap"
-                      disabled={swiping}
-                      onClick={() => {
-                        setDragX(0);
-                        handleSwipe(
-                          "right",
-                          shuffledFootballers[currentIndex]?.isCorrect
-                        );
-                      }}
-                    >
-                      <svg
-                        width="23"
-                        height="16"
-                        viewBox="0 0 23 16"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
+                      <motion.button
+                        variants={buttonVariants2}
+                        initial="initial"
+                        animate="animate"
+                        whileHover="hover"
+                        whileTap="whileTap"
+                        disabled={swiping}
+                        onClick={() => {
+                          setDragX(0);
+                          handleSwipe(
+                            "right",
+                            shuffledFootballers[currentIndex]?.isCorrect
+                          );
+                        }}
                       >
-                        <path
-                          fill-rule="evenodd"
-                          clip-rule="evenodd"
-                          d="M22.4238 1.08602C23.1921 1.85423 23.1921 3.09973 22.4238 3.86793L11.3778 14.914C10.6096 15.6822 9.36409 15.6822 8.59589 14.914L0.576152 6.89425C-0.192051 6.12604 -0.192051 4.88054 0.576152 4.11234C1.34435 3.34414 2.58986 3.34414 3.35806 4.11234L9.98684 10.7411L19.6419 1.08602C20.4101 0.317822 21.6556 0.317822 22.4238 1.08602Z"
-                          fill="#e80024"
-                        />
-                      </svg>
-                    </motion.button>
-                  </div>
-                )}
+                        <svg
+                          width="23"
+                          height="16"
+                          viewBox="0 0 23 16"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            d="M22.4238 1.08602C23.1921 1.85423 23.1921 3.09973 22.4238 3.86793L11.3778 14.914C10.6096 15.6822 9.36409 15.6822 8.59589 14.914L0.576152 6.89425C-0.192051 6.12604 -0.192051 4.88054 0.576152 4.11234C1.34435 3.34414 2.58986 3.34414 3.35806 4.11234L9.98684 10.7411L19.6419 1.08602C20.4101 0.317822 21.6556 0.317822 22.4238 1.08602Z"
+                            fill="#e80024"
+                          />
+                        </svg>
+                      </motion.button>
+                    </div>
+                  )}
               </React.Fragment>
             )}
           </div>
         ) : (
           <React.Fragment>
-            {achives.length > 0 && currentMessageIndex < achives.length && (
-              <div className={style.game__achive}>
-                <div className={style.game__achive__container}>
-                  <h2>Класс!</h2>
-
-                  <img
-                    src={require(`../../assets/achives/${achives[currentMessageIndex].id}.svg`)}
-                    alt="achive"
-                  />
-                  {console.log(
-                    achievementsData.filter(
-                      ({ id }) => id === achives[currentMessageIndex].id
-                    )
-                  )}
-                  <p>
-                    Вы получили ачивку <br /> "
-                    {
-                      achievementsData.filter(
-                        ({ id }) => id === achives[currentMessageIndex].id
-                      )[0].title
-                    }
-                    "
-                  </p>
-                </div>
-                
-                <h4>
-                  Вам подарок от FONBET – <span>до 15 000 ₽</span>
-                </h4>
-                <p>
-                  Предоставляется в виде бонусов (Фрибетов), подробнее в
-                  правилах игры.
-                </p>
-
-                <div className={style.game__achive__buttons}>
-                  <button onClick={handleNextMessage}>Играть дальше</button>
-                  <Link
-                    onClick={async () => {
-                      if (window.ym) {
-                        await window.ym(
-                          98751165,
-                          "reachGoal",
-                          "offer--10---conversion"
-                        );
-                      }
-                    }}
-                    to={giftLink}
-                    target="_blank"
-                  >
-                    Забрать бонус
-                  </Link>
-                </div>
-              </div>
-            )}
-
             {!(achives.length > 0 && currentMessageIndex < achives.length) && (
               <div className={style.game__final}>
                 <div className={style.game__total}>
