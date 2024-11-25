@@ -79,7 +79,9 @@ const Achives = ({ registerLink, giftLink }) => {
             localStorage.getItem("shuffledFootballers1")
           ),
           currentIndex: JSON.parse(localStorage.getItem("currentIndex")),
-          correctChoosedImages: location.state?.correctChoosedImages,
+          correctChoosedImages: JSON.parse(
+            localStorage.getItem("correctChoosedImages")
+          ),
         },
       });
     } else {

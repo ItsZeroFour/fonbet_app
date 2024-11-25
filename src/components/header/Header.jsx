@@ -78,6 +78,13 @@ const Header = ({
     if (currentIndex >= 0) {
       localStorage.setItem("currentIndex", currentIndex);
     }
+
+    if (correctChoosedImages) {
+      localStorage.setItem(
+        "correctChoosedImages",
+        JSON.stringify(correctChoosedImages)
+      );
+    }
   }, [score, shuffledFootballers, currentIndex]);
 
   const goToAchives = () => {

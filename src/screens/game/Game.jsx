@@ -160,16 +160,16 @@ const Game = React.memo(({ giftLink, registerLink }) => {
       setShuffledFootballers(location.state.shuffledFootballers);
     }
 
+    if (location.state?.correctChoosedImages) {
+      setCorrectChoosedImages(location.state.correctChoosedImages);
+    }
+
     if (location.state?.score1) {
       setScore(location.state.score1);
     }
 
     if (location.state?.currentIndex) {
       setCurrentIndex(location.state.currentIndex);
-    }
-
-    if (location.state?.correctChoosedImages) {
-      setCorrectChoosedImages(correctChoosedImages);
     }
   }, [location]);
 
@@ -357,8 +357,6 @@ const Game = React.memo(({ giftLink, registerLink }) => {
   }, []);
 
   const item = footballers?.items[index];
-
-  console.log(achives.length > 0, currentMessageIndex < achives.length);
 
   function checkIsEnd() {
     if (!(achives.length > 0 && currentMessageIndex < achives.length)) {
