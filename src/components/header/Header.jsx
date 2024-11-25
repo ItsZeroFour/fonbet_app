@@ -6,7 +6,7 @@ import gift from "../../assets/icons/gift.png";
 import voice from "../../assets/icons/voice.svg";
 import voiceOff from "../../assets/icons/voice-off.svg";
 import { motion } from "framer-motion";
-import achive from "../../assets/achives/5.svg";
+import achive from "../../assets/achives/5.png";
 
 const Header = ({
   giftLink,
@@ -85,6 +85,7 @@ const Header = ({
         score1: score,
         shuffledFootballers: shuffledFootballers,
         currentIndex: currentIndex,
+        isGameRef: true,
       },
     });
   };
@@ -101,7 +102,11 @@ const Header = ({
             <img src={achive} alt="achives" />
           </button>
         ) : (
-          <button onClick={() => navigate(-1)}>
+          <button
+            onClick={() =>
+              navigate("/achives", { state: { isGameRef: false } })
+            }
+          >
             <img src={achive} alt="achives" />
           </button>
         )}

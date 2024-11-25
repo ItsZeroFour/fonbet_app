@@ -167,8 +167,6 @@ const Game = React.memo(({ giftLink, registerLink }) => {
     if (location.state?.currentIndex) {
       setCurrentIndex(location.state.currentIndex);
     }
-
-    console.log(location);
   }, [location]);
 
   useEffect(() => {
@@ -196,14 +194,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
   useEffect(() => {
     localStorage.setItem("achive1List", JSON.stringify(achive1List));
 
-    console.log(12345);
-
-    if (
-      achive1List.length >= 5 &&
-      !localStorage.getItem("messageShownArray1")
-    ) {
-      console.log(123);
-
+    if (achive1List.length > 3 && !localStorage.getItem("messageShownArray1")) {
       localStorage.setItem("messageShownArray1", "true");
       setAchives((prevList) => [
         ...prevList,
@@ -361,14 +352,22 @@ const Game = React.memo(({ giftLink, registerLink }) => {
   const item = footballers?.items[index];
 
   function checkIsEnd() {
-    if (isCorrectChoose >= item?.footballers.length) {
-      setTimeout(() => {
+    if (showMessage) {
+      if (isCorrectChoose >= item?.footballers.length) {
+        setTimeout(() => {
+          setIsEnd(true);
+        }, 5000);
+      } else if (currentIndex + 1 > item?.footballers.length) {
+        setTimeout(() => {
+          setIsEnd(true);
+        }, 5000);
+      }
+    } else {
+      if (isCorrectChoose >= item?.footballers.length) {
         setIsEnd(true);
-      }, 5000);
-    } else if (currentIndex + 1 > item?.footballers.length) {
-      setTimeout(() => {
+      } else if (currentIndex + 1 > item?.footballers.length) {
         setIsEnd(true);
-      }, 5000);
+      }
     }
   }
 
@@ -707,6 +706,8 @@ const Game = React.memo(({ giftLink, registerLink }) => {
     }
   };
 
+  console.log(isEnd);
+
   const handleDragEnd = (offsetX) => {
     const swipeThreshold = 150; // Порог для завершения свайпа
     const direction = offsetX > 0 ? "right" : "left";
@@ -835,7 +836,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                         <h2>Класс!</h2>
 
                         <img
-                          src={require(`../../assets/achives/${achives[currentMessageIndex].id}.svg`)}
+                          src={require(`../../assets/achives/${achives[currentMessageIndex].id}.png`)}
                           alt="achive"
                         />
                         <p>
@@ -1130,6 +1131,8 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                                 index === 0 &&
                                 currentIndex === 0 &&
                                 style.card__animate
+                              } ${index === 3 && style.card__sec} ${
+                                index === 4 && style.card__thrd
                               }`}
                               style={{
                                 willChange: "transform",
@@ -1227,7 +1230,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
           </div>
         ) : (
           <React.Fragment>
-            {(
+            {
               <div className={style.game__final}>
                 <div className={style.game__total}>
                   <h1>
@@ -1460,7 +1463,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                   </Link>
                 </p>
               </div>
-            )}
+            }
           </React.Fragment>
         )}
       </div>

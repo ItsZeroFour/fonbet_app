@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import style from "./style.module.scss";
 import Header from "../../components/header/Header";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 
 const achievementsData = [
   {
@@ -53,6 +53,8 @@ const achievementsData = [
 
 const Achives = ({ registerLink, giftLink }) => {
   const navigate = useNavigate();
+  const location = useLocation();
+
   const [searchParams] = useSearchParams();
   const [achievements, setAchievements] = useState(
     Array(achievementsData.length).fill(false)
@@ -69,15 +71,19 @@ const Achives = ({ registerLink, giftLink }) => {
   }, []);
 
   const goBack = () => {
-    navigate(`/game?index=${searchParams.get("index")}`, {
-      state: {
-        score1: JSON.parse(localStorage.getItem("score1")),
-        shuffledFootballers: JSON.parse(
-          localStorage.getItem("shuffledFootballers1")
-        ),
-        currentIndex: JSON.parse(localStorage.getItem("currentIndex")),
-      },
-    });
+    if (location.state?.isGameRef) {
+      navigate(`/game?index=${searchParams.get("index")}`, {
+        state: {
+          score1: JSON.parse(localStorage.getItem("score1")),
+          shuffledFootballers: JSON.parse(
+            localStorage.getItem("shuffledFootballers1")
+          ),
+          currentIndex: JSON.parse(localStorage.getItem("currentIndex")),
+        },
+      });
+    } else {
+      navigate(-1);
+    }
   };
 
   return (
@@ -89,11 +95,12 @@ const Achives = ({ registerLink, giftLink }) => {
             <h1>Достижения</h1>
             <button onClick={goBack} />
           </div>
+
           <ul>
             {achievementsData.map((achive, index) => (
               <li key={achive.id}>
                 <img
-                  src={require(`../../assets/achives/${achive.id}.svg`)}
+                  src={require(`../../assets/achives/${achive.id}.png`)}
                   style={{
                     filter: achievements[index]
                       ? "grayscale(0%)"

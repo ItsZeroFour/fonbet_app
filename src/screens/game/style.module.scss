@@ -201,6 +201,18 @@
   }
 }
 
+.card__sec {
+  &::before {
+    width: 110%;
+  }
+}
+
+.card__thrd {
+  &::before {
+    width: 104%;
+  }
+}
+
 .message {
   display: flex;
   flex-direction: column;
@@ -509,6 +521,7 @@
 .game__final__chosed {
   margin-top: 10px;
   padding: 0 10px;
+  margin-bottom: 10px;
 
   ul {
     display: flex;
@@ -567,7 +580,7 @@
   background: var(--color-white);
   color: var(--color-black);
   border-radius: 10px;
-  margin-top: 10px;
+  margin-top: 0px;
   text-align: center;
   width: 90%;
 
@@ -678,7 +691,7 @@
   animation-duration: 1s;
 
   h3 {
-    margin-top: 40px;
+    margin-top: 15px;
     font-size: 28px;
     position: relative;
 
@@ -754,7 +767,7 @@
 
     @media (max-width: 450px) {
       margin-bottom: 90px;
-      margin-top: 60px;
+      margin-top: 30px;
     }
   }
 
