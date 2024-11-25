@@ -97,7 +97,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
 
   const [achive1List, setAchive1List] = useState(() => {
     const saved = localStorage.getItem("achive1List");
-    return saved ? JSON.parse(saved) : [];
+    return saved ? JSON.parse(saved) : [-1];
   });
 
   const [achive2List, setAchive2List] = useState(() => {
@@ -167,6 +167,10 @@ const Game = React.memo(({ giftLink, registerLink }) => {
     if (location.state?.currentIndex) {
       setCurrentIndex(location.state.currentIndex);
     }
+
+    if (location.state?.correctChoosedImages) {
+      setCorrectChoosedImages(correctChoosedImages);
+    }
   }, [location]);
 
   useEffect(() => {
@@ -194,7 +198,10 @@ const Game = React.memo(({ giftLink, registerLink }) => {
   useEffect(() => {
     localStorage.setItem("achive1List", JSON.stringify(achive1List));
 
-    if (achive1List.length > 3 && !localStorage.getItem("messageShownArray1")) {
+    if (
+      achive1List.length >= 5 &&
+      !localStorage.getItem("messageShownArray1")
+    ) {
       localStorage.setItem("messageShownArray1", "true");
       setAchives((prevList) => [
         ...prevList,
@@ -351,22 +358,26 @@ const Game = React.memo(({ giftLink, registerLink }) => {
 
   const item = footballers?.items[index];
 
+  console.log(achives.length > 0, currentMessageIndex < achives.length);
+
   function checkIsEnd() {
-    if (showMessage) {
-      if (isCorrectChoose >= item?.footballers.length) {
-        setTimeout(() => {
+    if (!(achives.length > 0 && currentMessageIndex < achives.length)) {
+      if (showMessage) {
+        if (isCorrectChoose >= item?.footballers.length) {
+          setTimeout(() => {
+            setIsEnd(true);
+          }, 5000);
+        } else if (currentIndex + 1 > item?.footballers.length) {
+          setTimeout(() => {
+            setIsEnd(true);
+          }, 5000);
+        }
+      } else {
+        if (isCorrectChoose >= item?.footballers.length) {
           setIsEnd(true);
-        }, 5000);
-      } else if (currentIndex + 1 > item?.footballers.length) {
-        setTimeout(() => {
+        } else if (currentIndex + 1 > item?.footballers.length) {
           setIsEnd(true);
-        }, 5000);
-      }
-    } else {
-      if (isCorrectChoose >= item?.footballers.length) {
-        setIsEnd(true);
-      } else if (currentIndex + 1 > item?.footballers.length) {
-        setIsEnd(true);
+        }
       }
     }
   }
@@ -706,8 +717,6 @@ const Game = React.memo(({ giftLink, registerLink }) => {
     }
   };
 
-  console.log(isEnd);
-
   const handleDragEnd = (offsetX) => {
     const swipeThreshold = 150; // Порог для завершения свайпа
     const direction = offsetX > 0 ? "right" : "left";
@@ -761,6 +770,15 @@ const Game = React.memo(({ giftLink, registerLink }) => {
     setCurrentMessageIndex((prevIndex) => prevIndex + 1);
   };
 
+  useEffect(() => {
+    console.log(1);
+
+    if (!(achives.length > 0 && currentMessageIndex < achives.length)) {
+      checkIsEnd();
+      console.log(2);
+    }
+  }, [achives, currentMessageIndex]);
+
   const buttonVariants = {
     initial: { backgroundColor: "transparent", color: "#fff" },
     animate: { backgroundColor: "#e80024", color: "#fff" },
@@ -784,6 +802,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
           currentIndex={currentIndex}
           shuffledFootballers={shuffledFootballers}
           score={score}
+          correctChoosedImages={correctChoosedImages}
         />
 
         {!isEnd ? (
@@ -862,6 +881,9 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                         <button onClick={handleNextMessage}>
                           Играть дальше
                         </button>
+                        {/* ----------------- */}
+
+                        {/* ----------------- */}
                         <Link
                           onClick={async () => {
                             if (window.ym) {

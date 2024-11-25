@@ -16,6 +16,7 @@ const Header = ({
   score,
   currentIndex,
   shuffledFootballers,
+  correctChoosedImages,
 }) => {
   const [animationSequence, setAnimationSequence] = useState("pulse");
 
@@ -86,6 +87,7 @@ const Header = ({
         shuffledFootballers: shuffledFootballers,
         currentIndex: currentIndex,
         isGameRef: true,
+        correctChoosedImages: correctChoosedImages,
       },
     });
   };
