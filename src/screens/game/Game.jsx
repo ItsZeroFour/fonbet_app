@@ -19,7 +19,7 @@ const achievementsData = [
   {
     id: 1,
     title: "Наши парни",
-    description: "Ответь 5 раз верно по российским футболистам",
+    description: "Ответь 7 раз верно по российским футболистам",
   },
   {
     id: 2,
@@ -199,7 +199,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
     localStorage.setItem("achive1List", JSON.stringify(achive1List));
 
     if (
-      achive1List.length >= 5 &&
+      achive1List.length >= 7 &&
       !localStorage.getItem("messageShownArray1")
     ) {
       localStorage.setItem("messageShownArray1", "true");
@@ -871,15 +871,21 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                         Вам подарок от FONBET – <span>до 15 000 ₽</span>
                       </h4>
                       <p>
-                        Предоставляется в виде бонусов (Фрибетов), подробнее в
-                        правилах игры.
+                        Предоставляется в виде бонусов (Фрибетов), подробнее в{" "}
+                        <Link
+                          style={{ textDecoration: "underline" }}
+                          to="https://fon.bet/pages/scout"
+                          target="_blank"
+                        >
+                          правилах игры.
+                        </Link>
                       </p>
 
                       <div className={style.game__achive__buttons}>
                         <button onClick={handleNextMessage}>
                           Играть дальше
                         </button>
-                        
+
                         <Link
                           onClick={async () => {
                             if (window.ym) {

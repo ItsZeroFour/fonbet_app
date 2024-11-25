@@ -62,10 +62,20 @@ const Achives = ({ registerLink, giftLink }) => {
 
   useEffect(() => {
     const updatedAchievements = achievements.map((_, index) => {
-      const achiveList = JSON.parse(
-        localStorage.getItem(`achive${index + 1}List`)
+      let achiveList;
+      try {
+        achiveList = JSON.parse(localStorage.getItem(`achive${index + 1}List`));
+      } catch (error) {
+        console.error("Ошибка при парсинге JSON:", error);
+        achiveList = null;
+      }
+
+      const minLength = index === 0 ? 7 : 5;
+      return (
+        achiveList &&
+        Array.isArray(achiveList) &&
+        achiveList.length >= minLength
       );
-      return achiveList && Array.isArray(achiveList) && achiveList.length >= 5;
     });
     setAchievements(updatedAchievements);
   }, []);
@@ -88,6 +98,8 @@ const Achives = ({ registerLink, giftLink }) => {
       navigate(-1);
     }
   };
+
+  console.log(achievements);
 
   return (
     <div className={style.achives}>
