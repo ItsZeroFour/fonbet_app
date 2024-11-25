@@ -49,7 +49,7 @@ const achievementsData = [
   {
     id: 7,
     title: "Ветераны",
-    description: "Ответь 5 раз верно по футболистам старше 35 лет",
+    description: "Ответь 7 раз верно по футболистам старше 35 лет",
   },
   {
     id: 8,
@@ -199,7 +199,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
     localStorage.setItem("achive1List", JSON.stringify(achive1List));
 
     if (
-      achive1List.length >= 7 &&
+      achive1List.length >= 5 &&
       !localStorage.getItem("messageShownArray1")
     ) {
       localStorage.setItem("messageShownArray1", "true");
@@ -301,7 +301,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
     localStorage.setItem("achive7List", JSON.stringify(achive7List));
 
     if (
-      achive7List.length >= 5 &&
+      achive7List.length >= 7 &&
       !localStorage.getItem("messageShownArray7")
     ) {
       localStorage.setItem("messageShownArray7", "true");
@@ -454,8 +454,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
     if (!shuffledFootballers[currentIndex]) return;
 
     const footballerText = shuffledFootballers[currentIndex]?.text;
-    // setFootballerTextContent(footballerText);
-    setFootballerTextContent("");
+    setFootballerTextContent(footballerText);
 
     if (dir === "left" && !isCorrect) {
       setIsCorrectChoose(true);
@@ -637,7 +636,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
       if (JSON.parse(localStorage.getItem("offVoice")) === false) {
         playAudioUncorrect();
       }
-      setSwipeText("Вы приобрели не нужного игрока!");
+      setSwipeText("Вы приобрели ненужного игрока!");
     }
 
     if (dir === "right") {
@@ -998,7 +997,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                       <div
                         className={`${style.message} ${style.message__index}`}
                       >
-                        <p>Не верно</p>
+                        <p>Неверно</p>
 
                         <div className={style.message__container}>
                           <h3>{swipeText}</h3>
@@ -1056,7 +1055,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                         <div
                           className={`${style.message} ${style.message__index}`}
                         >
-                          <p>Не верно</p>
+                          <p>Неверно</p>
 
                           <div className={style.message__container}>
                             <h3>{swipeText}</h3>
@@ -1107,7 +1106,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                           <div
                             className={`${style.message} ${style.message__index}`}
                           >
-                            <p>Не верно</p>
+                            <p>Неверно</p>
 
                             <div className={style.message__container}>
                               <h3>{swipeText}</h3>

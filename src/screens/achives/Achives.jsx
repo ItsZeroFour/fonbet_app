@@ -70,7 +70,7 @@ const Achives = ({ registerLink, giftLink }) => {
         achiveList = null;
       }
 
-      const minLength = index === 0 ? 7 : 5;
+      const minLength = index === 6 ? 7 : 5;
       return (
         achiveList &&
         Array.isArray(achiveList) &&
