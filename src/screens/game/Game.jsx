@@ -879,9 +879,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                         <button onClick={handleNextMessage}>
                           Играть дальше
                         </button>
-                        {/* ----------------- */}
-
-                        {/* ----------------- */}
+                        
                         <Link
                           onClick={async () => {
                             if (window.ym) {
