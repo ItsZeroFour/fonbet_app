@@ -891,7 +891,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                               await window.ym(
                                 98751165,
                                 "reachGoal",
-                                "offer--10---conversion"
+                                `achivka_-${achives[currentMessageIndex].id}---conversion`
                               );
                             }
                           }}
