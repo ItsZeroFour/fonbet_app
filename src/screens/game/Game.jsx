@@ -364,11 +364,11 @@ const Game = React.memo(({ giftLink, registerLink }) => {
         if (isCorrectChoose >= item?.footballers.length) {
           setTimeout(() => {
             setIsEnd(true);
-          }, 5000);
+          }, 4000);
         } else if (currentIndex + 1 > item?.footballers.length) {
           setTimeout(() => {
             setIsEnd(true);
-          }, 5000);
+          }, 4000);
         }
       } else {
         if (isCorrectChoose >= item?.footballers.length) {
@@ -652,7 +652,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
     ) {
       setTimeout(() => {
         setShowMessage(false);
-      }, 5000);
+      }, 4000);
     } else {
       setOnRightSwipe(true);
     }
@@ -682,7 +682,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
     ) {
       setTimeout(() => {
         setSwiping(true);
-      }, 5000);
+      }, 4000);
     }
 
     swiped(direction, isCorrect);
@@ -1015,7 +1015,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                             setSwiping(false);
                             setShowMessage(false);
                             setOnRightSwipe(false);
-                          }, 5000)}
+                          }, 4000)}
                         </p>
                       </div>
                     )
@@ -1048,7 +1048,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                               setSwiping(false);
                               setShowMessage(false);
                               setOnRightSwipe(false);
-                            }, 5000)}
+                            }, 4000)}
                           </p>
                         </div>
                       ) : (
@@ -1067,7 +1067,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                               setSwiping(false);
                               setShowMessage(false);
                               setOnRightSwipe(false);
-                            }, 5000)}
+                            }, 4000)}
                           </p>
                         </div>
                       )}
@@ -1099,7 +1099,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                                 setSwiping(false);
                                 setShowMessage(false);
                                 setOnRightSwipe(false);
-                              }, 5000)}
+                              }, 4000)}
                             </p>
                           </div>
                         ) : (
@@ -1124,7 +1124,7 @@ const Game = React.memo(({ giftLink, registerLink }) => {
                                 setSwiping(false);
                                 setShowMessage(false);
                                 setOnRightSwipe(false);
-                              }, 5000)}
+                              }, 4000)}
                             </p>
                           </div>
                         )}
